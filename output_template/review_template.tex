@@ -1,0 +1,51 @@
+\documentclass[12pt]{article}
+\usepackage{response}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{lipsum} % to generate some filler text
+\usepackage{fullpage}
+\usepackage{subfigure}
+\usepackage{mathrsfs}
+\usepackage{xr}
+\usepackage{amsthm,cite,url,graphicx,booktabs,lipsum,color,bm,caption,subcaption,soul}
+\usepackage{pifont,tikz,paralist,multirow,amssymb}
+\usepackage{epstopdf}
+\usepackage{xifthen}
+\usepackage{enumerate}
+\usepackage{titlesec,upgreek}
+\usepackage{lineno}
+\usepackage[table]{xcolor} 
+\usepackage{amsmath}
+\usepackage{listings}
+
+\definecolor{myBlue}{RGB}{0, 0, 255}
+\definecolor{myRed}{RGB}{255, 0, 0}
+\definecolor{myPurple}{RGB}{199, 21, 133}
+\definecolor{myGreen}{RGB}{0, 128, 0}
+
+\title{Comments}
+
+\begin{document}
+	\maketitle
+	
+	
+	\begin{reviewer}
+\noindent \textbf{Category: ["Category name"] ["Rule id"] ["Severity"]} 
+
+["Section and location"]
+\begin{lstlisting}[breaklines=true]
+	"Problem text fragment"
+\end{lstlisting}
+
+\textbf{Reviewer Comment:} 
+
+"Explanation"
+
+\textbf{Suggested Revision:}
+
+\begin{lstlisting}[breaklines=true]
+	"Suggested revision"
+\end{lstlisting}
+	\end{reviewer}
+
+\end{document}

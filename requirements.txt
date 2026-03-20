@@ -1,0 +1,15 @@
+# Core dependencies
+python-dotenv>=1.0.0
+pyyaml>=6.0
+click>=8.1.0
+
+# LLM providers
+openai>=1.0.0
+anthropic>=0.18.0
+
+# LaTeX parsing
+pyparsing>=3.0.0
+
+# Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0

@@ -1,0 +1,52 @@
+\ProvidesPackage{response}
+\NeedsTeXFormat{LaTeX2e}
+
+\makeatletter % change default title style
+\renewcommand*\maketitle{%
+    \begin{center}% 居中标题
+        \bfseries % 默认粗体
+        {\LARGE \@title \par} % LARGE字号
+        \vskip 1em% %%%  标题下面只有1em的缩进或margin
+        {\global\let\author\@empty}%
+        {\global\let\date\@empty}%
+        %\thispagestyle{empty} %  不设置页面样式
+    \end{center}%
+  \setcounter{footnote}{0}%
+}
+\makeatother
+
+%统计问题数，并从1开始计数
+\newcounter{reviewer}
+\setcounter{reviewer}{0}
+
+%定义问题环境
+\renewcommand{\thereviewer}{\arabic{reviewer}}
+
+\newenvironment{reviewer}
+{\refstepcounter{reviewer} \bigskip \noindent {\textbf{Q \thereviewer}} -\ }
+{\par }
+
+\newcommand{\shortreviewer}[1]{\refstepcounter{reviewer}   \bigskip \noindent 
+	{\textbf{Q \thereviewer}} -#1  }
+
+%定义回答环境——设置默认蓝色
+\newenvironment{reply}
+   {\medskip \noindent \color{blue} \begin{sf}\textbf{Re}\end{sf}:\  }
+   {\medskip \par }
+
+\newcommand{\shortreply}[2][]{\medskip \noindent \begin{sf}\textbf{Re}\end{sf}:\  #2
+	\ifthenelse{\equal{#1}{}}{}{ \hfill (#1)}%
+	\medskip }
+
+%定义待修改回答环境——设置默认红色
+\newenvironment{prereply}
+{\medskip \noindent \color{red} \begin{sf}\textbf{Re}\end{sf}:\  }
+{\medskip \par }
+
+\newcommand{\shortprereply}[2][]{\medskip \noindent \begin{sf}\textbf{Re}\end{sf}:\  #2
+\ifthenelse{\equal{#1}{}}{}{ \hfill  (#1)}%
+\medskip }
+
+%修改参考文献超链接为蓝色
+\RequirePackage[colorlinks,linkcolor=blue,anchorcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+

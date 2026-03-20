@@ -1,0 +1,466 @@
+\documentclass[amsmath,amssymb,twocolumn,prd,floatfix,showpacs,nofootinbib]{revtex4-1}
+
+
+\usepackage{xcolor}          
+\usepackage[normalem]{ulem}   
+\usepackage[mathlines]{lineno}
+\usepackage{xspace}
+
+\usepackage{tabularx}
+\usepackage{bm}
+\usepackage{overpic,subfigure}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{dcolumn}
+\usepackage[symbol]{footmisc}
+\usepackage{epstopdf}
+
+
+\definecolor{RED}{rgb}{1,0,0}
+\definecolor{BLUE}{rgb}{0,0,1}
+
+
+\newcommand{\gev}{\ensuremath{\mathrm{\,Ge\kern -0.1em V}}\xspace}
+\newcommand{\mev}{\ensuremath{\mathrm{\,Me\kern -0.1em V}}\xspace}
+\newcommand{\mevcc}{\ensuremath{{\mathrm{\,Me\kern -0.1em V\!/}c^2}}\xspace}
+\newcommand{\dedx}{\ensuremath{\mathrm{d}\hspace{-0.1em}E/\mathrm{d}x}\xspace}
+\newcommand{\jprBase}        {Phys.\ Rev.\xspace}
+\newcommand{\jplBase}        {Phys.\ Lett.\xspace}
+\newcommand{\plb}      [1]{\jplBase\ {B~#1}}
+\newcommand{\jprd}     [1]{\jprBase\ {D~#1}}
+\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}
+
+\def\ep         {\ensuremath{e^+}\xspace}
+\def\epm        {\ensuremath{e^\pm}\xspace}
+\def\epem       {\ensuremath{e^+e^-}\xspace}
+\def\ee         {\ensuremath{e^-e^-}\xspace}
+\def\kp         {\ensuremath{K^+}\xspace}
+\def\km         {\ensuremath{K^-}\xspace}
+\def\ks         {\ensuremath{K_{S}^{0}}\xspace}
+\def\piz        {\ensuremath{\pi^0}\xspace}
+\def\pip        {\ensuremath{\pi^+}\xspace}
+\def\pim        {\ensuremath{\pi^-}\xspace}
+\def\fourks     {\ensuremath{\ks\ks\ks\ks}\xspace}
+\def\jpsi       {\ensuremath{{J\mskip -3mu/\mskip -2mu\psi\mskip 2mu}}\xspace}
+\def\chic#1{\ensuremath{\chi_{c#1}}\xspace}
+\def\invpb      {\ensuremath{\mbox{\,pb}^{-1}}\xspace}
+\def\fourpiz    {\ensuremath{\piz\piz\piz\piz}\xspace}
+\def\psiprime   {\ensuremath{\psi^\prime}\xspace}
+\def\fz#1       {\ensuremath{f_0({#1})}\xspace}
+\def\Erad       {\ensuremath{E^*_\gamma}\xspace}
+\def\besiii     {BESIII\xspace}
+\def\stat       {_{\mathrm{stat}}}
+\def\syst       {_{\mathrm{syst}}}
+\def\etal       {{\em et al.}\xspace}
+
+
+\hyphenation{How-ever theo-retical instance baryon incon-sistent under-stand}
+\hyphenation{re-sult measurement electron analyzing mo-mentum re-sistive}
+\hyphenation{annihi-lation ac-ceptance combi-natorial conser-vation}
+\hyphenation{effi-ciencies expec-tations In-trinsic hadronic model}
+\hyphenation{re-lative Wigner EMC reso-lution event within constraint}
+\hyphenation{syste-matic co-rrection esti-mate taken stu-dy tracks}
+\hyphenation{char-monium e-xperi-mentally applied Ref space correct}
+\hyphenation{transitions all}
+
+
+\usepackage{hyperref}
+\hypersetup{
+	hypertex=true,
+	colorlinks=true,
+	linkcolor=blue,
+	urlcolor=blue,
+	citecolor=blue
+}
+
+\newcommand{\BESIIIorcid}[1]{\href{https://orcid.org/#1}{\hspace*{0.1em}\raisebox{-0.45ex}{\includegraphics[width=1em]{orcidIcon.pdf}}}} 
+
+
+\begin{document}
+	%\linenumbers
+
+%\input{authorlist_2026-01-10}
+
+\title{\boldmath Observation of $\chi_{cJ}\to \Lambda K^0_S\bar \Xi^0 + c.c.$ and improved measurements of $\chi_{cJ}\to \Lambda K^-\bar \Xi^+ + c.c.$ }
+
+
+\begin{abstract}
+  By analyzing $(2712.4\pm14.3)\times10^6$ $\psi(3686)$ events collected with the BESIII detector operating at the BEPCII collider, we report 
+  the first observation of $\chi_{cJ}\to \Lambda K^0_S\bar \Xi^0 + c.c.$ with  significances greater than $10\sigma$ and the improved measurements of $\chi_{cJ}\to \Lambda K^-\bar \Xi^+ + c.c.$
+  The branching fractions of these decays are determined to be
+$\mathcal{B}(\chi_{c0}\to \Lambda K^0_S\bar \Xi^0+c.c.)=(1.14\pm0.13\pm0.13)\times10^{-4}$,
+$\mathcal{B}(\chi_{c1}\to \Lambda K^0_S\bar \Xi^0+c.c.)=(7.6\pm0.8\pm0.7)\times10^{-5}$,
+$\mathcal{B}(\chi_{c2}\to \Lambda K^0_S\bar \Xi^0+c.c.)=(1.18\pm0.11\pm0.14)\times10^{-4}$,
+$\mathcal{B}(\chi_{c0}\to \Lambda K^-\bar \Xi^+ +c.c.)=(1.95\pm0.08\pm0.17)\times10^{-4}$,
+$\mathcal{B}(\chi_{c1}\to \Lambda K^-\bar \Xi^++c.c.)=(1.41\pm0.05\pm0.11)\times10^{-4}$,
+and $\mathcal{B}(\chi_{c2}\to \Lambda K^-\bar \Xi^++c.c.)=(2.01\pm0.07\pm0.16)\times10^{-4}$.
+The first uncertainties are statistical and the second ones are systematic.
+
+\end{abstract}
+
+%\pacs{13.25.Gv, 14.40.Pq, 13.20.Gd}% PACS, the Physics and Astronomy Classification Scheme.
+\maketitle
+
+\linenumbers
+\section{Introduction}
+Experimental studies of charmonium states and their decay properties are important to test Quantum chromodynamics~(QCD) models and QCD based calculations. In the quark model, the $\chi_{cJ}$ ($J=0,1,2$) are the $^3P_J$ charmonium states. Experimentally and theoretically, their decays are not as extensively studied as those of the vector charmonium
+states $J/\psi$ and $\psi(3686)$. At BESIII, except for tiny production of $e^+e^-\to \chi_{c1}$ through annihilation into two photons~\cite{ref::eetochic1}, the $\chi_{cJ}$ mesons can not be produced directly through $e^+ e^-$ annihilation processes, but can be accessed via abundant radiative decays of $\psi(3686)$ with a branching fraction of about 9\%~\cite{ref::pdg2024}. This provides a good opportunity to investigate the properties of these states.
+
+To date, there have been many studies of $\chi_{cJ}$ decays involving $p\bar p$ pairs and meson pairs~\cite{ref::pppipi,ref::pppi0pi0,ref::ppkk}, and hyperon pairs~\cite{ref::lambdalambdabar,ref::sigmasigmabar} which can be described by the color octet mechanism~\cite{ref::oct1,ref::oct2}.
+However, there is only limited information on decays of $ \chi_{cJ}$ into a $ \Lambda \bar{\Xi}$ pair and a meson, both in theory and in experiment. Measurements of this kind of decay are therefore important for a deeper understanding of $\chi_{cJ}$ decay mechanisms and for identifying potential intermediate-state decays. Besides, an enhancement in the $ p \bar p$ invariant mass spectrum has been observed in the study of $J/\psi \to \gamma p\bar p$ ~\cite{ref::ppbar1,ref::ppbar2}. Investigating $ \chi_{cJ}$ decays into $ \Lambda \bar{\Xi}$ accompanied by a meson is helpful to explore possible threshold enhancements in different processes.
+
+Previously, BESIII reported the measurements of $\chi_{cJ}\to \Lambda K^-\bar \Xi^+$, with branching fractions at $10^{-4}$, based on $(107.7\pm0.6)\times10^6$ $\psi(3686)$ events taken in 2009~\cite{ref::LXiK}. Naive isospin symmetry indicates that the branching fractions of $\chi_{cJ}\to \Lambda K^0_S\bar \Xi^0$ are at $10^{-5}$-$10^{-4}$, which are detectable at BESIII. In this paper, we present the first observation of  $\chi_{cJ} \to \Lambda K^0_S\bar \Xi^0$ and the improved measurements of $\chi_{cJ} \to \Lambda K^-\bar \Xi^+$ by analyzing $(2712.4\pm14.3)\times10^6$ $\psi(3686)$ events~\cite{ref::psip-num-inc} collected with the BESIII detector. The obtained results are helpful to test if isospin symmetry holds in the $\chi_{cJ}\to \Lambda K \bar \Xi$ decays. In addition, the mass spectra of $\Lambda \bar \Xi$ are examined to explore $B\bar B^\prime$ production threshold enhancements. 
+Throughout this paper, charge conjugations are always included.
+
+\section{BESIII DETECTOR AND MONTE CARLO SIMULATION}
+\label{sec:BES}
+
+The BESIII detector~\cite{ref::detector} records symmetric $e^+e^-$ collisions provided by the BEPCII storage ring~\cite{ref::collider}
+in the center-of-mass energy ranging from 1.84 to 4.95~GeV,
+with a peak luminosity of $1.1 \times 10^{33}\;\text{cm}^{-2}\text{s}^{-1}$
+achieved at $\sqrt{s} = 3.773\text{GeV}$.
+
+The cylindrical core of the BESIII detector covers 93\% of the full solid angle and consists of a helium-based
+ multilayer drift chamber~(MDC), a plastic scintillator time-of-flight
+system~(TOF), and a CsI(Tl) electromagnetic calorimeter~(EMC),
+which are all enclosed in a superconducting solenoidal magnet
+providing a 1.0~T magnetic field.
+The solenoid is supported by an
+octagonal flux-return yoke with resistive plate counter muon
+identification modules interleaved with steel.
+The charged-particle momentum resolution at $1~{\rm GeV}/c$ is
+$0.5\%$. 
+The EMC measures photon energies with a
+resolution of $2.5\%$ ($5\%$) at $1$~GeV in the barrel (end cap)
+region. The time resolution in the TOF barrel region is 68~ps, while
+that in the end cap region was 110~ps.
+The end-cap TOF system was upgraded in 2015 using multi-gap resistive plate chamber technology, providing a time resolution of 60~ps~\cite{Tof1,Tof2,Tof3}. Around 83\% of the data used in this analysis benefits from this upgrade.
+
+Simulated data samples produced with a {\sc
+geant4}-based~\cite{Geant4} Monte Carlo (MC) package, which
+include the geometric description of the BESIII detector and the
+detector response, are used to determine detection efficiencies
+and to estimate backgrounds. The simulation models the beam
+energy spread and initial state radiation (ISR) in the $e^+e^-$
+annihilations with the generator {\sc
+kkmc}~\cite{Jadach01}.
+
+
+The inclusive MC sample includes the production of the
+$\psi(3686)$ resonance, the ISR production of the $J/\psi$, and
+the contium processes incorporated in {\sc
+kkmc}~\cite{Jadach01}.
+All particle decays are modeled with {\sc
+evtgen}~\cite{Lange01,Lange02} using branching fractions
+either taken from the
+Particle Data Group~(PDG)~\cite{ref::pdg2024}, when available,
+or otherwise estimated with {\sc lundcharm}~\cite{Lundcharm00}.
+Final state radiation
+from charged final state particles is incorporated using the {\sc
+photos} package~\cite{PHOTOS}.
+An inclusive MC sample containing $2.7\times10^{9}$ generic $\psi(3686)$ decays is used to study background.
+To account for the effect of intermediate
+resonance structures on the efficiency, each of the $\chi_{cJ}$
+decays is modeled using one million mixed signal
+MC events with fractions of
+$\chi_{cJ}\to  \Lambda K \bar \Xi$,
+$\chi_{cJ}\to \Xi(1690) \bar \Xi$,
+$\chi_{cJ}\to \Xi(1820) \bar \Xi$,
+$\chi_{cJ}\to \Xi(1910) \bar \Xi$,
+$\chi_{cJ}\to \Xi(2030) \bar \Xi$,
+$\chi_{cJ}\to \Lambda(1920) \bar \Lambda$,
+$\chi_{cJ}\to \Lambda(1950) \bar \Lambda$,
+$\chi_{cJ}\to \Lambda(2030) \bar \Lambda$,
+and $K(2650)^+ \bar K^-$, where the $\Xi(1910)$, $\Xi(2030)$, $\Lambda(1920)$, $\Lambda(1950)$, $\Lambda(2030)$, and $K(2650)^+$ states are assumed resonances in the MC simulation for efficiency determination. Their fractions are determined by one-dimensional fit to $\Lambda K$, $\Lambda\bar{\Xi}$, and $\bar{\Xi}K$ invariant mass spectrum from data.
+
+
+\section{EVENT SELECTION}
+\label{sec:selection}
+
+We reconstruct the decays $\psi(3686) \to \gamma \chi_{cJ}$ with $\chi_{cJ} \to \Lambda K^0_S\bar \Xi^0$ and $\chi_{cJ} \to \Lambda K^-\bar \Xi^+$, where the $\bar \Xi^0$ and $\bar \Xi^+$ are reconstructed via $\bar \Xi^0 \to \pi^0 \bar \Lambda$ and $\bar \Xi^+ \to \pi^+ \bar \Lambda$, respectively, with $\Lambda \to p\pi^-$ and $K^0_S \to \pi^+\pi^-$.
+ Signal events are required to contain at least six charged tracks and three photon candidates for $\chi_{cJ} \to \Lambda K^0_S\bar \Xi^0$,
+and at least six charged tracks and one photon candidate for $\chi_{cJ} \to \Lambda K^-\bar \Xi^+$.
+ 
+Photon candidates are identified using showers in the EMC. The deposited energy of each shower must exceed 25~MeV in the barrel region ($|\cos \theta|< 0.80$, where $\theta$ denotes the
+polar angle with respect to the z-axis, the symmetry axis of the MDC) and more than 50~MeV in the end cap region ($0.86 <|\cos \theta|< 0.92$). To exclude showers originating from charged tracks, the angle between the EMC shower and the position of the closest charged track at the EMC must be greater than 10 degrees as measured from the interaction point (IP). To suppress electronic noise and unrelated showers, the difference between the EMC time and the event start time is required to be within [0, 700]\,ns.
+
+The $\pi^{0}$ candidates are reconstructed from photon pairs via the decay $\pi^{0}\to\gamma\gamma$. A photon pair is selected as a good $\pi^{0}$ candidate if its invariant mass lies within $(0.115, 0.150)$~GeV$/c^{2}$, corresponding to approximately $(-4\sigma, 3\sigma)$ around the nominal $\pi^{0}$ mass. A one-constraint (1C) kinematic fit with the $\pi^{0}$ mass constraint is then applied to improve the momentum resolution, and the fitted four-momentum of the $\pi^{0}$ candidate is used in the subsequent analysis.
+
+The charged tracks except those from $ K^0_S$ detected in the MDC are required to be within a polar angle ($\theta$) range of $|\rm{cos\theta}|<0.93$, $|V_{z}|<10$ cm, and $V_{xy}<1$ cm, where $|V_{z}|$ is the distance of closest approach to the IP along the $z$-axis, and $V_{xy}$ is the distance in the
+transverse plane.
+
+Particle identification~(PID) for charged tracks combines measurements of the d$E$/d$x$ in the MDC and the flight time in the TOF to form likelihoods $\mathcal{L}(h)$ for each hadron hypothesis $h~(h=p, K, \pi)$.
+The charged tracks with $\mathcal{L}(p)>\mathcal{L}(\pi)$ and $\mathcal{L}(p)>\mathcal{L}(K)$ are assigned as protons, remaining tracks with $\mathcal{L}(K)>\mathcal{L}(\pi)$ are identified as kaons, and the rest are identified as pions.
+
+The $ K^0_S$ candidate is reconstructed from two oppositely charged tracks satisfying $|V_{z}|<$ 20 cm, with no constraint applied in the $xy$ plane or PID requirement on charged pions. The secondary vertex fit is performed on any combination of $\pi^+ \pi^-$ and $\chi^2$ of vertex fit is required to be less than 200. The primary vertex fit is applied to further suppress the mis-combination, requiring the decay length divided by its uncertainty to be larger than two.~The $K^{0}_{S}$ signal region is set to be $|M_{\pi^+ \pi^-}-m_{K^{0}_{S}}|<0.012~\mathrm{GeV/}$${c}^2$, where $m_{K^{0}_{S}}$ is the $K^0_S$ nominal mass~\cite{ref::pdg2024}.~The $K^{0}_{S}$ sideband region is set to be $0.020~\mathrm{GeV/}$${c}^2<|M_{\pi^+ \pi^-}-m_{K^{0}_{S}}|<0.044~\mathrm{GeV/}$${c}^2$.
+
+
+The $\Lambda$ candidates are reconstructed via the $\Lambda \to p \pi^-$ decays and required to satisfy the following criteria:
+$ p \pi^-$ tracks are required to be within 20 cm along the beam axis with respect to the IP, $|V_z|<20$ cm.
+$ p \pi^-$ tracks are required to be within the polar angle coverage of the MDC, $|\cos\theta|<0.93$.
+No PID requirement is imposed for $\pi^-$, but PID requirement is imposed for $p$.
+The secondary vertex fit is performed on any combination of $p \pi^-$ and $\chi^2$ of vertex fit is required to be less than 200.
+The primary vertex fit is further applied to suppress the mis-combination, and it requires the decay length divided by the uncertainty of the decay length to be larger than two, $L/\sigma_L>2$.
+The $\Lambda$ signal region is set to be $|M_{p\pi^-}-m_{\Lambda}|<0.004~\mathrm{GeV}/c^2$, and the $\Lambda$ sideband region is set to be $0.008<|M_{p \pi^-}-m_{\Lambda}|<0.016~\mathrm{GeV}/c^2$, where $m_{\Lambda}$ is the $\Lambda$ nominal mass~\cite{ref::pdg2024}.
+
+The $\bar \Xi^+$ baryon candidates are reconstructed via the $\bar \Xi^+\to \bar \Lambda \pi^+$ decays and required to satisfy the following criteria:
+$\bar \Lambda$ candidates are required to satisfy the above selection criteria.
+The $\pi^+$ meson candidate directly decaying from $\bar \Xi^+$  baryon is required to be within $|V_z|<20$ cm and $|\cos\theta|<0.93$.
+PID is not required for $\pi^-$ meson; but is required for $p$ baryon.
+The secondary vertex fit is performed on any combination of $\bar \Lambda \pi^+$ and $\chi^2$ is required to be less than 200.
+The primary vertex fit is further applied to suppress the mis-combination. If there is more than one $\bar \Xi^+$  baryon candidate, we keep the one with minimum $\sqrt{(\frac{M_{\bar \Lambda \pi^+}-m_{\bar{\Xi}^+}}{\sigma_{\bar{\Lambda}\pi^+}})^2+(\frac{M_{\bar{p}\pi^+}-m_{\bar{\Lambda}}}{\sigma_{\bar{p}\pi^+}})^2}$, where $m_{\bar{\Xi}^+}$ and $m_{\bar{\Lambda}}$ are the known $\bar \Xi^+$ and $\bar{\Lambda}$ masses~\cite{ref::pdg2024}, $\sigma_{\bar{\Lambda}\pi^+}$ and $\sigma_{\bar{p}\pi^+}$ are the mass resolutions of $\bar\Xi^+$ and $\bar{\Lambda}$, which are 2.3 MeV/$c^2$ and 1.5 MeV/$c^2$ respectively.
+The $\bar \Xi^+$ signal region is set to be $|M_{\bar \Lambda \pi^+}-m_{\bar{\Xi}^+}|<0.0061~\mathrm{GeV}/c^2$, and the $\bar \Xi^+$ sideband region is set to be $0.012<|M_{\bar \Lambda \pi^+}-m_{\bar{\Xi}^+}|<0.018~\mathrm{GeV}/c^2$.
+
+The $\bar \Xi^0$ candidates are reconstructed via the $\bar \Xi^0\to \bar \Lambda \pi^0$ decays and required to satisfy the following criteria:
+$\bar \Lambda$ candidates are required to satisfy the above selection criteria.
+The $\pi^0$ candidate directly decaying from $\bar \Xi^0$ is required to satisfy good $\pi^0$ selection criteria mentioned above.
+If there is more than one $\bar \Xi^0$ candidate, we keep the one with minimum 	 
+$\sqrt{ (\frac{M_{\bar \Lambda \pi^0}-m_{\bar{\Xi}^0}}{\sigma_{\bar{\Xi}^0}})^2+(\frac{M_{\bar{p}\pi^+}-m_{\bar{\Lambda}}}{\sigma_{\bar{p}\pi^+}})^2 + (\frac{M_{\gamma\gamma}-m_{\pi^0}}{\sigma_{\gamma\gamma}})^2}$, where $m_{\bar{\Xi}^0}$, $m_{\bar{\Lambda}}$, and $m_{\pi^0}$ are the known $\bar \Xi^0$, $\bar{\Lambda}$, and $\pi^0$ masses~\cite{ref::pdg2024}, $\sigma_{\bar{\Lambda}\pi^0}$, $\sigma_{\bar{p}\pi^+}$, and $\sigma_{\gamma\gamma}$ are the mass resolutions of $\bar\Xi^0$, $\bar{\Lambda}$, and $\pi^0$, which are 5.0 MeV/$c^2$, 1.5 MeV/$c^2$, and 5.0 MeV/$c^2$, determined from MC simulations, respectively.
+The $\bar \Xi^0$ signal region is set to be $|M_{\bar \Lambda\pi^0}-1.389|<0.012~\mathrm{GeV}/c^2$, and the $\bar \Xi^0$ sideband region is set to be $0.020<|M_{\bar \Lambda\pi^0}-1.389|<0.044~\mathrm{GeV}/c^2$.
+
+A four-momentum conservation constraint (4C) kinematic fit is applied to the events under the hypothesis of $ e^+e^-\to \Lambda K_S^0 \bar \Lambda \pi^0\gamma$ or $ e^+e^-\to \Lambda K^- \bar \Lambda \pi^+\gamma$. If more than one combination survives in an event, the one with the smallest $\chi^{2}$ from the 4C kinematic fit ($\chi_{\rm 4C}^{2}$) is retained.~The requirement on $\chi^2_{\rm 4C}$ is optimized with the Figure of Merit defined as $ \mathrm{FOM} = \mathit{S}/\sqrt{\mathit{S}+\mathit{B}}.$ Here $S$ is the number of events from the mixed signal MC sample, normalized according to the pre-measured branching fractions;
+$B$ is the number of background events from the inclusive MC sample, normalized to the data size. From the optimization, we choose $\chi^2_{\rm 4C}<100$ as the nominal requirement for $\chi_{cJ}\to\Lambda K_S^0\bar{\Xi}^0 $ and $\chi^2_{\rm 4C}<70$ for $\chi_{cJ}\to\Lambda K^-\bar{\Xi}^+ $.
+
+The potential background components from $\psi(3686)$ decays are studied by analyzing the $\psi(3686)$ inclusive MC sample with the generic event type analysis tool, TopoAna~\cite{topo}. No significant peaking backgrounds with both $\chi_{cJ}$ and $K^0_S$ are observed.
+Furthermore, the possible continuum background contribution is
+evaluated by examining the data sample taken at $\sqrt s =$ 3.650 GeV, corresponding to an integrated luminosity of 0.45 fb$^{-1}$~\cite{lum}.
+This contribution is found to be negligible. 
+
+
+\section{Branching fraction}
+
+
+To determine the signal yields of $\chi_{cJ}\to\Lambda K^0_S\bar{\Xi}^0$, a simultaneous maximum-likelihood fit is performed to the $M_{\Lambda K^0_S\bar{\Xi}^0}$ distributions of accepted candidates in both the signal and sideband regions of the $\Lambda$, $\bar{\Xi}^0$, and $K^0_S$. The peaking background yields in the $\Lambda$, $\bar{\Xi}^0$, and $K^0_S$ are determined from fits to the corresponding sideband regions and fixed in the signal-region fit. In the fit, the $\chi_{cJ}$ signal shape is modeled by a Breit--Wigner function multiplied by a factor of $E_{\gamma}^3 \cdot D(E_{\gamma})$ and convolved with a Gaussian in both the signal and sideband regions, with all parameters floated except for the width fixed to the PDG values~\cite{ref::pdg2024}. In this expression, $E_{\gamma} = \frac{m_{\psi(3686)}^2 - m_{\Lambda K_S^0 \bar{\Xi}^0}^2}{2m_{\psi(3686)}}$ is the energy of the transition photon in the $\psi(3686)$ rest frame. The damping factor $D(E_{\gamma})$ is introduced to suppress the divergent tail, as proposed by the KEDR collaboration: $D^{\mathrm{KEDR}}=\frac{E_0^2}{E_{\gamma}E_0+(E_{\gamma}-E_0)^2}$~\cite{ref::damping}, where $E_0=\frac{m_{\psi(3686)}^2-m_{\chi_{cJ}}^2}{2m_{\psi(3686)}}$ is the peaking energy of the transition photon.
+%The Gaussian resolution functions are independent for three $\chi_{cJ}$ states, but they are shared for the $K^0_S$ signal and sideband regions for each $\chi_{cJ}$ state.  
+The background shape is described by a second-order polynomial function in both signal and sideband regions. Events in the $\Lambda$, $\bar{\Xi}^0$, and $K^0_S$ sideband regions is scaled by a factor of 0.5, corresponding to the ratio of background yields in the signal and sideband regions, to estimate the non-$\Lambda$, non-$\bar \Xi^0$, and non-$K^0_S$ backgrounds in individual signal regions.
+
+the signal yields of $\chi_{cJ}\to\Lambda K^-\bar{\Xi}^+$ are determined using a similar simultaneous maximum-likelihood fit as above, to the $M_{\Lambda K^- \bar{\Xi}^+}$ distributions of candidates in the signal and sideband regions of the $\Lambda$ and $\bar{\Xi}^+$.
+Events in the $\Lambda$ and $\bar{\Xi}^+$ sideband regions are scaled by the factors of 0.5 and 1.0, according to the relative size of signal and sideband regions.
+		
+Figure~\ref{tab:LambdaKXi} shows the fit results. The signal yields of $\chi_{0,1,2}\to\Lambda K^0_S\bar{\Xi}^0$ ($N_{\chi_{cJ}}^{\rm obs}$) are determined to be $139\pm15$, $113\pm12$, and $144\pm14$, while those of  $\chi_{0,1,2}\to\Lambda K^-\bar{\Xi}^+$ are $909\pm35$, $896\pm32$, and $1054\pm35$, respectively. 
+The statistical significance of each $\chi_{cJ}$ signal exceeds $10\sigma$, determined using the profile likelihood ratio test statistic
+$q_J=-2\ln(\mathcal{L}_J/\mathcal{L}_{\max})$.
+The significance is evaluated under the asymptotic approximation with $\mathrm{ndf}=3$, corresponding to the difference in the number of free parameters between the fits with and without the tested $\chi_{cJ}$ component.
+		
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=8cm]{LambdaXiK_fit.pdf}
+	\caption{The simultaneous fits to the $M_{\Lambda K \bar \Xi}$ distributions in the $\bar \Xi$, $\Lambda$, (and $K^0_S$) signal and sideband regions for (top) $\chi_{cJ}\to \Lambda K^0_S \bar \Xi^0$ and (bottom) $\chi_{cJ}\to \Lambda K^- \bar \Xi^+$. The black dots with error bars are data. The blue solid curves are the fit results. The red dashed curves are the fitted signals. The purple solid, orange solid, zerue solid curves denote the peaking background contributions, respectively, constrained by the $\bar \Xi$, $\Lambda$, and $K^0_S$ sideband events in data; and the green dashed curves are the fitted combinatorial background shapes.}
+	\label{tab:LambdaKXi}
+\end{figure}
+		
+Figure~\ref{fig:compare_LXiKS} and \ref{fig:compare_LXiK} show the comparisons of the two-body invariant-mass distributions for the $\chi_{cJ} \to \Lambda K^0_S\bar{\Xi}^0$ and $\chi_{cJ} \to \Lambda K^-\bar{\Xi}^+$ decays in data and mixed signal MC samples. Good data-MC consistencies ensure the reliability of the detection efficiencies.
+The obtained detection efficiencies for $\chi_{cJ} \to \Lambda K^0_S\bar \Xi^0$ and  $\chi_{cJ} \to \Lambda K^-\bar \Xi^+$ are shown in Table \ref{tab:BFs_neutral} and Table \ref{tab:BFs_charged}.
+
+\begin{figure*}[htbp]
+	\centering
+	\includegraphics[width=13cm]{compare9_37_cJ.pdf}	
+	\caption{Comparisons of $M_{\Lambda \bar \Xi^0}$, $M_{K^0_S \bar \Xi^0}$, and $M_{\Lambda K^0_S}$ of the accepted candidates for $\chi_{cJ} \to \Lambda K^0_S \bar{\Xi}^0$. The black dots with error bars represent data, the histograms filled with red lines denote the mixed signal MC samples, and the grey histograms show the background contributions from the inclusive MC sample. Events have been required to be within the (top) $\chi_{c0}$, (middle) $\chi_{c1}$, and (down) $\chi_{c2}$, 
+	 mass regions defined by $M_{\Lambda K^0_S \bar{\Xi}^0} \in [3.400, 3.430]$, $[3.501, 3.521]$, and $[3.546, 3.566]$ GeV/$c^2$, respectively.}
+	\label{fig:compare_LXiKS}
+\end{figure*}
+
+\begin{figure*}[htbp]
+	\centering
+	\includegraphics[width=13cm]{compare9_36_cJ.pdf}	
+	\caption{Comparisons of $M_{\Lambda \bar \Xi^+}$, $M_{K^- \bar \Xi^+}$, and $M_{\Lambda K^-}$ of the accepted candidates for $\chi_{cJ} \to \Lambda K^- \bar{\Xi}^+$. The black dots with error bars represent data, the histograms filled with red lines denote the mixed signal MC samples, and the grey histograms show the background contributions from the inclusive MC sample. Events have been required to be within the (top) $\chi_{c0}$, (middle) $\chi_{c1}$, and (down) $\chi_{c2}$, mass regions defined by $M_{\Lambda K^- \bar{\Xi}^+} \in [3.400, 3.430]$, $[3.501, 3.521]$, and $[3.546, 3.566]$ GeV/$c^2$, respectively.}
+	\label{fig:compare_LXiK}
+\end{figure*}
+
+The product of branching fractions are calculated as
+\begin{linenomath*}
+	\begin{equation}
+		{\mathcal B}(\psi(3686)\to \gamma\chi_{cJ}) \cdot \mathcal{B}(\chi_{cJ}\to \Lambda K \bar \Xi)
+		=\frac{N^{\rm obs}_{\chi_{cJ}}}{N_{\psi(3686)}\cdot\epsilon \cdot \mathcal B_{\rm sub}},
+	\end{equation}
+\end{linenomath*}
+where $\mathcal{B}(\chi_{cJ}\to \Lambda K \bar \Xi)$ is the branching fractions of $\chi_{cJ}$ decaying to the final state, $N_{\psi(3686)}$ is the total number of $\psi(3686)$ events in data, and $\epsilon$ is the detection efficiency. The variable $\mathcal B_{\rm sub}$ is
+$\mathcal B(K^0_S \to \pi^+ \pi^-) \cdot \mathcal B^2(\Lambda  \to p \pi^-) \cdot \mathcal B(\bar\Xi^0  \to\bar \Lambda \pi^0)
+\cdot \mathcal B(\pi^0 \to \gamma\gamma)$ for the calculation of the branching fractions of  $\chi_{cJ} \to \Lambda K^0_S \bar \Xi^0$, and
+$\mathcal B^2(\Lambda  \to p \pi^-) \cdot \mathcal B(\bar\Xi^+  \to\bar \Lambda \pi^-)$
+for $\chi_{cJ} \to \Lambda K^-\bar \Xi^+$.
+Combining the branching fractions of $\psi(3686)\to\gamma\chi_{cJ}$ quoted from the PDG~\cite{ref::pdg2024}, 
+the branching fractions of the $\chi_{cJ} \to \Lambda K \bar \Xi$ decays are determined. All the obtained results for $\chi_{cJ}\to \Lambda K^0_S \bar \Xi^0$ and $\chi_{cJ}\to \Lambda K^- \bar \Xi^+$ are summarized in Table \ref{tab:BFs_neutral} and Table \ref{tab:BFs_charged}.
+
+\begin{table*}[htbp]
+	\caption{Quantities used for  the branching fractions calculations for $\chi_{cJ} \to \Lambda K^0_S\bar \Xi^0$, where the first uncertainties are statistical and the second uncertainties are systematic.}
+	\centering
+	%		\resizebox{1\textwidth}{!}{
+		\begin{tabular}{lccc}
+			\hline\hline
+			& $ \chi_{c0}\to \Lambda K^0_S\bar{\Xi}^0$ & $ \chi_{c1}\to \Lambda K^0_S\bar{\Xi}^0$ & $ \chi_{c2}\to \Lambda K^0_S\bar{\Xi}^0 $ \\ 
+			\hline   
+			$N_{\rm sig}$ & $139\pm15$ & $113\pm12$ & $144\pm14$ \\ 
+			$\epsilon~(\%)$ & $1.637\pm0.013$ & $2.015\pm0.014$ & $1.724\pm0.013$ \\
+			$\mathcal{B}(\psi(3686)\to \gamma \chi_{cJ})\cdot\mathcal{B}(\chi_{cJ}\to \Lambda K^0_S\bar \Xi^0)~(10^{-5})$ & $1.12\pm0.12\pm0.13$ & $0.74\pm0.08\pm0.06$ & $1.10\pm0.11\pm0.13$ \\ 
+			$\mathcal{B}(\chi_{cJ}\to \Lambda K^0_S\bar \Xi^0)~(10^{-4})$  & $1.14\pm0.13\pm0.13$ & $0.76\pm0.08\pm0.07$ & $1.18\pm0.11\pm0.14$ \\ \hline 
+			\hline
+		\end{tabular}
+		\label{tab:BFs_neutral}
+	\end{table*}
+	
+	\begin{table*}[htbp]
+		\caption{Quantities used for  the branching fractions calculations for $\chi_{cJ} \to \Lambda K^-\bar \Xi^+$, where the first uncertainties are statistical and the second uncertainties are systematic.}
+		\centering
+		%		\resizebox{1\textwidth}{!}{
+			\begin{tabular}{lccc}
+				\hline\hline
+				& $ \chi_{c0} \to \Lambda K^-\bar{\Xi}^+$ & $ \chi_{c1} \to \Lambda K^-\bar{\Xi}^+$ & $ \chi_{c2} \to \Lambda K^-\bar{\Xi}^+ $ \\ 
+				\hline 
+				$N_{\rm sig}$ & $909\pm35$ & $896\pm32$ & $1054\pm35$ \\ 
+				$\epsilon~(\%)$ & $4.281\pm0.021$ & $5.870\pm0.024$ & $5.033\pm0.022$ \\ 
+				$\mathcal{B}(\psi(3686)\to \gamma \chi_{cJ})\cdot\mathcal{B}(\chi_{cJ}\to \Lambda K^-\bar \Xi^+)~(10^{-5})$ & $1.91\pm0.07\pm0.16$ & $1.37\pm0.05\pm0.11$ & $1.88\pm0.06\pm0.15$ \\                    
+				$\mathcal{B}(\chi_{cJ}\to \Lambda K^-\bar \Xi^+)~(10^{-4})$& $1.95\pm0.08\pm0.17$ & $1.41\pm0.05\pm0.11$ & $2.01\pm0.07\pm0.16$ \\ \hline
+				\hline
+			\end{tabular}
+			\label{tab:BFs_charged}
+		\end{table*}
+		
+\section{SYSTEMATIC UNCERTAINTY}
+
+The systematic uncertainties in the branching fraction measurements arise from various sources, as summarized in Table~\ref{tab:systematic}. These uncertainties are estimated and discussed below.
+
+The total number of $\psi(3686)$ events in data is measured to be $N_{\psi(3686)}=(2712.4\pm14.3)\times10^6$ with the inclusive hadronic events as described in Ref.~\cite{ref::psip-num-inc}. The uncertainty of $N_{\rm \psi(3686)}$ is 0.5\%.
+
+The systematic uncertainties of the tracking or PID for $K^{\pm}$ and $p(\bar{p})$ are estimated with the control samples of $J/\psi\to K^{+}K^{-}\pi^0$ and $J/\psi \to p\bar p \pi^+\pi^-$. They are assigned as 1.0\% for tracking or PID per track~\cite{ref::tracking}.
+
+The systematic uncertainty of the $K^0_S$ reconstruction, including tracking, $K^0_S$ mass window, vertex fit, and secondary vertex fit, is estimated using the control sample of $J/\psi \rightarrow K^{*\pm} ¯\bar{K}^\mp$ and $J/\psi \rightarrow \phi K^{*\pm} ¯\bar{K}^\mp$. The systematic uncertainty of the $K^0_S$ reconstruction is assigned to be 1.5\%~\cite{ref::kso}.
+
+The systematic uncertainty of $\Lambda$ reconstruction, including the tracking of the $p\pi^-$ pair, decay length cut, mass window cut, vertex fit and secondary vertex fit, are studied by using the control sample of $J/\psi\to pK^-\bar \Lambda$ and $J/\psi\to\Lambda\bar \Lambda$. The obtained efficiencies in the 2D intervals are weighted by the 2D distributions of various momentum and $\cos\theta$ to match our signal MC events, according to Ref.~\cite{ref::Lambda}. The differences of the re-weighted efficiencies between data and MC simulation are assigned as the systematic uncertainties, which are 2.9\%, 1.6\%, 3.5\% for $\chi_{c0,1,2}\to \Lambda K^0_S\bar \Xi^0$; and
+2.9\%, 2.5\%, and 2.5\% for $\chi_{c0,1,2}\to \Lambda K^-\bar \Xi^+$,~respectively.
+
+The systematic uncertainty of $\bar\Xi^+$ reconstruction is estimated to be $5.1\%$, including the tracking and PID of the $\bar{\Lambda}\pi^+$ pair, $\Lambda$ reconstruction, decay length cut, mass window cut, vertex fit and secondary vertex fit, by studying the control sample of $\psi(3686)\to\Xi^-\bar{\Xi}^+$ as in Ref.~\cite{ref::Xi}. The systematic uncertainty of $\bar\Xi^0$ reconstruction is estimated to be $4.5\%$, including the tracking and PID of the $\bar{\Lambda}\pi^0$ pair, $\pi^0$ reconstruction, decay length cut, and mass window cut, by studying the control sample of $\psi(3686)\to\Xi^0\bar{\Xi}^0$.
+
+The systematic uncertainty of photon or $\pi^0$ reconstruction is assigned as  1.0\% per photon based on the control sample of $J/\psi\to\pi^+\pi^-\pi^0$~\cite{ref::gamma-recon}.
+
+To estimate the systematic uncertainties associated with variations in the sub-resonant fractions of the MC model for the $\chi_{cJ}\to \Lambda K\bar \Xi$ decays, we compare our nominal signal efficiencies with those determined from the mixed signal MC events after varying the relative fractions of the sub-resonant decays, such as 
+$\chi_{cJ}\to \Xi(1690)\bar{\Xi}$, $\chi_{cJ}\to \Xi(1820)\bar{\Xi}$, and $\chi_{cJ}\to \Xi(2030)\bar{\Xi}$, by $\pm 1\sigma$. The changes of the signal efficiencies, 3.2\%, 0.2\%, and 0.9\%, are taken as the systematic uncertainties for \chic{0}, \chic{1}, and \chic{2} decays to $\Lambda K^0_S\bar \Xi^0$, respectively. The relative changes in the signal efficiencies, 3.5\%, 0.1\%, and 0.9\%, are assigned as the corresponding systematic uncertainties for \chic{0}, \chic{1}, and \chic{2} decays to $\Lambda K^-\bar \Xi^+$, respectively.
+
+The systematic uncertainties associated with the fits to the $M_{\Lambda K \bar{\Xi}}$ distributions are evaluated by considering several sources. The uncertainty due to the signal shape is estimated by comparing the fitted signal yields obtained with alternative fits varying the width within $\pm1\sigma$. The uncertainty related to the background shape is evaluated by varying the order of the polynomial used to describe the background in the fit. The uncertainty associated with the fitting range is estimated by repeating the fits with alternative fit ranges for the $M_{\Lambda K \bar{\Xi}}$ spectra, from [3.28,3.58] to [3.35,3.65]~GeV/$c^2$. In addition, the uncertainty from the normalization between the signal and sideband regions is evaluated by varying the corresponding scaling factors to the ratio of the event yields between the signal and sideband regions determined from fits to the $M_{\Lambda\pi^0}$, $M_{\Lambda\pi^-}$, $M_{p\pi^-}$, and $M_{\pi^+\pi^-}$ distributions in data. The systematic uncertainty due to peaking backgrounds from $\chi_{cJ}\to\Sigma^0K\bar{\Xi}$ is estimated by including the MC-simulated peaking background component as an additional probability density function in the fit, with the yields and relative fractions among the $\chi_{cJ}$ states fixed according to expectations. For each source, the difference between the re-fitted and nominal signal yields is taken as the corresponding systematic uncertainty, and the total systematic uncertainty associated with the fit is obtained by adding all contributions in quadrature.
+
+The systematic uncertainties due to the fit bias are estimated by performing input-output checks based on the inclusive MC sample.
+The differences between the measured and input branching fractions are taken as the systematic uncertainties,
+which are~3.0\%, 3.0\%, and 1.0\% for  $\chi_{c1}\to \Lambda K^0_S\bar \Xi^0$, $\chi_{c2}\to \Lambda K^0_S\bar \Xi^0$, and $\chi_{c2}\to \Lambda K^-\bar \Xi^+$,~which are negligible for other decays. 
+
+The systematic uncertainty from the 4C kinematic fit is estimated by comparing the signal efficiencies before and after applying a helix parameter correction.
+The correction factors are obtained from Ref.~\cite{ref::helixp}.
+The changes in the signal efficiencies are assigned as the systematic uncertainties, which are 3.2\%, 1.1\%, and 2.9\% for $\chi_{c0,1,2}\to \Lambda K^0_S\bar \Xi^0$; and 1.9\%, 0.2\%, and 0.3\% for $\chi_{c0,1,2}\to \Lambda K^-\bar \Xi^+$,~respectively.
+
+The systematic uncertainties due to the limited statistics of the mixed signal MC samples
+are 0.7\%, 0.6\%, and 0.7\% for  $\chi_{c0,1,2}\to  \Lambda K^0_S\bar \Xi^0$,
+and 0.500\%, 0.4\%, and 0.4\% for $\chi_{c0,1,2}\to \Lambda K^-\bar \Xi^+$,~respectively.
+
+The uncertainties from the branching fractions quoted from the PDG~\cite{ref::pdg2024} are 2.3\%, 2.8\%, and 2.4\% for $\psi(3686)\to \gamma\chi_{c0,1,2}$,
+0.07\% for $\mathcal{B}(K^{0}_{S} \to \pi^+ \pi^-)$, 0.800\% for $\mathcal{B}(\Lambda \to p \pi^-)$, 0.010\% for $\mathcal{B}(\bar{\Xi}^0 \to \Lambda\pi^0)$, 0.03\% for $\mathcal{B}(\bar{\Xi}^- \to \Lambda \pi^-)$, and 0.03\% for $\mathcal{B}(\pi^0 \to \gamma \gamma)$,  
+
+For each signal decay, the total systematic uncertainty is obtained by adding all individual systematic uncertainties in quadrature.
+
+\begin{table}[htbp]
+	\centering
+	\caption{Relative systematic uncertainties (in \%) in the measurements of the branching fractions of $\chi_{cJ} \to \Lambda K^0_S \bar \Xi^0$ and $\chi_{cJ} \to \Lambda K^- \bar \Xi^+$.}
+	\begin{tabular}{lcccccc}
+		\hline\hline
+		&\multicolumn{3}{c}{$\Lambda K^0_S \bar \Xi^0$}&\multicolumn{3}{c}{$\Lambda K^- \bar \Xi^+$} \\ \hline
+		Source & $\chi_{c0}$ & $\chi_{c1}$ & $\chi_{c2}$ & $\chi_{c0}$ & $\chi_{c1}$ & $\chi_{c2}$ \\ \hline
+		$N_{\psi(3686)}$ & 0.5 & 0.5 & 0.5 & 0.5 & 0.5 & 0.5\\
+		$K^-$ tracking & ... & ... & ... & 1.0 & 1.0 & 1.0\\
+		$K^-$ or $p$ PID & 2.0 & 2.0 & 2.0 & 3.0 & 3.0 & 3.0 \\
+		$K_{S}^{0}$ reconstruction & 1.5 & 1.5 & 1.5 & ... & ... & ...\\
+		$\Lambda$ reconstruction & 2.90 & 1.60 & 3.5 & 2.9 & 2.5 & 2.5\\
+		$\bar\Xi^+$ reconstruction & ... & ... & ... & 5.1 & 5.1 & 5.1 \\
+		$\bar\Xi^0$ reconstruction & 4.5 & 4.5 & 4.5 & ... & ... & ... \\
+		$\gamma$ reconstruction & 1.0 & 1.0 & 1.0 & 1.0 & 1.0 & 1.0 \\
+		4C kinematic fit & 3.2 & 1.1 & 2.9 & 1.9 & 0.2  & 0.3\\
+		$M_{\Lambda K \bar \Xi}$ fit  & 8.6 & 5.9 & 8.7 & 2.7 & 2.5 & 4.1\\
+		Fitting bias & 0.0 & 3.0 & 3.0 & 0.0 & 0.0  & 1.0\\
+		$\mathcal B(K_{S}^{0} \to \pi^{+} \pi^{-})$ & 0.1 & 0.1 & 0.1 & ... & ... & ...\\
+		$\mathcal B(\pi^0 \to \gamma\gamma )$ & 0.0 & 0.0 & 0.0 & ... & ... & ...\\
+		$\mathcal B(\psi(3686)\to \gamma \chi_{cJ})$ & 2.3 & 2.8 & 2.4 & 2.3 & 2.8 & 2.4 \\
+		$\mathcal B(\Lambda \to p\pi^-)$ & 1.6 & 1.6 & 1.6  & 1.6 & 1.6 & 1.6 \\
+		$\mathcal B(\bar \Xi^0\to \bar \Lambda\pi^0)$ & 0.0 & 0.0 & 0.0 & ... & ... & ...\\
+		$\mathcal B(\bar \Xi^+\to \bar \Lambda\pi^+)$ & ... & ... & ... & 0.0 & 0.0 & 0.0 \\
+		MC statistics & 0.7 & 0.6 & 0.7 & 0.5 & 0.4 & 0.4 \\
+		MC generator  & 3.2 & 0.2 & 0.9 & 3.5 & 0.1 & 0.9\\
+		Total~(without $\mathcal B(\psi^{'} \to \chi_{cJ})$)  & 11.7 & 8.2 & 11.3 & 8.2 & 7.5 & 7.7\\
+		Total~(with $\mathcal B(\psi^{'} \to \chi_{cJ})$)  & 11.5 & 8.7 & 11.6 & 8.5 & 8.0 & 8.0\\
+		\hline\hline
+	\end{tabular}
+	\label{tab:systematic}
+\end{table}
+
+
+\section{Summary}
+
+Using $(2712.4\pm14.3)\times10^6$ $\psi(3686)$ events collected with the BESIII detector operating at the BEPCII collider,
+the hadronic decays of $\chi_{cJ}\to \Lambda K^0_S\bar \Xi^0$ are observed for the first time, with  significances greater than $10\sigma$,
+the decays of $\chi_{cJ}\to \Lambda K^-\bar \Xi^+$ are measured with improved precision.
+Their decay branching fractions are determined to be
+$\mathcal{B}(\chi_{c0}\to \Lambda K^0_S\bar \Xi^0)=(1.14\pm0.13\pm0.13)\times10^{-4}$,
+$\mathcal{B}(\chi_{c1}\to \Lambda K^0_S\bar \Xi^0)=(7.6\pm0.8\pm0.7)\times10^{-5}$,
+$\mathcal{B}(\chi_{c2}\to \Lambda K^0_S\bar \Xi^0)=(1.18\pm0.11\pm0.14)\times10^{-4}$,
+$\mathcal{B}(\chi_{c0}\to \Lambda K^-\bar \Xi^+)=(1.95\pm0.08\pm0.17)\times10^{-4}$,
+$\mathcal{B}(\chi_{c1}\to \Lambda K^-\bar \Xi^+)=(1.41\pm0.05\pm0.11)\times10^{-4}$, and 
+$\mathcal{B}(\chi_{c2}\to \Lambda K^-\bar \Xi^+)=(2.01\pm0.07\pm0.16)\times10^{-4}$.
+These measurements will be helpful for understanding $\chi_{cJ}$ decay mechanisms. 
+The ratios of the branching fractions, ${\mathcal B}(\chi_{cJ}\to\Lambda K^0_S\bar{\Xi}^0)/{\mathcal B}(\chi_{cJ}\to\Lambda K^-\bar{\Xi}^+)$, are calculated to be $0.59\pm0.07\pm0.06$, $0.54\pm0.06\pm0.06$, and $0.59\pm0.06\pm0.06$ for $\chi_{c0}$, $\chi_{c1}$, and $\chi_{c2}$ decays. These results support that isospin symmetry holds in these decays. In determining these ratios, the systematic uncertainties associated with the total number of $\psi(3686)$ events, the photon radiated from $\psi(3686)$, and the external branching fractions $\mathcal B(\psi(3686)\to \gamma \chi_{cJ})$ and $\mathcal B(\Lambda \to p\pi^-)$, cancel in the ratio measurement. The measured ratios are consistent with the theoretical expectation of ${\mathcal B}(\chi_{cJ}\to\Lambda K^0_S\bar{\Xi}^0)/{\mathcal B}(\chi_{cJ}\to\Lambda K^-\bar{\Xi}^+)=0.5$ within uncertainties. In addition, we have also examined the mass spectra of $\Lambda \bar \Xi$, and no threshold enhancements are found under the current statistics.
+
+\section{Acknowledgement}
+
+The BESIII Collaboration thanks the staff of BEPCII {\hypersetup{urlcolor=black}\href{https://cstr.cn/31109.02.BEPC}{(https://cstr.cn/31109.02.BEPC)}} and the IHEP computing center for their strong support. This work is supported in part by National Key R\&D Program of China under Contracts Nos. 2020YFA0406300, 2020YFA0406400, 2023YFA1606000; National Natural Science Foundation of China (NSFC) under Contracts Nos. 12035009, 11875170, 11635010, 11735014, 11935015, 11935016, 11935018, 12025502, 12035013, 12061131003, 12192260, 12192261, 12192262, 12192263, 12192264, 12192265, 12221005, 12225509, 12235017, 12361141819; the Chinese Academy of Sciences (CAS) Large-Scale Scientific Facility Program; the CAS Center for Excellence in Particle Physics (CCEPP); Joint Large-Scale Scientific Facility Funds of the NSFC and CAS under Contract No. U1832207; 100 Talents Program of CAS; The Institute of Nuclear and Particle Physics (INPAC) and Shanghai Key Laboratory for Particle Physics and Cosmology; German Research Foundation DFG under Contracts Nos. FOR5327, GRK 2149; Istituto Nazionale di Fisica Nucleare, Italy; Knut and Alice Wallenberg Foundation under Contracts Nos. 2021.0174, 2021.0299; Ministry of Development of Turkey under Contract No. DPT2006K-120470; National Research Foundation of Korea under Contract No. NRF-2022R1A2C1092335; National Science and Technology fund of Mongolia; National Science Research and Innovation Fund (NSRF) via the Program Management Unit for Human Resources \& Institutional Development, Research and Innovation of Thailand under Contracts Nos. B16F640076, B50G670107; Polish National Science Centre under Contract No. 2019/35/O/ST2/02907; Swedish Research Council under Contract No. 2019.04595; The Swedish Foundation for International Cooperation in Research and Higher Education under Contract No. CH2018-7756; U. S. Department of Energy under Contract No. DE-FG02-05ER41374.
+
+
+
+
+
+
+
+
+
+\begin{thebibliography}{99}
+\bibitem{ref::eetochic1} S. Spataro {\it et al.} (BESIII Collaboration), \href{https://doi.org/10.22323/1.476.0494}{PoS (ICHEP2024) 494 (2024)}
+\bibitem{ref::pdg2024} S. Navas {\it et al.} (Particle Data Group), \href{https://journals.aps.org/prd/pdf/10.1103/PhysRevD.110.030001}{Phys. Rev. D {\bf 110}, 030001 (2024).}
+\bibitem{ref::pppipi} J. Z. Bai {\it et al.} (BES Collaboration), \href{https://doi.org/10.1103/PhysRevD.60.072001}{Phys. Rev. D {\bf 60}, 072001 (1999).}
+\bibitem{ref::pppi0pi0}Q. He {\it et al.} (CLEO Collaboration), \href{https://doi.org/10.1103/PhysRevD.78.092004}{Phys. Rev. D {\bf 78}, 092004 (2008).}
+\bibitem{ref::ppkk}M. Ablikim {\it et al.} (BESIII Collaboration), \href{https://doi.org/10.1103/PhysRevD.83.112009}{Phys. Rev. D {\bf 83}, 112009 (2011).}
+\bibitem{ref::lambdalambdabar}M. Ablikim {\it et al.} (BESIII Collaboration), \href{https://doi.org/10.1103/PhysRevD.103.112004}{Phys. Rev. D {\bf 103}, 112004 (2021).}
+\bibitem{ref::sigmasigmabar}M. Ablikim {\it et al.} (BESIII Collaboration), \href{https://doi.org/10.1103/PhysRevD.97.052011}{Phys. Rev. D {\bf 97}, 052001 (2018).}
+\bibitem{ref::oct1}J. Bolz, P. Kroll, and G. A. Schuler, \href{http://dx.doi.org/10.1016/S0370-2693(96)01515-8}{Phys. Lett. B {\bf 292}, 192 (1997).}
+\bibitem{ref::oct2}S. M. Wong {\it et al.}, \href{http://dx.doi.org/10.1007/s100520000376}{Eur. Phys. J. C {\bf 14}, 643 (2000).}
+\bibitem{ref::ppbar1} J. Z. Bai {\it et al.} (BES Collaboration), \href{https://doi.org/10.1103/PhysRevLett.91.022001}{Phys. Rev. Lett. {\bf 91}, 022001 (2003).}
+\bibitem{ref::ppbar2} M. Ablikim {\it et al.} (BESIII Collaboration), \href{https://doi.org/10.1103/PhysRevLett.108.112003}{Phys. Rev. Lett. {\bf 108}, 112003 (2012).}
+\bibitem{ref::LXiK} M. Ablikim {\it et al.} (BESIII Collaboration), \href{https://journals.aps.org/prd/abstract/10.1103/PhysRevD.91.092006}{Phys. Rev. D. {\bf 91}, 092006 (2015).}
+\bibitem{ref::psip-num-inc} M. Ablikim {\it et al.} (BESIII Collaboration),
+\href{http://arxiv.org/abs/2403.06766}{arXiv 2403 06776}
+\bibitem{ref::detector} M. Ablikim {\it et al.} (BESIII Collaboration), \href{https://www.sciencedirect.com/science/article/pii/S0168900209023870}{Nucl. Instrum. Methods Phys. Res., A {\bf614}, 345 (2010).}	
+\bibitem{ref::collider} C.~H.~Yu {\it et al.}, \href{https://accelconf.web.cern.ch/ipac2016/doi/JACoW-IPAC2016-TUYA01.html}{Proceeding of IPAC2016, Busan, Korea, 2016}
+\bibitem{Tof1} X.~Li {\it et al.}, \href{https://link.springer.com/article/10.1007/s41605-017-0014-2} {Radiat. Detect. Technol. Methods {\bf 1}, 13 (2017).}
+
+\bibitem{Tof2} Y.~X.~Guo {\it et al.}, \href{https://link.springer.com/article/10.1007/s41605-017-0012-4} {Radiat. Detect. Technol. Methods {\bf 1}, 15 (2017).}
+
+\bibitem{Tof3} P.~Cao {\it et al.}, \href{https://www.sciencedirect.com/science/article/pii/S0168900219314068} {Nucl. Instrum. Meth. A {\bf 953}, 163053 (2020).}
+
+\bibitem{Geant4} S.~Agostinelli \textit{et al.} ({\sc geant4} Collaboration), \href{https://www.sciencedirect.com/science/article/pii/S0168900203013688?via\%3Dihub}{Nucl. Instrum. Methods Phys. Res. {A \bf506}, 250 (2003).}
+\bibitem{Jadach01} S.~Jadach, B.~F.~L.~Ward~and Z.~Was, \href{https://journals.aps.org/prd/abstract/10.1103/PhysRevD.63.113009}{Phys. Rev. {D \bf63}, 113009 (2001).}
+\bibitem{Lange01} D.~J.~Lange,  \href{https://www.sciencedirect.com/science/article/pii/S0168900201000894?via\%3Dihub}{Nucl. Instrum. Methods Phys. Res. {A \bf462}, 152 (2001);}
+\bibitem{Lange02} R.~G.~Ping, \href{https://iopscience.iop.org/article/10.1088/1674-1137/32/8/001}{Chin. Phys. {C \bf32}, 599 (2008).}
+\bibitem{Lundcharm00} J.~C.~Chen, G.~S.~Huang, X.~R.~Qi, D.~H.~Zhang and Y.~S.~Zhu, \href{https://journals.aps.org/prd/abstract/10.1103/PhysRevD.62.034003}{Phys. Rev. {D \bf62}, 034003 (2000).}
+\bibitem{PHOTOS} E.~Richter~Was, \href{https://www.sciencedirect.com/science/article/pii/037026939390062M}{Phys. Lett. {B \bf303}, 163 (1993).}
+\bibitem{topo} X.Y.Zhou, S. X. Du, G. Li and C. P. Shen, \href{https://doi.org/10.1016/j.cpc.2020.107540}{Comput. Phys. Commun {\bf258}, 107540 (2021)}
+\bibitem{lum} M.~Ablikim {\it et al.} (BESIII Collaboration), \href{https://iopscience.iop.org/article/10.1088/1674-1137/37/12/123001}{Chin. Phys. {C \bf37}, 123001 (2013).}
+\bibitem{ref::damping} V. V. Anashin {\it et al.} (KEDR Collaboration),
+\href{https://www.worldscientific.com/doi/abs/10.1142/S2010194511000791}{Int. J. Mod. Phys. Conf. Ser. 02, 188 (2011).}
+\bibitem{ref::tracking} M.~Ablikim {\it et al.} (BESIII Collaboration), \href{https://journals.aps.org/prd/abstract/10.1103/PhysRevD.102.092006}{Phys. Rev. {D \bf102}, 092006 (2020).}
+\bibitem{ref::kso} M.~Ablikim {\it et al.} (BESIII Collaboration), \href{https://journals.aps.org/prd/abstract/10.1103/PhysRevD.92.112008}{Phys. Rev. {D \bf92}, 112008 (2015).}
+\bibitem{ref::Lambda} M. Ablikim {\it et al.} (BESIII Collaboration),
+\href{https://journals.aps.org/prd/abstract/10.1103/PhysRevD.106.072004}{Phys. Rev. D {\bf 106}, 072004 (2022).}
+\bibitem{ref::Xi} M. Ablikim {\it et al.} (BESIII Collaboration),
+\href{https://link.springer.com/article/10.1007/JHEP07(2024)258}{JHEP {\bf 07} 258 (2024).}
+\bibitem{ref::gamma-recon} M.~Ablikim {\it et al.} (BESIII Collaboration), \href{https://journals.aps.org/prd/abstract/10.1103/PhysRevD.86.052011}{Phys. Rev. {D \bf86}, 052011 (2012).}
+\bibitem{ref::helixp} M.~Ablikim {\it et al.} (BESIII Collaboration),\href{https://doi.org/10.1103/PhysRevD.87.012002}{Phys. Rev. {D \bf87}, 012002 (2013).}
+%\bibitem{ref::kkk0k0} M. Ablikim {\it et al.} (BESIII Collaboration), \href{https://www.sciencedirect.com/science/article/pii/S037026930501378X?via\%3Dihub}{Phys. Lett. {B \bf630}, 21 (2005).}
+
+
+
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,22 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Environment
+.env
+
+# Mac
+.DS_Store
+
+# Logs
+*.log
+
+# LaTeX build files
+*.aux
+*.out
+*.toc
+*.synctex.gz
+
+# Cache
+responses_cache/
