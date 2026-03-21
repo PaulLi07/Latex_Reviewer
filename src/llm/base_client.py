@@ -309,30 +309,256 @@ class BaseLLMClient(ABC):
 
     def _update_state_from_scan(self, state: 'AnalysisState', section_title: str, summary: str) -> None:
         """Update state from scan summary"""
+        from .json_parser import extract_scan_summary, JSONParseError
+
         try:
-            import json
+            data = extract_scan_summary(summary)
 
-            # Extract JSON (handle possible markdown code blocks)
-            json_start = summary.find('{')
-            json_end = summary.rfind('}') + 1
+            # Extract terms
+            if "terms" in data:
+                for term in data["terms"]:
+                    state.add_term(term, section_title)
 
-            if json_start >= 0 and json_end > json_start:
-                json_str = summary[json_start:json_end]
-                data = json.loads(json_str)
+            # Extract potential issues
+            if "potential_issues" in data:
+                for issue in data["potential_issues"]:
+                    category = issue.get("category", "Other")
+                    count = issue.get("count", 0)
+                    for _ in range(count):
+                        # Create a virtual location for statistics
+                        state.add_issue(category, "scan", section_title)
 
-                # Extract terms
-                if "terms" in data:
-                    for term in data["terms"]:
-                        state.add_term(term, section_title)
+        except JSONParseError as e:
+            logger.warning(f"Failed to parse scan summary for '{section_title}': {e}")
+        except Exception as e:
+            logger.debug(f"Unexpected error parsing scan summary: {e}")
 
-                # Extract potential issues
-                if "potential_issues" in data:
-                    for issue in data["potential_issues"]:
-                        category = issue.get("category", "Other")
-                        count = issue.get("count", 0)
-                        for _ in range(count):
-                            # Create a virtual location for statistics
-                            state.add_issue(category, "scan", section_title)
+    # ========== Shared Methods (Moved from provider classes) ==========
 
-        except (json.JSONDecodeError, KeyError) as e:
-            logger.debug(f"Failed to parse scan summary: {e}")
+    def _get_system_prompt(self) -> str:
+        """Get system prompt"""
+        base_prompt = """You are a professional physics paper reviewer specializing in LaTeX formatting and scientific writing standards.
+
+Your task is to:
+1. Analyze the provided LaTeX document section
+2. Identify violations of style rules
+3. Provide specific, actionable feedback
+4. Suggest corrections that maintain scientific accuracy
+
+Output format (JSON):
+{
+  "violations": [
+    {
+      "rule_id": "Rule number (e.g., 1.1, 3.0)",
+      "category": "Category name (e.g., Language, Typography)",
+      "location": "Specific location description within the section",
+      "context": "Problem text fragment",
+      "comment": "Explanation of the issue (IN ENGLISH)",
+      "suggested_revision": "Complete corrected text",
+      "severity": "Severity level (high, medium, low)"
+    }
+  ]
+}
+
+IMPORTANT:
+- Report ONLY actual violations of style rules
+- If no issues found, return empty array
+- context should include enough context to locate the problem
+- suggested_revision should be the complete corrected text
+- ALL comments must be in ENGLISH
+"""
+
+        # Concise mode additional instructions
+        if self.concise_mode:
+            base_prompt += """
+
+CONCISE MODE REQUIREMENTS:
+- Keep comments brief and to the point (max 2 sentences per comment)
+- Focus on the most important issues
+- Avoid redundant explanations
+- Use clear, direct language
+"""
+
+        return base_prompt
+
+    def _build_prompt(
+        self,
+        section_title: str,
+        section_content: str,
+        rules: str,
+        keywords: str = ""
+    ) -> str:
+        """Build user prompt"""
+        prompt = f"""Please analyze the following physics paper LaTeX section and identify violations of the style rules.
+
+## Section Information
+Title: {section_title}
+
+## Section Content
+```
+{section_content[:8000]}
+```
+
+## Style Rules
+{rules}
+"""
+
+        # Add keywords (if any)
+        if keywords:
+            prompt += f"\n{keywords}"
+
+        prompt += "\n\nPlease carefully check if this section complies with the above style rules and return the review results in JSON format.\n"
+        prompt += "All comments must be in ENGLISH."
+
+        return prompt
+
+    def _build_detailed_prompt(
+        self,
+        section_title: str,
+        section_content: str,
+        rules: str,
+        keywords: str,
+        state_summary: str,
+        previous_summary: str
+    ) -> str:
+        """Build detailed analysis prompt"""
+        prompt = f"""Please analyze the following LaTeX section for style violations.
+
+## Section: {section_title}
+
+## Content
+```
+{section_content[:8000]}
+```
+
+{rules}
+{keywords}
+
+## Progress Summary (From Other Sections)
+{state_summary if state_summary else "(No previous data available)"}
+
+## This Section's Scan Summary
+{previous_summary if previous_summary else "(No scan available)"}
+
+IMPORTANT for Consistency:
+- Check if issues you find have already been reported in other sections
+- Use consistent terminology for similar concepts
+- Avoid duplicating issues that follow the same pattern
+- Focus on NEW issues unique to this section
+
+Return JSON with violations found in this section.
+"""
+        return prompt
+
+    def _get_simplified_rules(self, full_rules: str) -> str:
+        """Extract simplified category list from full rules"""
+        lines = full_rules.split('\n')
+        simplified = []
+        current_category = None
+
+        for line in lines:
+            line = line.strip()
+            if not line:
+                continue
+
+            # Detect category title (e.g., "## Language")
+            if line.startswith('##'):
+                current_category = line.replace('##', '').strip()
+                simplified.append(line)
+            # Detect rule (e.g., "1.1. Use ...")
+            elif current_category and re.match(r'^\d+\.\d+\.', line):
+                simplified.append(f"- {line}")
+
+        return "\n".join(simplified) if simplified else "## Available Style Categories\nSee full rules for details."
+
+    def _parse_response(self, response_content: str, section_title: str, section_number: str = "") -> List[ReviewItem]:
+        """Parse LLM response"""
+        from .json_parser import extract_review_items, JSONParseError
+
+        try:
+            violations = extract_review_items(
+                response_content,
+                section_title=section_title,
+                section_number=section_number
+            )
+
+            review_items = []
+            for v in violations:
+                item = ReviewItem(
+                    rule_id=v.get("rule_id", "unknown"),
+                    category=v.get("category", "Other"),
+                    location=v.get("location", f"{section_title}"),
+                    context=v.get("context", ""),
+                    comment=v.get("comment", ""),
+                    suggested_revision=v.get("suggested_revision", ""),
+                    severity=v.get("severity", "medium")
+                )
+                review_items.append(item)
+
+            return review_items
+
+        except JSONParseError as e:
+            logger.error(f"Failed to parse LLM response: {e}")
+            return []
+        except Exception as e:
+            logger.error(f"Unexpected error parsing response: {e}")
+            return []
+
+    def _prepare_and_save_response(
+        self,
+        response: Any,
+        section_title: str,
+        prompt: str,
+        phase: str = "",
+        **extra_metadata
+    ) -> None:
+        """Prepare and save response data using provider-specific extractors"""
+        import sys
+        sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+        from config.settings import settings
+
+        response_data = {
+            "metadata": {
+                "timestamp": datetime.now().isoformat(),
+                "provider": self._get_provider_name(),
+                "model": self.model,
+                "section_title": section_title,
+                "section_length": extra_metadata.get("section_length", 0),
+                "phase": phase or "analysis"
+            },
+            "request": {
+                "system_prompt": self._get_system_prompt(),
+                "user_prompt": prompt,
+                "max_tokens": self.max_tokens,
+                "temperature": self.temperature,
+                **{k: v for k, v in extra_metadata.items() if k not in ["section_length"]}
+            },
+            "response": {
+                "raw": response.model_dump() if hasattr(response, 'model_dump') else str(response),
+                "content": self._extract_content(response),
+                "usage": self._extract_usage(response)
+            }
+        }
+        self._save_response(response_data, section_title, self._get_provider_name(), settings.cache_dir)
+
+    # ========== Abstract Methods for Provider-Specific Operations ==========
+
+    @abstractmethod
+    def _get_provider_name(self) -> str:
+        """Return provider name for logging/cache (e.g., 'deepseek', 'openai')"""
+        pass
+
+    @abstractmethod
+    def _make_api_call(self, messages: List[Dict], system_prompt: str, **kwargs) -> Any:
+        """Execute provider-specific API call and return raw response"""
+        pass
+
+    @abstractmethod
+    def _extract_content(self, response: Any) -> str:
+        """Extract text content from provider-specific response"""
+        pass
+
+    @abstractmethod
+    def _extract_usage(self, response: Any) -> Dict[str, int]:
+        """Return dict with 'prompt_tokens', 'completion_tokens', 'total_tokens'"""
+        pass

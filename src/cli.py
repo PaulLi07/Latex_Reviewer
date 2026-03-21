@@ -5,17 +5,15 @@ import click
 import logging
 from pathlib import Path
 import sys
-from tqdm import tqdm
 
 # Add project root to Python path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from config.settings import settings
+from src.workflow import DocumentAnalyzer, AnalysisConfig
+# Import parsers for parse and parse-comments commands
 from src.parsers.comments_parser import CommentsParser
 from src.parsers.tex_parser import TeXParser
-from src.parsers.keywords_parser import KeywordsParser
-from src.llm import create_client
-from src.generators import ReviewGenerator
 
 # Configure logging
 logging.basicConfig(
@@ -121,35 +119,6 @@ def analyze(draft, comments, output, provider, model, verbose, debug):
     click.echo(f"LLM: {settings.llm_provider} ({model_name})")
     click.echo("")
 
-    # Step 1: Parse style rules
-    click.echo("Step 1/4: Parsing style rules...")
-    comments_parser = CommentsParser(settings.comments_file)
-    rules = comments_parser.parse()
-    click.echo(f"  Parsed {len(rules)} style rules")
-
-    # Format rules for prompt
-    rules_text = comments_parser.format_rules_for_prompt()
-
-    # Step 2: Parse LaTeX document
-    click.echo("Step 2/4: Parsing LaTeX document...")
-    tex_parser = TeXParser(settings.draft_file)
-    structure = tex_parser.parse()
-    click.echo(f"  Parsed {len(structure.sections)} sections")
-
-    # Get sections for analysis
-    sections = structure.get_sections_for_analysis()
-    click.echo(f"  Will analyze {len(sections)} sections")
-
-    # Step 2.5: Parse keywords (if exists)
-    keywords_parser = KeywordsParser(settings.keywords_file)
-    keywords_text = keywords_parser.format_for_prompt()
-    if keywords_text:
-        keywords_summary = keywords_parser.get_keywords_summary()
-        click.echo(f"  Keywords: {keywords_summary}")
-
-    # Step 3: Create LLM client and analyze
-    click.echo("Step 3/4: Analyzing document with LLM...")
-
     # Get API key and model
     if settings.llm_provider == "deepseek":
         api_key = settings.deepseek_api_key
@@ -164,9 +133,14 @@ def analyze(draft, comments, output, provider, model, verbose, debug):
         api_key = settings.zhipu_api_key
         model = settings.zhipu_model
 
-    # Create client
-    llm_client = create_client(
-        provider=settings.llm_provider,
+    # Create configuration for workflow
+    config = AnalysisConfig(
+        draft_file=settings.draft_file,
+        comments_file=settings.comments_file,
+        output_file=settings.output_file,
+        template_file=settings.template_file,
+        keywords_file=settings.keywords_file,
+        llm_provider=settings.llm_provider,
         api_key=api_key,
         model=model,
         max_tokens=settings.max_tokens,
@@ -174,53 +148,28 @@ def analyze(draft, comments, output, provider, model, verbose, debug):
         request_timeout=settings.request_timeout,
         max_retries=settings.max_retries,
         cache_enabled=settings.cache_responses,
-        concise_mode=settings.concise_mode
+        concise_mode=settings.concise_mode,
+        two_pass_mode=settings.two_pass_mode
     )
 
-    # Analyze each section
-    all_reviews = []
+    # Create analyzer and run workflow
+    analyzer = DocumentAnalyzer(config)
 
-    # Select analysis mode based on configuration
+    # Display progress messages
+    click.echo("Step 1/4: Parsing style rules...")
+    click.echo("Step 2/4: Parsing LaTeX document...")
+    click.echo("Step 3/4: Analyzing document with LLM...")
     if settings.two_pass_mode:
-        # Two-pass analysis mode (ensures global consistency)
         click.echo("  Using two-pass analysis mode (ensures global consistency)")
-        all_reviews = llm_client.analyze_document_two_pass(
-            sections=sections,
-            rules_text=rules_text,
-            keywords=keywords_text
-        )
-    else:
-        # Single-pass analysis mode (original mode)
-        with tqdm(sections, desc="  Analysis progress") as pbar:
-            for section in pbar:
-                pbar.set_description(f"  Analyzing: {section['title'][:30]}")
-
-                reviews = llm_client.analyze_section(
-                    section_title=section["title"],
-                    section_content=section["content"],
-                    rules=rules_text
-                )
-
-                all_reviews.extend(reviews)
-                pbar.set_postfix({"found": len(all_reviews)})
-
-    click.echo(f"  Found {len(all_reviews)} issues")
-
-    # Step 4: Generate review.tex
     click.echo("Step 4/4: Generating review report...")
 
-    generator = ReviewGenerator(settings.template_file)
-    generator.generate(
-        review_items=all_reviews,
-        output_file=settings.output_file,
-        draft_file=str(settings.draft_file)
-    )
+    # Execute analysis
+    result = analyzer.analyze()
 
+    # Display results
+    click.echo(f"  Found {len(result.reviews)} issues")
     click.echo(f"  Review report saved to: {settings.output_file}")
-
-    # Display summary
-    summary = generator.generate_summary(all_reviews)
-    click.echo("\n" + summary)
+    click.echo("\n" + result.summary)
 
 
 @cli.command()

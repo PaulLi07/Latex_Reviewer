@@ -12,7 +12,9 @@ It parses LaTeX documents, applies rule-based and LLM-based analysis, and genera
 
 The system follows a strict pipeline:
 
-Parsers → LLM Analysis → Generator (LaTeX)
+```
+CLI → Workflow → Parsers → LLM Analysis → Generator (LaTeX)
+```
 
 This pipeline is a core design principle and must be preserved.
 
@@ -20,11 +22,13 @@ This pipeline is a core design principle and must be preserved.
 
 ## Core Architecture Constraints (MUST FOLLOW)
 
-The system consists of three core layers:
+The system consists of four core layers:
 
-- Parsers (input processing)
-- LLM Analysis (reasoning)
-- Generator (LaTeX output)
+- **CLI** (`cli.py`) - User interface only
+- **Workflow** (`workflow/`) - Business logic orchestration
+- **Parsers** (`parsers/`) - Input processing
+- **LLM Analysis** (`llm/`) - Reasoning
+- **Generator** (`generators/`) - LaTeX output
 
 These layers are REQUIRED and MUST NOT be:
 
@@ -35,6 +39,24 @@ These layers are REQUIRED and MUST NOT be:
 Each layer must:
 - Remain independent
 - Preserve its responsibility
+
+---
+
+## Workflow Layer (IMPORTANT)
+
+The `DocumentAnalyzer` class in `src/workflow/document_analyzer.py` orchestrates the analysis pipeline.
+
+**Responsibilities:**
+- Parse style rules, documents, and keywords
+- Create LLM client with proper configuration
+- Execute single-pass or two-pass analysis
+- Generate LaTeX output
+
+**CLI responsibilities (NOT workflow):**
+- Command-line argument parsing
+- User-facing progress messages
+- Configuration updates from CLI options
+- Result display formatting
 
 ---
 
@@ -64,7 +86,12 @@ The final output must:
 
 - Be a valid and compilable LaTeX document
 - Use the existing reviewer block structure:
-  \begin{reviewer} ... \end{reviewer}
+  ```latex
+  \begin{reviewer}
+  \noindent \textbf{Location: ["Section and location"]}
+  ...
+  \end{reviewer}
+  ```
 - Preserve compatibility with existing LaTeX templates
 
 When improving the Generator, prioritize:
@@ -87,6 +114,47 @@ You MUST NOT:
 You SHOULD:
 - Return structured intermediate results where possible
 - Separate reasoning from formatting
+
+---
+
+## LLM Client Architecture
+
+All LLM providers inherit from `BaseLLMClient` which contains:
+
+**Shared Methods (in base class):**
+- `_get_system_prompt()` - System prompt with concise mode support
+- `_build_prompt()` - User prompt for single-section analysis
+- `_build_detailed_prompt()` - Prompt for two-pass detailed analysis
+- `_parse_response()` - Response parsing using json_parser
+- `_get_simplified_rules()` - Rule simplification for lightweight scan
+
+**Abstract Methods (provider-specific):**
+- `_get_provider_name()` - Returns provider identifier (e.g., "deepseek", "openai")
+- `_make_api_call()` - Executes provider-specific API calls
+- `_extract_content()` - Extracts text from responses
+- `_extract_usage()` - Standardizes token usage data (prompt_tokens, completion_tokens, total_tokens)
+
+**Helper:**
+- `_prepare_and_save_response()` - Handles response caching using provider-specific extractors
+
+Provider implementations only need to implement the 4 abstract methods - all other logic is inherited.
+
+---
+
+## JSON Parser
+
+The `src/llm/json_parser.py` module provides robust JSON extraction from LLM responses.
+
+**Features:**
+- Handles markdown code blocks (```json ... ```)
+- Handles extra text before/after JSON
+- Uses bracket counting for nested structures (not `find('{')`/`rfind('}')`)
+- Explicit validation with `JSONParseError` exceptions
+
+**Key functions:**
+- `extract_json()` - Generic JSON extraction with validation
+- `extract_review_items()` - Extracts violations array with location formatting
+- `extract_scan_summary()` - Extracts scan results for two-pass analysis
 
 ---
 
@@ -134,12 +202,11 @@ You are encouraged to propose improvements in:
 - Introducing structured intermediate representations between parsing and LLM analysis
 - Converting rule definitions (comments.txt) into structured formats
 - Improving analysis pipeline design (while preserving two-pass structure)
-- Introducing orchestration logic to better manage workflow
 - Improving modularity and separation of concerns
 
 All improvements MUST:
 
-- Preserve the core pipeline (Parsers → LLM → Generator)
+- Preserve the core pipeline (CLI → Workflow → Parsers → LLM → Generator)
 - Preserve the LaTeX output contract
 - Maintain backward compatibility unless explicitly approved
 
@@ -236,11 +303,15 @@ cp .env.example .env
 
 ### Testing
 ```bash
-# Run tests (when implemented)
+# Run tests
 pytest
 
 # Run with coverage
 pytest --cov=src
+
+# Run specific test file
+pytest tests/test_integration.py -v
+pytest tests/test_json_parser.py -v
 ```
 
 ## Architecture (Reference)
@@ -248,6 +319,9 @@ pytest --cov=src
 ### Entry Point
 - [src/cli.py](src/cli.py) - Click-based CLI with main `analyze` command
 - [src/main.py](src/main.py) - Alternative direct entry point
+
+### Workflow Layer
+- [src/workflow/document_analyzer.py](src/workflow/document_analyzer.py) - Business logic orchestration
 
 ### Core Modules
 
@@ -257,8 +331,12 @@ pytest --cov=src
 - [keywords_parser.py](src/parsers/keywords_parser.py) - Parses user-defined terminology
 
 **LLM Clients** ([src/llm/](src/llm/))
-- [base_client.py](src/llm/base_client.py) - Abstract base class defining LLM interface
-- [deepseek_client.py](src/llm/deepseek_client.py), [openai_client.py](src/llm/openai_client.py), [anthropic_client.py](src/llm/anthropic_client.py), [zhipu_client.py](src/llm/zhipu_client.py) - Provider implementations
+- [base_client.py](src/llm/base_client.py) - Abstract base class with shared methods and abstract interface
+- [json_parser.py](src/llm/json_parser.py) - Robust JSON extraction from LLM responses
+- [deepseek_client.py](src/llm/deepseek_client.py) - DeepSeek implementation
+- [openai_client.py](src/llm/openai_client.py) - OpenAI implementation
+- [anthropic_client.py](src/llm/anthropic_client.py) - Anthropic implementation
+- [zhipu_client.py](src/llm/zhipu_client.py) - Zhipu implementation
 - [analysis_state.py](src/llm/analysis_state.py) - Global state for two-pass analysis
 
 **Generators** ([src/generators/](src/generators/))
@@ -296,7 +374,11 @@ Generated [review.tex](review.tex) uses `\begin{reviewer}...\end{reviewer}` bloc
 ## Adding a New LLM Provider
 
 1. Create client class in [src/llm/](src/llm/) inheriting from `BaseLLMClient`
-2. Implement: `analyze_section()`, `scan_section_lightweight()`, `analyze_section_detailed()`
+2. Implement the 4 abstract methods:
+   - `_get_provider_name()` - Return provider name string
+   - `_make_api_call()` - Execute provider-specific API call
+   - `_extract_content()` - Extract text from response
+   - `_extract_usage()` - Return standardized token usage dict
 3. Add import and factory entry in [src/llm/__init__.py](src/llm/__init__.py)
 4. Add config fields in [config/settings.py](config/settings.py)
 5. Add to CLI choices in [src/cli.py](src/cli.py)
@@ -306,3 +388,4 @@ Generated [review.tex](review.tex) uses `\begin{reviewer}...\end{reviewer}` bloc
 - Rate limiting with retry
 - LaTeX escaping via ReviewGenerator
 - Automatic section numbering
+- JSON parsing with explicit error handling

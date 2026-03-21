@@ -1,7 +1,7 @@
 """
-LLM 模块
+LLM Module
 
-提供 LLM 客户端的统一接口
+Provides unified interface for LLM clients
 """
 from .base_client import BaseLLMClient, ReviewItem
 from .openai_client import OpenAIClient
@@ -17,19 +17,19 @@ def create_client(
     **kwargs
 ) -> BaseLLMClient:
     """
-    创建 LLM 客户端
+    Create LLM client
 
     Args:
-        provider: LLM 提供商 ('deepseek', 'openai', 'anthropic', 'zhipu')
-        api_key: API 密钥
-        model: 模型名称
-        **kwargs: 其他参数
+        provider: LLM provider ('deepseek', 'openai', 'anthropic', 'zhipu')
+        api_key: API key
+        model: Model name
+        **kwargs: Other parameters
 
     Returns:
-        LLM 客户端实例
+        LLM client instance
 
     Raises:
-        ValueError: 不支持的提供商
+        ValueError: Unsupported provider
     """
     if provider.lower() == "deepseek":
         return DeepSeekClient(
@@ -56,7 +56,7 @@ def create_client(
             **kwargs
         )
     else:
-        raise ValueError(f"不支持的 LLM 提供商: {provider}")
+        raise ValueError(f"Unsupported LLM provider: {provider}")
 
 
 __all__ = [

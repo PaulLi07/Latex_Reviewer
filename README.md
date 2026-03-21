@@ -7,7 +7,7 @@ An AI-powered LaTeX paper reviewer for physics papers. The tool parses LaTeX doc
 ### Core Features
 - Parse LaTeX document structures (sections, equations, tables, etc.)
 - Process long documents in sections split by `\section{}`
-- Support multiple LLM providers (**DeepSeek**, OpenAI GPT-4, Anthropic Claude)
+- Support multiple LLM providers (**DeepSeek**, OpenAI GPT-4, Anthropic Claude, Zhipu ChatGLM)
 - Generate review.tex files that conform to templates
 - Use "section/subsection + context" format to locate issues
 
@@ -16,6 +16,7 @@ An AI-powered LaTeX paper reviewer for physics papers. The tool parses LaTeX doc
 - **Custom keywords**: Supports domain-specific terminology for more professional reviews
 - **Concise comment mode**: Configurable output length to control token consumption
 - **Response caching**: Automatically saves API responses for debugging and reuse
+- **Robust JSON parsing**: Handles LLM responses with extra text, markdown code blocks, and nested structures
 
 ## Installation
 
@@ -45,7 +46,7 @@ cp .env.example .env
 Edit `.env` file:
 
 ```bash
-# LLM Provider (deepseek, openai, anthropic)
+# LLM Provider (deepseek, openai, anthropic, zhipu)
 LLM_PROVIDER=deepseek
 
 # DeepSeek Configuration (default, cost-effective)
@@ -59,6 +60,10 @@ OPENAI_MODEL=gpt-4
 # Anthropic Configuration
 ANTHROPIC_API_KEY=your_anthropic_api_key_here
 ANTHROPIC_MODEL=claude-3-5-sonnet-20241022
+
+# Zhipu ChatGLM Configuration (Chinese model)
+ZHIPU_API_KEY=your_zhipu_api_key_here
+ZHIPU_MODEL=glm-4-flash
 
 # API Settings
 MAX_TOKENS=3000
@@ -105,7 +110,7 @@ python -m src.cli analyze \
 ### Specify LLM Provider
 
 ```bash
-# DeepSeek (default)
+# DeepSeek (default, cost-effective)
 python -m src.cli analyze --provider deepseek --model deepseek-chat
 
 # OpenAI
@@ -113,6 +118,9 @@ python -m src.cli analyze --provider openai --model gpt-4
 
 # Anthropic
 python -m src.cli analyze --provider anthropic --model claude-3-5-sonnet-20241022
+
+# Zhipu (Chinese model, fast and cost-effective)
+python -m src.cli analyze --provider zhipu --model glm-4-flash
 ```
 
 ### Analysis Mode Selection
@@ -164,16 +172,22 @@ latex_reviewer/
 │   └── settings.py              # Configuration management
 ├── src/
 │   ├── cli.py                   # Command line interface
+│   ├── workflow/
+│   │   ├── __init__.py          # Workflow package
+│   │   └── document_analyzer.py # Workflow orchestration (separates business logic from CLI)
 │   ├── parsers/
 │   │   ├── tex_parser.py        # LaTeX parser
 │   │   ├── comments_parser.py   # Style rules parser
 │   │   └── keywords_parser.py   # Keywords parser
 │   ├── llm/
-│   │   ├── base_client.py       # LLM client base class
+│   │   ├── __init__.py          # LLM client factory
+│   │   ├── base_client.py       # LLM client base class (shared methods)
+│   │   ├── json_parser.py       # Robust JSON parsing for LLM responses
 │   │   ├── analysis_state.py    # Global state management (two-pass analysis)
 │   │   ├── deepseek_client.py   # DeepSeek implementation
 │   │   ├── openai_client.py     # OpenAI implementation
-│   │   └── anthropic_client.py  # Anthropic implementation
+│   │   ├── anthropic_client.py  # Anthropic implementation
+│   │   └── zhipu_client.py      # Zhipu implementation
 │   └── generators/
 │       └── review_generator.py  # Review generator
 ├── comments.txt                 # Style rules
@@ -183,6 +197,47 @@ latex_reviewer/
 ├── responses_cache/             # API response cache
 └── requirements.txt             # Dependencies
 ```
+
+## Architecture
+
+The system follows a layered architecture with clear separation of concerns:
+
+```
+CLI (cli.py)                # User interface only
+    ↓
+Workflow (document_analyzer)  # Business logic orchestration
+    ↓
+Pipeline:
+    Parsers → LLM Clients → Generator (LaTeX)
+```
+
+### Workflow Layer
+
+The `DocumentAnalyzer` class orchestrates the analysis pipeline:
+- Parses style rules, documents, and keywords
+- Creates LLM client with proper configuration
+- Executes single-pass or two-pass analysis
+- Generates LaTeX output
+
+### LLM Client Architecture
+
+All LLM providers inherit from `BaseLLMClient` which contains:
+- **Shared methods**: System prompt, user prompt building, response parsing, rule simplification
+- **Abstract methods**: Provider-specific API calls, content extraction, token usage normalization
+
+Provider implementations only need to implement 4 abstract methods:
+- `_get_provider_name()` - Returns provider identifier
+- `_make_api_call()` - Executes provider-specific API calls
+- `_extract_content()` - Extracts text from responses
+- `_extract_usage()` - Standardizes token usage data
+
+### JSON Parser
+
+The `json_parser.py` module provides robust JSON extraction from LLM responses:
+- Handles markdown code blocks (```json ... ```)
+- Handles extra text before/after JSON
+- Uses bracket counting for nested structures
+- Explicit validation with clear error messages
 
 ## Workflow
 
@@ -212,7 +267,8 @@ Generated `review.tex` contains the following structure:
 \begin{reviewer}
 \noindent \textbf{Category: [Category name] [Rule id] [Severity]}
 
-\textbf{Source Context:}
+\textbf{Location: ["Section and location"]}
+
 \begin{lstlisting}[breaklines=true]
 "Problem text fragment"
 \end{lstlisting}
@@ -232,6 +288,7 @@ Where:
 - **Category name**: Rule violation category (e.g., Language, Typography)
 - **Rule id**: Rule number (e.g., 1.1, 3.0)
 - **Severity**: Severity level (high, medium, low)
+- **Location**: Section and position within the section
 
 ## Response Caching
 
@@ -259,6 +316,16 @@ Each cache file contains:
 | `MAX_OUTPUT_TOKENS` | 3000 | Output token limit |
 | `CACHE_RESPONSES` | true | Whether to cache responses |
 | `TEMPERATURE` | 0.3 | AI generation temperature (lower = more deterministic) |
+
+## Testing
+
+```bash
+# Run all tests
+pytest
+
+# Run with coverage
+pytest --cov=src
+```
 
 ## License
 

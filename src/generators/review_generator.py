@@ -134,15 +134,12 @@ class ReviewGenerator:
         """
         location = item.location
 
-        # Location description mapping (Chinese-English correspondence)
+        # Location description mapping
         position_mapping = {
             "beginning": "beginning",
-            "靠前": "toward the front",
             "start": "beginning",
             "middle": "middle",
-            "中间": "middle",
             "end": "toward the back",
-            "靠后": "toward the back",
             "toward the end": "toward the back",
         }
 

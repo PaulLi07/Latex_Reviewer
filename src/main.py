@@ -1,12 +1,12 @@
 """
-LaTeX 论文 AI 审稿工具
+LaTeX Paper AI Reviewer
 
-主入口
+Main entry point
 """
 import sys
 from pathlib import Path
 
-# 添加项目根目录到 Python 路径
+# Add project root to Python path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.cli import main

@@ -29,51 +29,219 @@
 	\maketitle
 
 \begin{reviewer}
-\noindent \textbf{Category: [Abbreviations] [5.1] [\textcolor{blue}{medium}]}
+\noindent \textbf{Category: [Abbreviations] [5.1] [low]}
 
-\noindent \textbf{Location: [2, first mention of 'initial state radiation']}
+\noindent \textbf{Location: [2, first mention of 'monte carlo']}
 
 \begin{lstlisting}[breaklines=true]
-	The simulation models the beam energy spread and initial state radiation (ISR) in the $e^+e^-$ annihilations
+	Simulated data samples produced with a {\sc geant4}-based~\cite{Geant4} Monte Carlo (MC) package
 \end{lstlisting}
 
 \textbf{Reviewer Comment:}
 
-The abbreviation 'ISR' is defined correctly here, but the acronym 'MC' for Monte Carlo is used earlier without being defined.
+The abbreviation 'MC' is defined correctly at first occurrence.
 
 \textbf{Suggested Revision:}
 
 \begin{lstlisting}[breaklines=true]
-	Simulated data samples produced with a {\sc geant4}-based~\cite{Geant4} Monte Carlo (MC) package, which include...
+	Simulated data samples produced with a {\sc geant4}-based~\cite{Geant4} Monte Carlo (MC) package
 \end{lstlisting}
 
 \end{reviewer}
 
 \begin{reviewer}
-\noindent \textbf{Category: [Abbreviations] [5.2] [\textcolor{blue}{medium}]}
+\noindent \textbf{Category: [Abbreviations] [5.2] [low]}
 
-\noindent \textbf{Location: [3, first mention of pid]}
+\noindent \textbf{Location: [3, first mention of 'pid']}
 
 \begin{lstlisting}[breaklines=true]
-	Particle identification~(PID) for charged tracks combines measurements of the d$E$/d$x$ in the MDC and the flight time in the TOF to form likelihoods $\mathcal{L}(h)$ for each hadron hypothesis $h~(h=p, K, \pi)$.
+	Particle identification~(PID) for charged tracks combines measurements
 \end{lstlisting}
 
 \textbf{Reviewer Comment:}
 
-Do not write out 'Particle identification' when defining the abbreviation PID. Use 'Particle identification (PID)' is incorrect per rule 5.2.
+Do not spell out 'Particle Identification' when defining the abbreviation 'PID'. Just use 'PID'.
 
 \textbf{Suggested Revision:}
 
 \begin{lstlisting}[breaklines=true]
-	Particle identification (PID) for charged tracks combines measurements of the $\mathrm{d}E/\mathrm{d}x$ in the MDC and the flight time in the TOF to form likelihoods $\mathcal{L}(h)$ for each hadron hypothesis $h$ ($h=p, K, \pi$).
+	Particle identification (PID) for charged tracks combines measurements
 \end{lstlisting}
 
 \end{reviewer}
 
 \begin{reviewer}
-\noindent \textbf{Category: [Language] [1.2] [\textcolor{blue}{medium}]}
+\noindent \textbf{Category: [Language] [1.5] [\textcolor{blue}{medium}]}
 
-\noindent \textbf{Location: [3, first sentence, after listing decays]}
+\noindent \textbf{Location: [1, third paragraph]}
+
+\begin{lstlisting}[breaklines=true]
+	Naive isospin symmetry indicates...
+\end{lstlisting}
+
+\textbf{Reviewer Comment:}
+
+The term 'naive' is informal jargon. Use more precise scientific language.
+
+\textbf{Suggested Revision:}
+
+\begin{lstlisting}[breaklines=true]
+	Simple isospin symmetry considerations indicate...
+\end{lstlisting}
+
+\end{reviewer}
+
+\begin{reviewer}
+\noindent \textbf{Category: [Language] [1.5] [\textcolor{blue}{medium}]}
+
+\noindent \textbf{Location: [2, paragraph describing the tof system]}
+
+\begin{lstlisting}[breaklines=true]
+	The time resolution in the TOF barrel region is 68~ps, while that in the end cap region was 110~ps.
+\end{lstlisting}
+
+\textbf{Reviewer Comment:}
+
+Inconsistent verb tense ('is' vs. 'was') for describing the same type of detector property.
+
+\textbf{Suggested Revision:}
+
+\begin{lstlisting}[breaklines=true]
+	The time resolution in the TOF barrel region is 68~ps, while that in the end cap region is 110~ps.
+\end{lstlisting}
+
+\end{reviewer}
+
+\begin{reviewer}
+\noindent \textbf{Category: [Language] [1.3] [\textcolor{blue}{medium}]}
+
+\noindent \textbf{Location: [4, beginning]}
+
+\begin{lstlisting}[breaklines=true]
+	Figure~\ref{fig:compare_LXiKS} and \ref{fig:compare_LXiK} show the comparisons...
+\end{lstlisting}
+
+\textbf{Reviewer Comment:}
+
+Sentence starts with a symbol (Figure). Use the full word 'Figure' at the beginning of a sentence.
+
+\textbf{Suggested Revision:}
+
+\begin{lstlisting}[breaklines=true]
+	Comparisons of the two-body invariant-mass distributions for the $\chi_{cJ} \to \Lambda K^0_S\bar{\Xi}^0$ and $\chi_{cJ} \to \Lambda K^-\bar{\Xi}^+$ decays in data and mixed signal MC samples are shown in Fig.~\ref{fig:compare_LXiKS} and Fig.~\ref{fig:compare_LXiK}, respectively.
+\end{lstlisting}
+
+\end{reviewer}
+
+\begin{reviewer}
+\noindent \textbf{Category: [Language] [1.5] [\textcolor{blue}{medium}]}
+
+\noindent \textbf{Location: [4, sentence describing the scaling of sideband events for the charged mode.]}
+
+\begin{lstlisting}[breaklines=true]
+	Events in the $\Lambda$ and $\bar{\Xi}^+$ sideband regions are scaled by the factors of 0.5 and 1.0, according to the relative size of signal and sideband regions.
+\end{lstlisting}
+
+\textbf{Reviewer Comment:}
+
+The phrase 'relative size' is ambiguous. Specify if it refers to the width or yield ratio.
+
+\textbf{Suggested Revision:}
+
+\begin{lstlisting}[breaklines=true]
+	Events in the $\Lambda$ and $\bar{\Xi}^+$ sideband regions are scaled by factors of 0.5 and 1.0, respectively, corresponding to the ratio of background yields in the signal and sideband regions.
+\end{lstlisting}
+
+\end{reviewer}
+
+\begin{reviewer}
+\noindent \textbf{Category: [Language] [1.6] [\textcolor{blue}{medium}]}
+
+\noindent \textbf{Location: [6, first sentence after the number of events]}
+
+\begin{lstlisting}[breaklines=true]
+	the hadronic decays of $\chi_{cJ}\to \Lambda K^0_S\bar \Xi^0$ are observed for the first time, with  significances greater than $10\sigma$, the decays of $\chi_{cJ}\to \Lambda K^-\bar \Xi^+$ are measured with improved precision.
+\end{lstlisting}
+
+\textbf{Reviewer Comment:}
+
+Two independent clauses are connected by a comma without a conjunction.
+
+\textbf{Suggested Revision:}
+
+\begin{lstlisting}[breaklines=true]
+	the hadronic decays of $\chi_{cJ}\to \Lambda K^0_S\bar \Xi^0$ are observed for the first time, with significances greater than $10\sigma$, and the decays of $\chi_{cJ}\to \Lambda K^-\bar \Xi^+$ are measured with improved precision.
+\end{lstlisting}
+
+\end{reviewer}
+
+\begin{reviewer}
+\noindent \textbf{Category: [Language] [1.3] [low]}
+
+\noindent \textbf{Location: [1, first sentence of second paragraph]}
+
+\begin{lstlisting}[breaklines=true]
+	To date, there have been many studies of $\chi_{cJ}$ decays...
+\end{lstlisting}
+
+\textbf{Reviewer Comment:}
+
+Sentence starts with a particle symbol. Rewrite to avoid beginning with a symbol.
+
+\textbf{Suggested Revision:}
+
+\begin{lstlisting}[breaklines=true]
+	Many studies of $\chi_{cJ}$ decays have been performed to date...
+\end{lstlisting}
+
+\end{reviewer}
+
+\begin{reviewer}
+\noindent \textbf{Category: [Language] [1.5] [low]}
+
+\noindent \textbf{Location: [2, sentence about the inclusive mc sample]}
+
+\begin{lstlisting}[breaklines=true]
+	An inclusive MC sample containing $2.7\times10^{9}$ generic $\psi(3686)$ decays is used to study background.
+\end{lstlisting}
+
+\textbf{Reviewer Comment:}
+
+The term 'background' is singular, but the context implies multiple sources. Use the plural form.
+
+\textbf{Suggested Revision:}
+
+\begin{lstlisting}[breaklines=true]
+	An inclusive MC sample containing $2.7\times10^{9}$ generic $\psi(3686)$ decays is used to study backgrounds.
+\end{lstlisting}
+
+\end{reviewer}
+
+\begin{reviewer}
+\noindent \textbf{Category: [Language] [1.5] [low]}
+
+\noindent \textbf{Location: [3, description of the $k_s^0$ and $\lambda$ vertex fit requirement]}
+
+\begin{lstlisting}[breaklines=true]
+	The primary vertex fit is applied to further suppress the mis-combination, requiring the decay length divided by its uncertainty to be larger than two.
+\end{lstlisting}
+
+\textbf{Reviewer Comment:}
+
+Avoid jargon 'mis-combination'. Use 'background combinations' or 'combinatorial background'.
+
+\textbf{Suggested Revision:}
+
+\begin{lstlisting}[breaklines=true]
+	The primary vertex fit is applied to further suppress combinatorial background, requiring the decay length divided by its uncertainty to be larger than two.
+\end{lstlisting}
+
+\end{reviewer}
+
+\begin{reviewer}
+\noindent \textbf{Category: [Language] [1.2] [low]}
+
+\noindent \textbf{Location: [3, first sentence, after decay chain description]}
 
 \begin{lstlisting}[breaklines=true]
 	Signal events are required to contain at least six charged tracks and three photon candidates for $\chi_{cJ} \to \Lambda K^0_S\bar \Xi^0$,
@@ -82,33 +250,12 @@ Do not write out 'Particle identification' when defining the abbreviation PID. U
 
 \textbf{Reviewer Comment:}
 
-The decay descriptor is used as a noun. Replace with a proper noun like 'the decay mode' or 'the channel'.
+The decay descriptor '$\chi_{cJ} \to \Lambda K^0_S\bar \Xi^0$' is used as a noun. Add a noun like 'channel' or 'decay'.
 
 \textbf{Suggested Revision:}
 
 \begin{lstlisting}[breaklines=true]
-	Signal events for the $\chi_{cJ} \to \Lambda K^0_S\bar \Xi^0$ channel are required to contain at least six charged tracks and three photon candidates, while events for the $\chi_{cJ} \to \Lambda K^-\bar \Xi^+$ channel require at least six charged tracks and one photon candidate.
-\end{lstlisting}
-
-\end{reviewer}
-
-\begin{reviewer}
-\noindent \textbf{Category: [Language] [1.3] [\textcolor{blue}{medium}]}
-
-\noindent \textbf{Location: [6, first sentence]}
-
-\begin{lstlisting}[breaklines=true]
-	Using $(2712.4\pm14.3)\times10^6$ $\psi(3686)$ events collected...
-\end{lstlisting}
-
-\textbf{Reviewer Comment:}
-
-Sentence starts with a number in mathematical notation. Begin with a proper introductory phrase.
-
-\textbf{Suggested Revision:}
-
-\begin{lstlisting}[breaklines=true]
-	Based on $(2712.4\pm14.3)\times10^6$ $\psi(3686)$ events collected with the BESIII detector operating at the BEPCII collider,
+	Signal events are required to contain at least six charged tracks and three photon candidates for the $\chi_{cJ} \to \Lambda K^0_S\bar \Xi^0$ channel, and at least six charged tracks and one photon candidate for the $\chi_{cJ} \to \Lambda K^-\bar \Xi^+$ channel.
 \end{lstlisting}
 
 \end{reviewer}
@@ -116,133 +263,7 @@ Sentence starts with a number in mathematical notation. Begin with a proper intr
 \begin{reviewer}
 \noindent \textbf{Category: [Language] [1.5] [low]}
 
-\noindent \textbf{Location: [1, first paragraph, second sentence]}
-
-\begin{lstlisting}[breaklines=true]
-	Experimentally and theoretically, their decays are not as extensively studied as those of the vector charmonium states $J/\psi$ and $\psi(3686)$.
-\end{lstlisting}
-
-\textbf{Reviewer Comment:}
-
-Avoid jargon 'extensively studied'. Use more precise language.
-
-\textbf{Suggested Revision:}
-
-\begin{lstlisting}[breaklines=true]
-	Experimentally and theoretically, their decays have been studied less than those of the vector charmonium states $J/\psi$ and $\psi(3686)$.
-\end{lstlisting}
-
-\end{reviewer}
-
-\begin{reviewer}
-\noindent \textbf{Category: [Language] [1.5] [low]}
-
-\noindent \textbf{Location: [1, second paragraph, first sentence]}
-
-\begin{lstlisting}[breaklines=true]
-	To date, there have been many studies of $\chi_{cJ}$ decays involving $p\bar p$ pairs and meson pairs~\cite{ref::pppipi,ref::pppi0pi0,ref::ppkk}, and hyperon pairs~\cite{ref::lambdalambdabar,ref::sigmasigmabar} which can be described by the color octet mechanism~\cite{ref::oct1,ref::oct2}.
-\end{lstlisting}
-
-\textbf{Reviewer Comment:}
-
-Avoid vague phrase 'many studies'. Specify the quantity or use 'numerous'.
-
-\textbf{Suggested Revision:}
-
-\begin{lstlisting}[breaklines=true]
-	To date, numerous studies of $\chi_{cJ}$ decays involving $p\bar p$ pairs and meson pairs~\cite{ref::pppipi,ref::pppi0pi0,ref::ppkk}, and hyperon pairs~\cite{ref::lambdalambdabar,ref::sigmasigmabar} have been performed, which can be described by the color octet mechanism~\cite{ref::oct1,ref::oct2}.
-\end{lstlisting}
-
-\end{reviewer}
-
-\begin{reviewer}
-\noindent \textbf{Category: [Language] [1.5] [low]}
-
-\noindent \textbf{Location: [2, description of mc sample size]}
-
-\begin{lstlisting}[breaklines=true]
-	An inclusive MC sample containing $2.7\times10^{9}$ generic $\psi(3686)$ decays is used to study background.
-\end{lstlisting}
-
-\textbf{Reviewer Comment:}
-
-The phrase 'study background' is vague. Use more precise terminology.
-
-\textbf{Suggested Revision:}
-
-\begin{lstlisting}[breaklines=true]
-	An inclusive MC sample containing $2.7\times10^{9}$ generic $\psi(3686)$ decays is used to estimate background contributions.
-\end{lstlisting}
-
-\end{reviewer}
-
-\begin{reviewer}
-\noindent \textbf{Category: [Language] [1.3] [low]}
-
-\noindent \textbf{Location: [2, beginning]}
-
-\begin{lstlisting}[breaklines=true]
-	The EMC measures photon energies with a resolution of $2.5\%$ ($5\%$) at $1$~GeV in the barrel (end cap) region.
-\end{lstlisting}
-
-\textbf{Reviewer Comment:}
-
-Sentence starts with an acronym (EMC). Rewrite to avoid this.
-
-\textbf{Suggested Revision:}
-
-\begin{lstlisting}[breaklines=true]
-	Photon energies are measured by the EMC with a resolution of $2.5\%$ ($5\%$) at $1$~GeV in the barrel (end cap) region.
-\end{lstlisting}
-
-\end{reviewer}
-
-\begin{reviewer}
-\noindent \textbf{Category: [Language] [1.5] [low]}
-
-\noindent \textbf{Location: [3, description of candidate selection for $\bar{\xi}^+$ and $\bar{\xi}^0$]}
-
-\begin{lstlisting}[breaklines=true]
-	If there is more than one $\bar \Xi^+$  baryon candidate, we keep the one with minimum $\sqrt{(\frac{M_{\bar \Lambda \pi^+}-m_{\bar{\Xi}^+}}{\sigma_{\bar{\Lambda}\pi^+}})^2+(\frac{M_{\bar{p}\pi^+}-m_{\bar{\Lambda}}}{\sigma_{\bar{p}\pi^+}})^2}$...
-\end{lstlisting}
-
-\textbf{Reviewer Comment:}
-
-Avoid using 'the one'. Replace with 'that' for better phrasing.
-
-\textbf{Suggested Revision:}
-
-\begin{lstlisting}[breaklines=true]
-	If there is more than one $\bar{\Xi}^+$ baryon candidate, the candidate with the minimum value of $\sqrt{(\frac{M_{\bar{\Lambda} \pi^+}-m_{\bar{\Xi}^+}}{\sigma_{\bar{\Lambda}\pi^+}})^2+(\frac{M_{\bar{p}\pi^+}-m_{\bar{\Lambda}}}{\sigma_{\bar{p}\pi^+}})^2}$ is retained...
-\end{lstlisting}
-
-\end{reviewer}
-
-\begin{reviewer}
-\noindent \textbf{Category: [Language] [1.3] [low]}
-
-\noindent \textbf{Location: [4, beginning]}
-
-\begin{lstlisting}[breaklines=true]
-	Events in the $\Lambda$, $\bar{\Xi}^0$, and $K^0_S$ sideband regions is scaled by a factor of 0.5
-\end{lstlisting}
-
-\textbf{Reviewer Comment:}
-
-Sentence starts with a symbol/number. Rephrase to avoid starting with 'Events'.
-
-\textbf{Suggested Revision:}
-
-\begin{lstlisting}[breaklines=true]
-	The events in the $\Lambda$, $\bar{\Xi}^0$, and $K^0_S$ sideband regions are scaled by a factor of 0.5
-\end{lstlisting}
-
-\end{reviewer}
-
-\begin{reviewer}
-\noindent \textbf{Category: [Language] [1.5] [low]}
-
-\noindent \textbf{Location: [4, paragraph describing the significance calculation]}
+\noindent \textbf{Location: [4, paragraph describing the fit results and significance.]}
 
 \begin{lstlisting}[breaklines=true]
 	The statistical significance of each $\chi_{cJ}$ signal exceeds $10\sigma$, determined using the profile likelihood ratio test statistic $q_J=-2\ln(\mathcal{L}_J/\mathcal{L}_{\max})$.
@@ -250,12 +271,12 @@ Sentence starts with a symbol/number. Rephrase to avoid starting with 'Events'.
 
 \textbf{Reviewer Comment:}
 
-Avoid using 'determined using'. Use 'determined from' or 'calculated with'.
+The phrase 'determined using' is passive and slightly vague. Use more active and precise language.
 
 \textbf{Suggested Revision:}
 
 \begin{lstlisting}[breaklines=true]
-	The statistical significance of each $\chi_{cJ}$ signal exceeds $10\sigma$, calculated from the profile likelihood ratio test statistic $q_J=-2\ln(\mathcal{L}_J/\mathcal{L}_{\max})$.
+	The statistical significance of each $\chi_{cJ}$ signal exceeds $10\sigma$, as evaluated using the profile likelihood ratio test statistic $q_J=-2\ln(\mathcal{L}_J/\mathcal{L}_{\max})$.
 \end{lstlisting}
 
 \end{reviewer}
@@ -263,41 +284,41 @@ Avoid using 'determined using'. Use 'determined from' or 'calculated with'.
 \begin{reviewer}
 \noindent \textbf{Category: [Language] [1.5] [low]}
 
-\noindent \textbf{Location: [5, paragraph 5, sentence 2]}
+\noindent \textbf{Location: [5, sentence: 'the systematic uncertainties of the tracking or pid for $k^{\pm}$ and $p(\bar{p})$ are estimated...']}
 
 \begin{lstlisting}[breaklines=true]
-	The obtained efficiencies in the 2D intervals are weighted by the 2D distributions of various momentum and $\cos\theta$ to match our signal MC events, according to Ref.~\cite{ref::Lambda}.
+	The systematic uncertainties of the tracking or PID for $K^{\pm}$ and $p(\bar{p})$ are estimated with the control samples of $J/\psi\to K^{+}K^{-}\pi^0$ and $J/\psi \to p\bar p \pi^+\pi^-$.
 \end{lstlisting}
 
 \textbf{Reviewer Comment:}
 
-The phrase 'our signal MC events' is informal. Use more formal language.
+Avoid using particle symbols as nouns. Replace with a descriptive noun.
 
 \textbf{Suggested Revision:}
 
 \begin{lstlisting}[breaklines=true]
-	The obtained efficiencies in the 2D intervals are weighted by the 2D distributions of momentum and $\cos\theta$ to match the signal MC events, according to Ref.~\cite{ref::Lambda}.
+	The systematic uncertainties of the tracking or PID for $K^{\pm}$ and $p(\bar{p})$ tracks are estimated with the control samples of $J/\psi\to K^{+}K^{-}\pi^0$ and $J/\psi \to p\bar p \pi^+\pi^-$.
 \end{lstlisting}
 
 \end{reviewer}
 
 \begin{reviewer}
-\noindent \textbf{Category: [Language] [1.6] [low]}
+\noindent \textbf{Category: [Language] [1.5] [low]}
 
-\noindent \textbf{Location: [6, first sentence after the branching fraction list]}
+\noindent \textbf{Location: [5, sentence: 'the systematic uncertainty of the $k^0_s$ reconstruction, including tracking, $k^0_s$ mass window, vertex fit, and secondary vertex fit, is estimated...']}
 
 \begin{lstlisting}[breaklines=true]
-	These measurements will be helpful for understanding $\chi_{cJ}$ decay mechanisms. The ratios of the branching fractions...
+	The systematic uncertainty of the $K^0_S$ reconstruction, including tracking, $K^0_S$ mass window, vertex fit, and secondary vertex fit, is estimated using the control sample of $J/\psi \rightarrow K^{*\pm} \bar{K}^\mp$ and $J/\psi \rightarrow \phi K^{*\pm} \bar{K}^\mp$.
 \end{lstlisting}
 
 \textbf{Reviewer Comment:}
 
-Two independent sentences are connected without proper conjunction. Use a transition word or combine them logically.
+Avoid using particle symbols as nouns. Replace with a descriptive noun.
 
 \textbf{Suggested Revision:}
 
 \begin{lstlisting}[breaklines=true]
-	These measurements will be helpful for understanding $\chi_{cJ}$ decay mechanisms. Furthermore, the ratios of the branching fractions...
+	The systematic uncertainty of the $K^0_S$ reconstruction, including tracking, the $K^0_S$ mass window, vertex fit, and secondary vertex fit, is estimated using the control sample of $J/\psi \rightarrow K^{*\pm} \bar{K}^\mp$ and $J/\psi \rightarrow \phi K^{*\pm} \bar{K}^\mp$.
 \end{lstlisting}
 
 \end{reviewer}
@@ -305,22 +326,20 @@ Two independent sentences are connected without proper conjunction. Use a transi
 \begin{reviewer}
 \noindent \textbf{Category: [Numbers] [4.2] [\textcolor{blue}{medium}]}
 
-\noindent \textbf{Location: [5, paragraph 13, sentence 1]}
+\noindent \textbf{Location: [5, sentence: 'the systematic uncertainties due to the limited statistics of the mixed signal mc samples are 0.7\textbackslash\{\}\%, 0.6\textbackslash\{\}\%, and 0.7\textbackslash\{\}\% for  $\chi_{c0,1,2}\to  \lambda k^0_s\bar \xi^0$, and 0.500\textbackslash\{\}\%, 0.4\textbackslash\{\}\%, and 0.4\textbackslash\{\}\% for $\chi_{c0,1,2}\to \lambda k^-\bar \xi^+$,\textasciitilde{}respectively.']}
 
 \begin{lstlisting}[breaklines=true]
-	The systematic uncertainties due to the limited statistics of the mixed signal MC samples
-	are 0.7\%, 0.6\%, and 0.7\% for  $\chi_{c0,1,2}\to  \Lambda K^0_S\bar \Xi^0$,
 	and 0.500\%, 0.4\%, and 0.4\% for $\chi_{c0,1,2}\to \Lambda K^-\bar \Xi^+$,~respectively.
 \end{lstlisting}
 
 \textbf{Reviewer Comment:}
 
-Inconsistent precision: '0.500\%' should match the format of other values (e.g., 0.5\%).
+Inconsistent precision in the list of numbers. '0.500\%' has three decimal places while others have one.
 
 \textbf{Suggested Revision:}
 
 \begin{lstlisting}[breaklines=true]
-	The systematic uncertainties due to the limited statistics of the mixed signal MC samples are 0.7\%, 0.6\%, and 0.7\% for $\chi_{c0,1,2}\to \Lambda K^0_S\bar \Xi^0$, and 0.5\%, 0.4\%, and 0.4\% for $\chi_{c0,1,2}\to \Lambda K^-\bar \Xi^+$,~respectively.
+	and 0.5\%, 0.4\%, and 0.4\% for $\chi_{c0,1,2}\to \Lambda K^-\bar \Xi^+$,~respectively.
 \end{lstlisting}
 
 \end{reviewer}
@@ -328,21 +347,20 @@ Inconsistent precision: '0.500\%' should match the format of other values (e.g.,
 \begin{reviewer}
 \noindent \textbf{Category: [Numbers] [4.2] [\textcolor{blue}{medium}]}
 
-\noindent \textbf{Location: [5, paragraph 14, sentence 1]}
+\noindent \textbf{Location: [5, sentence: 'the uncertainties from the branching fractions quoted from the pdg\textasciitilde{}\textbackslash\{\}cite\{ref::pdg2024\} are 2.3\textbackslash\{\}\%, 2.8\textbackslash\{\}\%, and 2.4\textbackslash\{\}\% for $\psi(3686)\to \gamma\chi_{c0,1,2}$, 0.07\textbackslash\{\}\% for $\mathcal{b}(k^{0}_{s} \to \pi^+ \pi^-)$, 0.800\textbackslash\{\}\% for $\mathcal{b}(\lambda \to p \pi^-)$, 0.010\textbackslash\{\}\% for $\mathcal{b}(\bar{\xi}^0 \to \lambda\pi^0)$, 0.03\textbackslash\{\}\% for $\mathcal{b}(\bar{\xi}^- \to \lambda \pi^-)$, and 0.03\textbackslash\{\}\% for $\mathcal{b}(\pi^0 \to \gamma \gamma)$,']}
 
 \begin{lstlisting}[breaklines=true]
-	The uncertainties from the branching fractions quoted from the PDG~\cite{ref::pdg2024} are 2.3\%, 2.8\%, and 2.4\% for $\psi(3686)\to \gamma\chi_{c0,1,2}$,
-	0.07\% for $\mathcal{B}(K^{0}_{S} \to \pi^+ \pi^-)$, 0.800\% for $\mathcal{B}(\Lambda \to p \pi^-)$, 0.010\% for $\mathcal{B}(\bar{\Xi}^0 \to \Lambda\pi^0)$, 0.03\% for $\mathcal{B}(\bar{\Xi}^- \to \Lambda \pi^-)$, and 0.03\% for $\mathcal{B}(\pi^0 \to \gamma \gamma)$,
+	0.800\% for $\mathcal{B}(\Lambda \to p \pi^-)$, 0.010\% for $\mathcal{B}(\bar{\Xi}^0 \to \Lambda\pi^0)$,
 \end{lstlisting}
 
 \textbf{Reviewer Comment:}
 
-Inconsistent precision: '0.800\%' and '0.010\%' should be rounded to match the format of other values (e.g., 0.8\%, 0.01\%).
+Inconsistent precision in the list of numbers. '0.800\%' and '0.010\%' have three decimal places while others have two or one.
 
 \textbf{Suggested Revision:}
 
 \begin{lstlisting}[breaklines=true]
-	The uncertainties from the branching fractions quoted from the PDG~\cite{ref::pdg2024} are 2.3\%, 2.8\%, and 2.4\% for $\psi(3686)\to \gamma\chi_{c0,1,2}$, 0.07\% for $\mathcal{B}(K^{0}_{S} \to \pi^+ \pi^-)$, 0.8\% for $\mathcal{B}(\Lambda \to p \pi^-)$, 0.01\% for $\mathcal{B}(\bar{\Xi}^0 \to \Lambda\pi^0)$, 0.03\% for $\mathcal{B}(\bar{\Xi}^- \to \Lambda \pi^-)$, and 0.03\% for $\mathcal{B}(\pi^0 \to \gamma \gamma)$,
+	0.80\% for $\mathcal{B}(\Lambda \to p \pi^-)$, 0.01\% for $\mathcal{B}(\bar{\Xi}^0 \to \Lambda\pi^0)$,
 \end{lstlisting}
 
 \end{reviewer}
@@ -350,7 +368,7 @@ Inconsistent precision: '0.800\%' and '0.010\%' should be rounded to match the f
 \begin{reviewer}
 \noindent \textbf{Category: [Numbers] [4.1] [low]}
 
-\noindent \textbf{Location: [6, first branching fraction for $\chi_{c1}\to \lambda k^0_s\bar \xi^0$]}
+\noindent \textbf{Location: [6, branching fraction for $\chi_{c1}\to \lambda k^0_s\bar \xi^0$]}
 
 \begin{lstlisting}[breaklines=true]
 	$\mathcal{B}(\chi_{c1}\to \Lambda K^0_S\bar \Xi^0)=(7.6\pm0.8\pm0.7)\times10^{-5}$
@@ -358,18 +376,18 @@ Inconsistent precision: '0.800\%' and '0.010\%' should be rounded to match the f
 
 \textbf{Reviewer Comment:}
 
-Precision mismatch: central value has one decimal place (7.6), while uncertainties have one (0.8, 0.7). They should match.
+Precision mismatch: central value has one decimal place, uncertainties have one decimal place but the second systematic uncertainty (0.7) suggests the central value could be reported as 7.6.
 
 \textbf{Suggested Revision:}
 
 \begin{lstlisting}[breaklines=true]
-	$\mathcal{B}(\chi_{c1}\to \Lambda K^0_S\bar \Xi^0)=(7.6\pm0.8\pm0.7)\times10^{-5}$ (This is acceptable as 7.6 implies uncertainty in the tenths place, matching 0.8 and 0.7).
+	$\mathcal{B}(\chi_{c1}\to \Lambda K^0_S\bar \Xi^0)=(7.6\pm0.8\pm0.7)\times10^{-5}$ (This is acceptable as the central value 7.6 has the same precision as the uncertainties 0.8 and 0.7).
 \end{lstlisting}
 
 \end{reviewer}
 
 \begin{reviewer}
-\noindent \textbf{Category: [References] [9.7] [\textcolor{red}{high}]}
+\noindent \textbf{Category: [References] [9.7] [\textcolor{blue}{medium}]}
 
 \noindent \textbf{Location: [7, bibliography, entry ref::psip-num-inc]}
 
@@ -379,7 +397,7 @@ Precision mismatch: central value has one decimal place (7.6), while uncertainti
 
 \textbf{Reviewer Comment:}
 
-Inconsistent arXiv format and incorrect arXiv ID (06766 vs 06776). Use standard arXiv citation format.
+arXiv identifier is incorrect (06776 vs 06766) and formatting is inconsistent with other entries.
 
 \textbf{Suggested Revision:}
 
@@ -390,148 +408,22 @@ Inconsistent arXiv format and incorrect arXiv ID (06766 vs 06776). Use standard 
 \end{reviewer}
 
 \begin{reviewer}
-\noindent \textbf{Category: [References] [9.7] [low]}
+\noindent \textbf{Category: [Typography] [3.4] [\textcolor{blue}{medium}]}
 
-\noindent \textbf{Location: [7, bibliography, entry ref::lxik]}
+\noindent \textbf{Location: [3, multiple instances defining mass windows (e.g., for $\pi^0$, $k_s^0$, $\lambda$, $\bar{\xi}$)]}
 
 \begin{lstlisting}[breaklines=true]
-	Phys. Rev. D. {\bf 91}, 092006 (2015).}
+	its invariant mass lies within $(0.115, 0.150)$~GeV$/c^{2}$
 \end{lstlisting}
 
 \textbf{Reviewer Comment:}
 
-Extra period after 'D' (D. vs D). Be consistent with journal abbreviation.
+Inconsistent range format. Use square brackets for inclusive limits or parentheses for exclusive limits, but be consistent. For mass windows, $[0.115, 0.150]$\textasciitilde{}GeV$/c^2$ is common.
 
 \textbf{Suggested Revision:}
 
 \begin{lstlisting}[breaklines=true]
-	Phys.~Rev.~D~{\bf 91}, 092006 (2015).
-\end{lstlisting}
-
-\end{reviewer}
-
-\begin{reviewer}
-\noindent \textbf{Category: [Tables] [7.4] [low]}
-
-\noindent \textbf{Location: [5, table rows for '$\lambda$ reconstruction' and '4c kinematic fit']}
-
-\begin{lstlisting}[breaklines=true]
-	In the table: '$\Lambda$ reconstruction & 2.90 & 1.60 & 3.5 & 2.9 & 2.5 & 2.5\\' and '4C kinematic fit & 3.2 & 1.1 & 2.9 & 1.9 & 0.2  & 0.3\\'
-\end{lstlisting}
-
-\textbf{Reviewer Comment:}
-
-Numbers in the table are not consistently aligned on decimal points. '2.90' vs '3.5' and '0.2' has an extra space.
-
-\textbf{Suggested Revision:}
-
-\begin{lstlisting}[breaklines=true]
-	Ensure all numbers in the table have consistent decimal places and alignment. For example: '2.9 & 1.6 & 3.5 & 2.9 & 2.5 & 2.5' and '3.2 & 1.1 & 2.9 & 1.9 & 0.2 & 0.3'.
-\end{lstlisting}
-
-\end{reviewer}
-
-\begin{reviewer}
-\noindent \textbf{Category: [Typography] [3.0] [\textcolor{blue}{medium}]}
-
-\noindent \textbf{Location: [1, first paragraph, third sentence]}
-
-\begin{lstlisting}[breaklines=true]
-	At BESIII, except for tiny production of $e^+e^-\to \chi_{c1}$ through annihilation into two photons~\cite{ref::eetochic1}, the $\chi_{cJ}$ mesons can not be produced directly through $e^+ e^-$ annihilation processes, but can be accessed via abundant radiative decays of $\psi(3686)$ with a branching fraction of about 9\%~\cite{ref::pdg2024}.
-\end{lstlisting}
-
-\textbf{Reviewer Comment:}
-
-Missing space before citation. Use protected space (\textasciitilde{}).
-
-\textbf{Suggested Revision:}
-
-\begin{lstlisting}[breaklines=true]
-	At BESIII, except for tiny production of $e^+e^-\to \chi_{c1}$ through annihilation into two photons~\cite{ref::eetochic1}, the $\chi_{cJ}$ mesons can not be produced directly through $e^+ e^-$ annihilation processes, but can be accessed via abundant radiative decays of $\psi(3686)$ with a branching fraction of about 9\%~\cite{ref::pdg2024}.
-\end{lstlisting}
-
-\end{reviewer}
-
-\begin{reviewer}
-\noindent \textbf{Category: [Typography] [3.0] [\textcolor{blue}{medium}]}
-
-\noindent \textbf{Location: [1, second paragraph, second sentence]}
-
-\begin{lstlisting}[breaklines=true]
-	Besides, an enhancement in the $ p \bar p$ invariant mass spectrum has been observed in the study of $J/\psi \to \gamma p\bar p$ ~\cite{ref::ppbar1,ref::ppbar2}.
-\end{lstlisting}
-
-\textbf{Reviewer Comment:}
-
-Missing protected space before citation. Use \textasciitilde{}\textbackslash\{\}cite\{\}.
-
-\textbf{Suggested Revision:}
-
-\begin{lstlisting}[breaklines=true]
-	Besides, an enhancement in the $ p \bar p$ invariant mass spectrum has been observed in the study of $J/\psi \to \gamma p\bar p$~\cite{ref::ppbar1,ref::ppbar2}.
-\end{lstlisting}
-
-\end{reviewer}
-
-\begin{reviewer}
-\noindent \textbf{Category: [Typography] [3.0] [\textcolor{blue}{medium}]}
-
-\noindent \textbf{Location: [1, third paragraph, first sentence]}
-
-\begin{lstlisting}[breaklines=true]
-	Previously, BESIII reported the measurements of $\chi_{cJ}\to \Lambda K^-\bar \Xi^+$, with branching fractions at $10^{-4}$, based on $(107.7\pm0.6)\times10^6$ $\psi(3686)$ events taken in 2009~\cite{ref::LXiK}.
-\end{lstlisting}
-
-\textbf{Reviewer Comment:}
-
-Missing protected space before citation. Use \textasciitilde{}\textbackslash\{\}cite\{\}.
-
-\textbf{Suggested Revision:}
-
-\begin{lstlisting}[breaklines=true]
-	Previously, BESIII reported the measurements of $\chi_{cJ}\to \Lambda K^-\bar \Xi^+$, with branching fractions at $10^{-4}$, based on $(107.7\pm0.6)\times10^6$ $\psi(3686)$ events taken in 2009~\cite{ref::LXiK}.
-\end{lstlisting}
-
-\end{reviewer}
-
-\begin{reviewer}
-\noindent \textbf{Category: [Typography] [3.7] [\textcolor{blue}{medium}]}
-
-\noindent \textbf{Location: [2, unit for momentum resolution]}
-
-\begin{lstlisting}[breaklines=true]
-	The charged-particle momentum resolution at $1~{\rm GeV}/c$ is $0.5\%$.
-\end{lstlisting}
-
-\textbf{Reviewer Comment:}
-
-The unit 'GeV/c' should be in roman font, not math mode. Use \textbackslash\{\}mathrm or \textbackslash\{\}text.
-
-\textbf{Suggested Revision:}
-
-\begin{lstlisting}[breaklines=true]
-	The charged-particle momentum resolution at $1~\mathrm{GeV}/c$ is $0.5\%$.
-\end{lstlisting}
-
-\end{reviewer}
-
-\begin{reviewer}
-\noindent \textbf{Category: [Typography] [3.0] [\textcolor{blue}{medium}]}
-
-\noindent \textbf{Location: [4, caption of figure\textasciitilde{}\textbackslash\{\}ref\{tab:lambdakxi\}]}
-
-\begin{lstlisting}[breaklines=true]
-	The purple solid, orange solid, zerue solid curves denote the peaking background contributions
-\end{lstlisting}
-
-\textbf{Reviewer Comment:}
-
-Missing space after comma in list of colors. Also, 'zerue' appears to be a typo.
-
-\textbf{Suggested Revision:}
-
-\begin{lstlisting}[breaklines=true]
-	The purple solid, orange solid, and blue solid curves denote the peaking background contributions
+	its invariant mass lies within $[0.115, 0.150]~\mathrm{GeV}/c^{2}$
 \end{lstlisting}
 
 \end{reviewer}
@@ -547,12 +439,12 @@ Missing space after comma in list of colors. Also, 'zerue' appears to be a typo.
 
 \textbf{Reviewer Comment:}
 
-The URL should be set in typewriter font using \textbackslash\{\}texttt\{\} or similar, not plain parentheses. The hyperlink setup is also misplaced.
+The URL should be formatted as a proper hyperlink without displaying the raw URL in parentheses. Use \textbackslash\{\}url\{\} or \textbackslash\{\}href\{\} with descriptive text.
 
 \textbf{Suggested Revision:}
 
 \begin{lstlisting}[breaklines=true]
-	BEPCII (\href{https://cstr.cn/31109.02.BEPC}{\texttt{https://cstr.cn/31109.02.BEPC}})
+	BEPCII (\url{https://cstr.cn/31109.02.BEPC})
 \end{lstlisting}
 
 \end{reviewer}
@@ -560,10 +452,94 @@ The URL should be set in typewriter font using \textbackslash\{\}texttt\{\} or s
 \begin{reviewer}
 \noindent \textbf{Category: [Typography] [3.2] [low]}
 
-\noindent \textbf{Location: [2, reference to the tof upgrade citation]}
+\noindent \textbf{Location: [1, before citation in first paragraph]}
 
 \begin{lstlisting}[breaklines=true]
-	providing a time resolution of 60~ps~\cite{Tof1,Tof2,Tof3}.
+	about 9\%~\cite{ref::pdg2024}
+\end{lstlisting}
+
+\textbf{Reviewer Comment:}
+
+Missing protected space before citation command.
+
+\textbf{Suggested Revision:}
+
+\begin{lstlisting}[breaklines=true]
+	about 9\%~\cite{ref::pdg2024}
+\end{lstlisting}
+
+\end{reviewer}
+
+\begin{reviewer}
+\noindent \textbf{Category: [Typography] [3.2] [low]}
+
+\noindent \textbf{Location: [1, before citation in second paragraph]}
+
+\begin{lstlisting}[breaklines=true]
+	in the study of $J/\psi \to \gamma p\bar p$ ~\cite{ref::ppbar1,ref::ppbar2}
+\end{lstlisting}
+
+\textbf{Reviewer Comment:}
+
+Missing protected space before citation command.
+
+\textbf{Suggested Revision:}
+
+\begin{lstlisting}[breaklines=true]
+	in the study of $J/\psi \to \gamma p\bar p$~\cite{ref::ppbar1,ref::ppbar2}
+\end{lstlisting}
+
+\end{reviewer}
+
+\begin{reviewer}
+\noindent \textbf{Category: [Typography] [3.7] [low]}
+
+\noindent \textbf{Location: [2, description of momentum resolution]}
+
+\begin{lstlisting}[breaklines=true]
+	The charged-particle momentum resolution at $1~{\rm GeV}/c$ is $0.5\%$.
+\end{lstlisting}
+
+\textbf{Reviewer Comment:}
+
+The unit 'GeV/$c$' should be in roman font. Using \{\textbackslash\{\}rm GeV\} is acceptable, but \textbackslash\{\}text\{GeV\} is more standard.
+
+\textbf{Suggested Revision:}
+
+\begin{lstlisting}[breaklines=true]
+	The charged-particle momentum resolution at $1~\text{GeV}/c$ is $0.5\%$.
+\end{lstlisting}
+
+\end{reviewer}
+
+\begin{reviewer}
+\noindent \textbf{Category: [Typography] [3.7] [low]}
+
+\noindent \textbf{Location: [2, first paragraph, energy unit]}
+
+\begin{lstlisting}[breaklines=true]
+	at $\sqrt{s} = 3.773\text{GeV}$.
+\end{lstlisting}
+
+\textbf{Reviewer Comment:}
+
+Missing space between the number and the unit. Units should be in roman font.
+
+\textbf{Suggested Revision:}
+
+\begin{lstlisting}[breaklines=true]
+	at $\sqrt{s} = 3.773~\text{GeV}$.
+\end{lstlisting}
+
+\end{reviewer}
+
+\begin{reviewer}
+\noindent \textbf{Category: [Typography] [3.2] [low]}
+
+\noindent \textbf{Location: [2, first sentence, after 'besiii detector']}
+
+\begin{lstlisting}[breaklines=true]
+	The BESIII detector~\cite{ref::detector} records symmetric $e^+e^-$ collisions
 \end{lstlisting}
 
 \textbf{Reviewer Comment:}
@@ -573,7 +549,7 @@ Missing protected space (\textasciitilde{}) before the \textbackslash\{\}cite co
 \textbf{Suggested Revision:}
 
 \begin{lstlisting}[breaklines=true]
-	providing a time resolution of 60~ps~\cite{Tof1,Tof2,Tof3}.
+	The BESIII detector~\cite{ref::detector} records symmetric $e^+e^-$ collisions
 \end{lstlisting}
 
 \end{reviewer}
@@ -581,28 +557,7 @@ Missing protected space (\textasciitilde{}) before the \textbackslash\{\}cite co
 \begin{reviewer}
 \noindent \textbf{Category: [Typography] [3.7] [low]}
 
-\noindent \textbf{Location: [2, unit for center-of-mass energy]}
-
-\begin{lstlisting}[breaklines=true]
-	achieved at $\sqrt{s} = 3.773\text{GeV}$.
-\end{lstlisting}
-
-\textbf{Reviewer Comment:}
-
-Missing space between the number and the unit 'GeV'.
-
-\textbf{Suggested Revision:}
-
-\begin{lstlisting}[breaklines=true]
-	achieved at $\sqrt{s} = 3.773~\text{GeV}$.
-\end{lstlisting}
-
-\end{reviewer}
-
-\begin{reviewer}
-\noindent \textbf{Category: [Typography] [3.0] [low]}
-
-\noindent \textbf{Location: [3, photon selection criteria, energy requirement]}
+\noindent \textbf{Location: [3, photon selection criteria, energy thresholds]}
 
 \begin{lstlisting}[breaklines=true]
 	The deposited energy of each shower must exceed 25~MeV in the barrel region ($|\cos \theta|< 0.80$, where $\theta$ denotes the
@@ -611,20 +566,21 @@ Missing space between the number and the unit 'GeV'.
 
 \textbf{Reviewer Comment:}
 
-Missing space before opening parenthesis. Add a space for correct typography.
+The unit 'MeV' should be in roman font, not italic. Use math mode for the energy values.
 
 \textbf{Suggested Revision:}
 
 \begin{lstlisting}[breaklines=true]
-	The deposited energy of each shower must exceed 25~MeV in the barrel region ($|\cos \theta|< 0.80$, where $\theta$ denotes the polar angle with respect to the $z$-axis, the symmetry axis of the MDC) and more than 50~MeV in the end cap region ($0.86 <|\cos \theta|< 0.92$).
+	The deposited energy of each shower must exceed $25~\mathrm{MeV}$ in the barrel region ($|\cos \theta|< 0.80$, where $\theta$ denotes the
+	polar angle with respect to the $z$-axis, the symmetry axis of the MDC) and more than $50~\mathrm{MeV}$ in the end cap region ($0.86 <|\cos \theta|< 0.92$).
 \end{lstlisting}
 
 \end{reviewer}
 
 \begin{reviewer}
-\noindent \textbf{Category: [Typography] [3.1] [low]}
+\noindent \textbf{Category: [Typography] [3.0] [low]}
 
-\noindent \textbf{Location: [3, photon timing requirement]}
+\noindent \textbf{Location: [3, photon selection criteria, time requirement]}
 
 \begin{lstlisting}[breaklines=true]
 	the difference between the EMC time and the event start time is required to be within [0, 700]\,ns.
@@ -632,12 +588,33 @@ Missing space before opening parenthesis. Add a space for correct typography.
 
 \textbf{Reviewer Comment:}
 
-Use a math minus sign for the negative number in the range. The dash is incorrect.
+Missing space before the opening parenthesis. Use '\textasciitilde{}' for a protected space before units.
 
 \textbf{Suggested Revision:}
 
 \begin{lstlisting}[breaklines=true]
-	the difference between the EMC time and the event start time is required to be within $[0, 700]$~ns.
+	the difference between the EMC time and the event start time is required to be within $[0, 700]~\mathrm{ns}$.
+\end{lstlisting}
+
+\end{reviewer}
+
+\begin{reviewer}
+\noindent \textbf{Category: [Typography] [3.0] [low]}
+
+\noindent \textbf{Location: [4, in the caption for figure\textasciitilde{}\textbackslash\{\}ref\{fig:compare\_lxiks\}]}
+
+\begin{lstlisting}[breaklines=true]
+	Events have been required to be within the (top) $\chi_{c0}$, (middle) $\chi_{c1}$, and (down) $\chi_{c2}$, mass regions
+\end{lstlisting}
+
+\textbf{Reviewer Comment:}
+
+Missing space after the comma before 'mass regions'.
+
+\textbf{Suggested Revision:}
+
+\begin{lstlisting}[breaklines=true]
+	Events have been required to be within the (top) $\chi_{c0}$, (middle) $\chi_{c1}$, and (down) $\chi_{c2}$, mass regions
 \end{lstlisting}
 
 \end{reviewer}
@@ -645,52 +622,10 @@ Use a math minus sign for the negative number in the range. The dash is incorrec
 \begin{reviewer}
 \noindent \textbf{Category: [Typography] [3.2] [low]}
 
-\noindent \textbf{Location: [3, reference to pdg in $k_s^0$ and $\lambda$ sideband definitions]}
+\noindent \textbf{Location: [4, in the sentence referencing figure\textasciitilde{}\textbackslash\{\}ref\{fig:compare\_lxiks\} and \textbackslash\{\}ref\{fig:compare\_lxik\}]}
 
 \begin{lstlisting}[breaklines=true]
-	where $m_{K^{0}_{S}}$ is the $K^0_S$ nominal mass~\cite{ref::pdg2024}.~The $K^{0}_{S}$ sideband region...
-\end{lstlisting}
-
-\textbf{Reviewer Comment:}
-
-Missing protected space (\textasciitilde{}) before the citation command. Add it for proper formatting.
-
-\textbf{Suggested Revision:}
-
-\begin{lstlisting}[breaklines=true]
-	where $m_{K^{0}_{S}}$ is the $K^0_S$ nominal mass~\cite{ref::pdg2024}. The $K^{0}_{S}$ sideband region...
-\end{lstlisting}
-
-\end{reviewer}
-
-\begin{reviewer}
-\noindent \textbf{Category: [Typography] [3.7] [low]}
-
-\noindent \textbf{Location: [4, equation for the product of branching fractions]}
-
-\begin{lstlisting}[breaklines=true]
-	${\mathcal B}(\psi(3686)\to \gamma\chi_{cJ}) \cdot \mathcal{B}(\chi_{cJ}\to \Lambda K \bar \Xi)$
-\end{lstlisting}
-
-\textbf{Reviewer Comment:}
-
-Inconsistent notation for branching fraction: $\mathcal B$ vs. $\mathcal{B}$. Use consistent style.
-
-\textbf{Suggested Revision:}
-
-\begin{lstlisting}[breaklines=true]
-	$\mathcal{B}(\psi(3686)\to \gamma\chi_{cJ}) \cdot \mathcal{B}(\chi_{cJ}\to \Lambda K \bar \Xi)$
-\end{lstlisting}
-
-\end{reviewer}
-
-\begin{reviewer}
-\noindent \textbf{Category: [Typography] [3.2] [low]}
-
-\noindent \textbf{Location: [4, sentence referencing figure\textasciitilde{}\textbackslash\{\}ref\{fig:compare\_lxiks\} and \textbackslash\{\}ref\{fig:compare\_lxik\}]}
-
-\begin{lstlisting}[breaklines=true]
-	Figure~\ref{fig:compare_LXiKS} and \ref{fig:compare_LXiK} show the comparisons
+	Figure~\ref{fig:compare_LXiKS} and \ref{fig:compare_LXiK} show
 \end{lstlisting}
 
 \textbf{Reviewer Comment:}
@@ -700,7 +635,7 @@ Missing protected space (\textasciitilde{}) before the second \textbackslash\{\}
 \textbf{Suggested Revision:}
 
 \begin{lstlisting}[breaklines=true]
-	Figure~\ref{fig:compare_LXiKS} and~\ref{fig:compare_LXiK} show the comparisons
+	Figure~\ref{fig:compare_LXiKS} and~\ref{fig:compare_LXiK} show
 \end{lstlisting}
 
 \end{reviewer}
@@ -708,29 +643,7 @@ Missing protected space (\textasciitilde{}) before the second \textbackslash\{\}
 \begin{reviewer}
 \noindent \textbf{Category: [Typography] [3.0] [low]}
 
-\noindent \textbf{Location: [5, paragraph 5, sentence 3]}
-
-\begin{lstlisting}[breaklines=true]
-	The differences of the re-weighted efficiencies between data and MC simulation are assigned as the systematic uncertainties, which are 2.9\%, 1.6\%, 3.5\% for $\chi_{c0,1,2}\to \Lambda K^0_S\bar \Xi^0$; and
-	2.9\%, 2.5\%, and 2.5\% for $\chi_{c0,1,2}\to \Lambda K^-\bar \Xi^+$,~respectively.
-\end{lstlisting}
-
-\textbf{Reviewer Comment:}
-
-Missing space after the semicolon before 'and'.
-
-\textbf{Suggested Revision:}
-
-\begin{lstlisting}[breaklines=true]
-	The differences of the re-weighted efficiencies between data and MC simulation are assigned as the systematic uncertainties, which are 2.9\%, 1.6\%, 3.5\% for $\chi_{c0,1,2}\to \Lambda K^0_S\bar \Xi^0$; and 2.9\%, 2.5\%, and 2.5\% for $\chi_{c0,1,2}\to \Lambda K^-\bar \Xi^+$,~respectively.
-\end{lstlisting}
-
-\end{reviewer}
-
-\begin{reviewer}
-\noindent \textbf{Category: [Typography] [3.0] [low]}
-
-\noindent \textbf{Location: [5, paragraph 8, sentence 1]}
+\noindent \textbf{Location: [5, sentence: 'the systematic uncertainty of photon or $\pi^0$ reconstruction is assigned as  1.0\textbackslash\{\}\% per photon...']}
 
 \begin{lstlisting}[breaklines=true]
 	The systematic uncertainty of photon or $\pi^0$ reconstruction is assigned as  1.0\% per photon based on the control sample of $J/\psi\to\pi^+\pi^-\pi^0$~\cite{ref::gamma-recon}.
@@ -738,7 +651,7 @@ Missing space after the semicolon before 'and'.
 
 \textbf{Reviewer Comment:}
 
-Double space before '1.0\%'.
+Inconsistent spacing before the percentage value. There are two spaces before '1.0\%'.
 
 \textbf{Suggested Revision:}
 
@@ -749,43 +662,43 @@ Double space before '1.0\%'.
 \end{reviewer}
 
 \begin{reviewer}
-\noindent \textbf{Category: [Typography] [3.0] [low]}
+\noindent \textbf{Category: [Typography] [3.2] [low]}
 
-\noindent \textbf{Location: [6, list of branching fractions]}
+\noindent \textbf{Location: [5, sentence: 'the systematic uncertainty of photon or $\pi^0$ reconstruction is assigned as  1.0\textbackslash\{\}\% per photon...']}
 
 \begin{lstlisting}[breaklines=true]
-	$\mathcal{B}(\chi_{c0}\to \Lambda K^0_S\bar \Xi^0)=(1.14\pm0.13\pm0.13)\times10^{-4}$, $\mathcal{B}(\chi_{c1}\to \Lambda K^0_S\bar \Xi^0)=(7.6\pm0.8\pm0.7)\times10^{-5}$, ...
+	based on the control sample of $J/\psi\to\pi^+\pi^-\pi^0$~\cite{ref::gamma-recon}.
 \end{lstlisting}
 
 \textbf{Reviewer Comment:}
 
-Missing space after commas separating the list items. This improves readability.
+Missing protected space (\textasciitilde{}) before the \textbackslash\{\}cite command.
 
 \textbf{Suggested Revision:}
 
 \begin{lstlisting}[breaklines=true]
-	$\mathcal{B}(\chi_{c0}\to \Lambda K^0_S\bar \Xi^0)=(1.14\pm0.13\pm0.13)\times10^{-4}$, $\mathcal{B}(\chi_{c1}\to \Lambda K^0_S\bar \Xi^0)=(7.6\pm0.8\pm0.7)\times10^{-5}$, ...
+	based on the control sample of $J/\psi\to\pi^+\pi^-\pi^0$~\cite{ref::gamma-recon}.
 \end{lstlisting}
 
 \end{reviewer}
 
 \begin{reviewer}
-\noindent \textbf{Category: [Typography] [3.7] [low]}
+\noindent \textbf{Category: [Typography] [3.0] [low]}
 
-\noindent \textbf{Location: [6, reference to the ratio expectation]}
+\noindent \textbf{Location: [6, list of branching fraction measurements]}
 
 \begin{lstlisting}[breaklines=true]
-	the theoretical expectation of ${\mathcal B}(\chi_{cJ}\to\Lambda K^0_S\bar{\Xi}^0)/{\mathcal B}(\chi_{cJ}\to\Lambda K^-\bar{\Xi}^+)=0.5$
+	$\mathcal{B}(\chi_{c0}\to \Lambda K^0_S\bar \Xi^0)=(1.14\pm0.13\pm0.13)\times10^{-4}$, $\mathcal{B}(\chi_{c1}\to \Lambda K^0_S\bar \Xi^0)=(7.6\pm0.8\pm0.7)\times10^{-5}$, $\mathcal{B}(\chi_{c2}\to \Lambda K^0_S\bar \Xi^0)=(1.18\pm0.11\pm0.14)\times10^{-4}$, $\mathcal{B}(\chi_{c0}\to \Lambda K^-\bar \Xi^+)=(1.95\pm0.08\pm0.17)\times10^{-4}$, $\mathcal{B}(\chi_{c1}\to \Lambda K^-\bar \Xi^+)=(1.41\pm0.05\pm0.11)\times10^{-4}$, and $\mathcal{B}(\chi_{c2}\to \Lambda K^-\bar \Xi^+)=(2.01\pm0.07\pm0.16)\times10^{-4}$.
 \end{lstlisting}
 
 \textbf{Reviewer Comment:}
 
-The symbol for branching fraction is inconsistently formatted. It uses $\mathcal{B}$ elsewhere but ${\mathcal B}$ here.
+Missing spaces after commas separating the list items.
 
 \textbf{Suggested Revision:}
 
 \begin{lstlisting}[breaklines=true]
-	the theoretical expectation of $\mathcal{B}(\chi_{cJ}\to\Lambda K^0_S\bar{\Xi}^0)/\mathcal{B}(\chi_{cJ}\to\Lambda K^-\bar{\Xi}^+)=0.5$
+	$\mathcal{B}(\chi_{c0}\to \Lambda K^0_S\bar \Xi^0)=(1.14\pm0.13\pm0.13)\times10^{-4}$, $\mathcal{B}(\chi_{c1}\to \Lambda K^0_S\bar \Xi^0)=(7.6\pm0.8\pm0.7)\times10^{-5}$, $\mathcal{B}(\chi_{c2}\to \Lambda K^0_S\bar \Xi^0)=(1.18\pm0.11\pm0.14)\times10^{-4}$, $\mathcal{B}(\chi_{c0}\to \Lambda K^-\bar \Xi^+)=(1.95\pm0.08\pm0.17)\times10^{-4}$, $\mathcal{B}(\chi_{c1}\to \Lambda K^-\bar \Xi^+)=(1.41\pm0.05\pm0.11)\times10^{-4}$, and $\mathcal{B}(\chi_{c2}\to \Lambda K^-\bar \Xi^+)=(2.01\pm0.07\pm0.16)\times10^{-4}$.
 \end{lstlisting}
 
 \end{reviewer}
@@ -801,12 +714,12 @@ The symbol for branching fraction is inconsistently formatted. It uses $\mathcal
 
 \textbf{Reviewer Comment:}
 
-Inconsistent spacing before volume number and inconsistent punctuation at the end of entries.
+Inconsistent spacing and punctuation in bibliography entries. Some have periods after the year, others do not.
 
 \textbf{Suggested Revision:}
 
 \begin{lstlisting}[breaklines=true]
-	Phys.~Rev.~D~{\bf 110}, 030001 (2024).
+	Ensure consistent formatting: Phys. Rev. D {\bf 110}, 030001 (2024).
 \end{lstlisting}
 
 \end{reviewer}

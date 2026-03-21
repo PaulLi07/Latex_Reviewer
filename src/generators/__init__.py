@@ -1,5 +1,5 @@
 """
-Generators 模块
+Generators Module
 """
 from .review_generator import ReviewGenerator
 
