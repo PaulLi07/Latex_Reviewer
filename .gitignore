@@ -20,3 +20,11 @@ __pycache__/
 
 # Cache
 responses_cache/
+
+# Specific files
+draft_example/LambdaXiK_fit.pdf
+draft_example/authorlist_2026-01-10.tex
+draft_example/compare9_36_cJ.pdf
+draft_example/compare9_37_cJ.pdf
+draft_example/draftNotes.bib
+draft_example/orcidIcon.pdf
