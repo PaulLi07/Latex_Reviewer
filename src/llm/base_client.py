@@ -1,7 +1,7 @@
 """
-LLM 客户端基类
+LLM Client Base Class
 
-定义 LLM 提供商的通用接口
+Defines common interface for LLM providers
 """
 from abc import ABC, abstractmethod
 from typing import List, Dict, Any, Optional
@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class ReviewItem:
-    """审查条目"""
+    """Review item"""
     rule_id: str
     category: str
     location: str
@@ -30,33 +30,33 @@ class ReviewItem:
 
 
 class RateLimiter:
-    """简单的速率限制器"""
+    """Simple rate limiter"""
 
     def __init__(self, min_interval: float = 1.0):
         """
         Args:
-            min_interval: 两次请求之间的最小间隔（秒）
+            min_interval: Minimum interval between requests (seconds)
         """
         self.min_interval = min_interval
         self.last_request_time = 0
         self.lock = Lock()
 
     def wait_if_needed(self):
-        """如果需要，等待以符合速率限制"""
+        """Wait if necessary to comply with rate limit"""
         with self.lock:
             current_time = time.time()
             time_since_last_request = current_time - self.last_request_time
 
             if time_since_last_request < self.min_interval:
                 wait_time = self.min_interval - time_since_last_request
-                logger.debug(f"速率限制：等待 {wait_time:.2f} 秒")
+                logger.debug(f"Rate limiting: waiting {wait_time:.2f} seconds")
                 time.sleep(wait_time)
 
             self.last_request_time = time.time()
 
 
 class BaseLLMClient(ABC):
-    """LLM 客户端基类"""
+    """LLM client base class"""
 
     def __init__(
         self,
@@ -86,45 +86,45 @@ class BaseLLMClient(ABC):
         rules: str
     ) -> List[ReviewItem]:
         """
-        分析文档章节
+        Analyze document section
 
         Args:
-            section_title: 章节标题
-            section_content: 章节内容
-            rules: 样式规则（格式化后的文本）
+            section_title: Section title
+            section_content: Section content
+            rules: Style rules (formatted text)
 
         Returns:
-            审查条目列表
+            List of review items
         """
         pass
 
     def _retry_with_backoff(self, func, *args, **kwargs):
-        """带退避的重试逻辑（增强版）"""
+        """Retry logic with backoff (enhanced version)"""
         last_exception = None
         for attempt in range(self.max_retries):
             try:
                 return func(*args, **kwargs)
             except Exception as e:
                 last_exception = e
-                # 获取错误类型名称
+                # Get error type name
                 error_type = type(e).__name__
                 error_module = type(e).__module__
                 full_error_name = f"{error_module}.{error_type}" if error_module != "builtins" else error_type
 
                 if attempt < self.max_retries - 1:
-                    # 更长的退避时间：2^(attempt+1) + 1，最少2秒
+                    # Longer backoff times: 2^(attempt+1) + 1, minimum 2 seconds
                     wait_time = (2 ** (attempt + 1)) + 1
-                    logger.warning(f"{full_error_name}: {wait_time}秒后重试... (尝试 {attempt + 1}/{self.max_retries})")
-                    logger.debug(f"错误详情: {e}")
+                    logger.warning(f"{full_error_name}: retrying in {wait_time} seconds... (attempt {attempt + 1}/{self.max_retries})")
+                    logger.debug(f"Error details: {e}")
                     time.sleep(wait_time)
                 else:
-                    logger.error(f"{full_error_name}: 已达最大重试次数 ({self.max_retries})")
+                    logger.error(f"{full_error_name}: maximum retries reached ({self.max_retries})")
 
         raise last_exception
 
     def _count_tokens_estimate(self, text: str) -> int:
         """
-        估算 token 数量（粗略估计：1 token ≈ 4 字符）
+        Estimate token count (rough approximation: 1 token ≈ 4 characters)
         """
         return len(text) // 4
 
@@ -136,40 +136,40 @@ class BaseLLMClient(ABC):
         cache_dir: Optional[Path] = None
     ) -> Optional[Path]:
         """
-        保存 API 响应到文件
+        Save API response to file
 
         Args:
-            response_data: 包含请求和响应的完整数据
-            section_title: 章节标题
-            provider: LLM 提供商名称
-            cache_dir: 缓存目录路径
+            response_data: Complete data including request and response
+            section_title: Section title
+            provider: LLM provider name
+            cache_dir: Cache directory path
 
         Returns:
-            保存的文件路径，如果缓存禁用则返回 None
+            Saved file path, or None if cache is disabled
         """
         if not self.cache_enabled or cache_dir is None:
             return None
 
         try:
-            # 创建提供商目录
+            # Create provider directory
             provider_dir = cache_dir / provider
             provider_dir.mkdir(parents=True, exist_ok=True)
 
-            # 生成文件名：时间戳_章节标题.json
+            # Generate filename: timestamp_section_title.json
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             safe_title = re.sub(r'[^\w\-_]', '_', section_title)[:50]
             filename = f"{timestamp}_{safe_title}.json"
             filepath = provider_dir / filename
 
-            # 保存到文件
+            # Save to file
             with open(filepath, 'w', encoding='utf-8') as f:
                 json.dump(response_data, f, ensure_ascii=False, indent=2)
 
-            logger.info(f"响应已保存到: {filepath}")
+            logger.info(f"Response saved to: {filepath}")
             return filepath
 
         except Exception as e:
-            logger.warning(f"保存响应失败: {e}")
+            logger.warning(f"Failed to save response: {e}")
             return None
 
     @abstractmethod
@@ -181,16 +181,16 @@ class BaseLLMClient(ABC):
         keywords: str = ""
     ) -> str:
         """
-        轻量级扫描章节（阶段1）
+        Lightweight scan of section (Phase 1)
 
         Args:
-            section_title: 章节标题
-            section_content: 章节内容
-            rules: 样式规则
-            keywords: 用户关键词
+            section_title: Section title
+            section_content: Section content
+            rules: Style rules
+            keywords: User-defined keywords
 
         Returns:
-            扫描摘要（JSON 字符串）
+            Scan summary (JSON string)
         """
         pass
 
@@ -206,19 +206,19 @@ class BaseLLMClient(ABC):
         section_number: str = ""
     ) -> List[ReviewItem]:
         """
-        详细分析章节（阶段2）
+        Detailed analysis of section (Phase 2)
 
         Args:
-            section_title: 章节标题
-            section_content: 章节内容
-            rules: 样式规则
-            keywords: 用户关键词
-            state_summary: 全局状态摘要（术语、已发现问题）
-            previous_summary: 本章节的扫描摘要
-            section_number: 章节编号（如 "1", "1.1", "1.2"）
+            section_title: Section title
+            section_content: Section content
+            rules: Style rules
+            keywords: User-defined keywords
+            state_summary: Global state summary (terms, issues found)
+            previous_summary: This section's scan summary
+            section_number: Section number (e.g., "1", "1.1", "1.2")
 
         Returns:
-            审查条目列表
+            List of review items
         """
         pass
 
@@ -229,15 +229,15 @@ class BaseLLMClient(ABC):
         keywords: str = ""
     ) -> List[ReviewItem]:
         """
-        两阶段文档分析（确保全局一致性）
+        Two-pass document analysis (ensures global consistency)
 
         Args:
-            sections: 章节列表
-            rules_text: 样式规则文本
-            keywords: 用户关键词
+            sections: List of sections
+            rules_text: Style rules text
+            keywords: User-defined keywords
 
         Returns:
-            所有审查条目列表
+            List of all review items
         """
         from .analysis_state import AnalysisState
 
@@ -247,7 +247,7 @@ class BaseLLMClient(ABC):
         print("PHASE 1: Lightweight Scan")
         print("=" * 60)
 
-        # 阶段 1：快速扫描
+        # Phase 1: Quick scan
         state = AnalysisState()
 
         for i, section in enumerate(sections):
@@ -262,10 +262,10 @@ class BaseLLMClient(ABC):
 
             state.raw_summaries[section["title"]] = summary
 
-            # 解析扫描结果，更新状态
+            # Parse scan results, update state
             self._update_state_from_scan(state, section["title"], summary)
 
-        # 显示统计信息
+        # Display statistics
         stats = state.get_statistics()
         print(f"\nScan Complete: {stats['total_terms']} terms, {stats['total_issues']} potential issues")
 
@@ -273,14 +273,14 @@ class BaseLLMClient(ABC):
         print("PHASE 2: Detailed Analysis")
         print("=" * 60)
 
-        # 阶段 2：详细分析
+        # Phase 2: Detailed analysis
         for i, section in enumerate(sections):
             print(f"\n[{i+1}/{len(sections)}] Analyzing: {section['title'][:50]}")
 
-            # 构建包含全局状态的 prompt
+            # Build prompt with global state
             state_summary = state.get_summary_for_prompt()
 
-            # 获取当前章节的摘要
+            # Get current section's summary
             current_summary = state.raw_summaries.get(section["title"], "")
 
             reviews = self.analyze_section_detailed(
@@ -295,7 +295,7 @@ class BaseLLMClient(ABC):
 
             all_reviews.extend(reviews)
             if reviews:
-                # 更新状态
+                # Update state
                 for review in reviews:
                     state.add_issue(review.category, review.rule_id, review.location)
 
@@ -308,11 +308,11 @@ class BaseLLMClient(ABC):
         return all_reviews
 
     def _update_state_from_scan(self, state: 'AnalysisState', section_title: str, summary: str) -> None:
-        """从扫描摘要更新状态"""
+        """Update state from scan summary"""
         try:
             import json
 
-            # 提取 JSON（处理可能的markdown代码块）
+            # Extract JSON (handle possible markdown code blocks)
             json_start = summary.find('{')
             json_end = summary.rfind('}') + 1
 
@@ -320,19 +320,19 @@ class BaseLLMClient(ABC):
                 json_str = summary[json_start:json_end]
                 data = json.loads(json_str)
 
-                # 提取术语
+                # Extract terms
                 if "terms" in data:
                     for term in data["terms"]:
                         state.add_term(term, section_title)
 
-                # 提取潜在问题
+                # Extract potential issues
                 if "potential_issues" in data:
                     for issue in data["potential_issues"]:
                         category = issue.get("category", "Other")
                         count = issue.get("count", 0)
                         for _ in range(count):
-                            # 创建一个虚拟位置用于统计
+                            # Create a virtual location for statistics
                             state.add_issue(category, "scan", section_title)
 
         except (json.JSONDecodeError, KeyError) as e:
-            logger.debug(f"解析扫描摘要失败: {e}")
+            logger.debug(f"Failed to parse scan summary: {e}")

@@ -1,7 +1,7 @@
 """
-Review 生成器
+Review Generator
 
-将审查结果生成 LaTeX 格式的 review.tex 文件
+Generates LaTeX format review.tex file from review results
 """
 import re
 from pathlib import Path
@@ -10,27 +10,27 @@ from ..llm.base_client import ReviewItem
 
 
 class ReviewGenerator:
-    """Review 生成器"""
+    """Review generator"""
 
-    # LaTeX 特殊字符转义映射（用于普通文本字段）
-    # 注意：反斜杠 \ 在 _escape_latex() 方法中单独处理
-    # 核心 10 个特殊字符 + 防御性转义字符
+    # LaTeX special character escape mapping (for normal text fields)
+    # Note: backslash \ is handled separately in _escape_latex() method
+    # Core 10 special characters + defensive escape characters
     LATEX_ESCAPE_MAP = {
-        # 核心 LaTeX 特殊字符（必须转义）
-        '&': r'\&',                    # 表格/对齐分隔符
-        '%': r'\%',                    # 注释
-        '#': r'\#',                    # 参数
-        '_': r'\_',                    # 下标
-        '{': r'\{',                    # 左大括号
-        '}': r'\}',                    # 右大括号
-        '^': r'\^{}',                  # 上标
-        '~': r'\textasciitilde{}',     # 不换行空格
-        '$': r'\$',                    # 美元符号
-        # 防御性转义（某些包可能有特殊含义）
-        '"': r'\textquotedbl{}',       # 双引号
-        '|': r'\textbar{}',            # 竖线
-        '<': r'\textless{}',           # 小于号
-        '>': r'\textgreater{}',        # 大于号
+        # Core LaTeX special characters (must escape)
+        '&': r'\&',                    # Table/alignment separator
+        '%': r'\%',                    # Comment
+        '#': r'\#',                    # Parameter
+        '_': r'\_',                    # Subscript
+        '{': r'\{',                    # Left brace
+        '}': r'\}',                    # Right brace
+        '^': r'\^{}',                  # Superscript
+        '~': r'\textasciitilde{}',     # Non-breaking space
+        '$': r'\$',                    # Dollar sign
+        # Defensive escaping (some packages may have special meaning)
+        '"': r'\textquotedbl{}',       # Double quote
+        '|': r'\textbar{}',            # Vertical bar
+        '<': r'\textless{}',           # Less than
+        '>': r'\textgreater{}',        # Greater than
     }
 
     def __init__(self, template_file: Path):
@@ -38,85 +38,85 @@ class ReviewGenerator:
         self.template_content = self._load_template()
 
     def _load_template(self) -> str:
-        """加载模板文件"""
+        """Load template file"""
         with open(self.template_file, 'r', encoding='utf-8') as f:
             return f.read()
 
     def _escape_latex(self, text: str) -> str:
         """
-        全面转义 LaTeX 特殊字符，用于普通文本字段
+        Comprehensively escape LaTeX special characters for normal text fields
 
-        LaTeX 核心 10 个特殊字符（必须全部转义）：
-        - \\ (backslash): 命令开始
-        - { }: 分组和参数
-        - $: 数学模式
-        - &: 表格/对齐分隔符
-        - #: 参数
-        - _: 下标
-        - ^: 上标
-        - ~: 不换行空格
-        - %: 注释
+        LaTeX core 10 special characters (all must be escaped):
+        - \\ (backslash): Command start
+        - { }: Grouping and parameters
+        - $: Math mode
+        - &: Table/alignment separator
+        - #: Parameter
+        - _: Subscript
+        - ^: Superscript
+        - ~: Non-breaking space
+        - %: Comment
 
-        额外防御性转义（某些包可能有特殊含义）：
-        - " (双引号): 某些包如 csquotes
-        - | (竖线): 某些包中的分隔符
-        - < > (尖括号): 某些包中重定义
+        Additional defensive escaping (some packages may have special meaning):
+        - " (double quote): Some packages like csquotes
+        - | (vertical bar): Separator in some packages
+        - < > (angle brackets): Redefined in some packages
 
-        策略：
-        1. 保护配对的数学模式 $...$（使用不包含特殊字符的占位符）
-        2. 转义所有反斜杠（自动处理任何 LaTeX 命令）
-        3. 转义所有核心特殊字符（跳过占位符中的字符）
-        4. 防御性转义额外字符（跳过占位符中的字符）
-        5. 恢复数学模式
+        Strategy:
+        1. Protect paired math mode $...$ (use placeholders without special characters)
+        2. Escape all backslashes (automatically handles any LaTeX commands)
+        3. Escape all core special characters (skip characters in placeholders)
+        4. Defensively escape additional characters (skip characters in placeholders)
+        5. Restore math mode
 
-        此方法用于转义 category, rule_id, severity, comment 等字段。
-        context 和 suggested_revision 放在 lstlisting 中，不需要转义。
+        This method is used to escape category, rule_id, severity, comment fields.
+        context and suggested_revision are placed in lstlisting and don't need escaping.
 
         Args:
-            text: 原始文本
+            text: Original text
 
         Returns:
-            转义后的文本，可在 LaTeX 普通文本中安全使用
+            Escaped text, safe to use in LaTeX normal text
         """
         result = text
 
-        # 第一步：保护配对的数学模式 $...$
-        # 使用非贪婪匹配，支持多个 $x$ 和 $y$ 同时出现
-        # 占位符使用@@@MATH0@@@格式，避免与被转义的字符冲突
+        # Step 1: Protect paired math mode $...$
+        # Use non-greedy matching, supports multiple $x$ and $y$ appearing simultaneously
+        # Placeholders use @@@MATH0@@@ format to avoid conflict with escaped characters
         math_pattern = re.compile(r'\$[^$]+\$')
 
-        # 收集所有数学表达式并替换为占位符
+        # Collect all math expressions and replace with placeholders
         math_matches = list(math_pattern.finditer(result))
         placeholder_to_content = {}
 
-        # 从后往前替换（避免位置偏移）
+        # Replace from back to front (avoid position offset)
         for i, match in enumerate(reversed(math_matches)):
             placeholder = f'@@@MATH{len(math_matches) - 1 - i}@@@'
             placeholder_to_content[placeholder] = match.group()
             result = result[:match.start()] + placeholder + result[match.end():]
 
-        # 第二步：转义反斜杠（必须在最前面，处理所有 LaTeX 命令）
-        # 跳过占位符中的 @ 字符
+        # Step 2: Escape backslashes (must be first, handles all LaTeX commands)
+        # Skip @ characters in placeholders
         # \\ -> \\textbackslash{}
         result = result.replace('\\', r'\textbackslash{}')
 
-        # 第三步：转义 LaTeX 核心 10 个特殊字符（除了已处理的 \\）
-        # 对于 < > 等字符，需要跳过占位符中的字符
-        # 先分割出占位符，分别处理
+        # Step 3: Escape LaTeX core 10 special characters (except already processed \\)
+        # For characters like < >, need to skip characters in placeholders
+        # Split out placeholders first, process separately
         parts = result.split('@@@')
         escaped_parts = []
         for i, part in enumerate(parts):
-            # 偶数索引是占位符之间的内容，奇数索引是占位符本身
-            if i % 2 == 1:  # 这是占位符内容（MATH0, MATH1等）
+            # Even indices are content between placeholders, odd indices are placeholder themselves
+            if i % 2 == 1:  # This is placeholder content (MATH0, MATH1, etc.)
                 escaped_parts.append('@@@' + part + '@@@')
-            else:  # 这是普通文本，需要转义
+            else:  # This is normal text, needs escaping
                 for char, escaped in self.LATEX_ESCAPE_MAP.items():
                     part = part.replace(char, escaped)
                 escaped_parts.append(part)
 
         result = ''.join(escaped_parts)
 
-        # 第四步：恢复数学模式内容
+        # Step 4: Restore math mode content
         for placeholder, math_content in placeholder_to_content.items():
             result = result.replace(placeholder, math_content)
 
@@ -124,17 +124,17 @@ class ReviewGenerator:
 
     def _format_location(self, item: ReviewItem) -> str:
         """
-        格式化位置信息为友好的英文描述
+        Format location information as friendly English description
 
         Args:
-            item: 审查条目
+            item: Review item
 
         Returns:
-            格式化后的位置字符串，如 "1.3, toward the back"
+            Formatted location string, e.g., "1.3, toward the back"
         """
         location = item.location
 
-        # 位置描述映射（中英文对照）
+        # Location description mapping (Chinese-English correspondence)
         position_mapping = {
             "beginning": "beginning",
             "靠前": "toward the front",
@@ -146,91 +146,93 @@ class ReviewGenerator:
             "toward the end": "toward the back",
         }
 
-        # 提取章节编号和位置描述
-        # location 格式可能是: "1.2 Section Title, beginning" 或 "Section Title, end"
+        # Extract section number and location description
+        # location format may be: "1.2 Section Title, beginning" or "Section Title, end"
         parts = location.split(",", 1)
         section_part = parts[0].strip()
         position_part = parts[1].strip() if len(parts) > 1 else ""
 
-        # 检查是否已有编号（通过是否有数字判断）
+        # Check if already has number (determined by presence of digits)
         has_number = any(c.isdigit() for c in section_part.split()[0])
 
-        # 格式化位置描述
+        # Format location description
         formatted_position = position_part.lower()
         for key, value in position_mapping.items():
             if key in formatted_position:
                 formatted_position = value
                 break
 
-        # 如果已经有编号，提取并使用
+        # If already has number, extract and use
         if has_number:
-            # 提取编号部分（如 "1.2" 或 "1 Introduction" 中的 "1"）
+            # Extract number part (e.g., "1.2" or "1" in "1 Introduction")
             number_match = re.match(r'([\d.]+)', section_part)
             if number_match:
                 section_num = number_match.group(1)
                 return f"{section_num}, {formatted_position}"
-            # 如果没找到数字但有编号，直接使用
+            # If no number found but has numbering, use directly
             return f"{section_part}, {formatted_position}"
 
-        # 没有编号的情况
+        # No number case
         if formatted_position:
             return formatted_position
         return location
 
     def _format_severity(self, severity: str) -> str:
         """
-        为严重性添加颜色
+        Add color to severity
 
         Args:
-            severity: 严重性级别 (low, medium, high)
+            severity: Severity level (low, medium, high)
 
         Returns:
-            带颜色的 LaTeX 代码
+            LaTeX code with color
         """
         severity_colors = {
-            "low": r"low",                           # 黑色
-            "medium": r"\textcolor{blue}{medium}",  # 蓝色
-            "high": r"\textcolor{red}{high}",       # 红色
+            "low": r"low",                           # Black
+            "medium": r"\textcolor{blue}{medium}",  # Blue
+            "high": r"\textcolor{red}{high}",       # Red
         }
         return severity_colors.get(severity.lower(), severity)
 
     def _format_review_entry(self, item: ReviewItem) -> str:
         """
-        格式化单个审查条目（使用 lstlisting 环境）
+        Format single review entry (using lstlisting environment)
 
         Args:
-            item: 审查条目
+            item: Review item
 
         Returns:
-            LaTeX 格式的审查条目
+            LaTeX format review entry
         """
-        # 转义类别和规则ID中的特殊字符
+        # Escape special characters in category and rule ID
         category = self._escape_latex(item.category)
         rule_id = self._escape_latex(item.rule_id)
 
-        # 为严重性添加颜色（不需要转义，因为已经是 LaTeX 代码）
+        # Add color to severity (no need to escape, already LaTeX code)
         severity = self._format_severity(item.severity)
 
-        # 转义评论文本
+        # Escape comment text
         comment = self._escape_latex(item.comment)
 
-        # 格式化位置信息
-        location_text = self._format_location(item)
+        # Format and escape location information
+        location_raw = self._format_location(item)
+        location_text = self._escape_latex(location_raw)
 
-        # context 和 suggested_revision 放在 lstlisting 环境中
-        # lstlisting 不需要转义，但需要保留缩进
+        # context and suggested_revision go in lstlisting environment
+        # lstlisting doesn't need escaping, but needs to preserve indentation
         context_lines = item.context.strip().split('\n')
         context_indented = '\n'.join(['\t' + line for line in context_lines])
 
         revision_lines = item.suggested_revision.strip().split('\n')
         revision_indented = '\n'.join(['\t' + line for line in revision_lines])
 
-        # 使用新的模板格式（包含位置行）
-        # 注意：{{ 和 }} 是转义的 { 和 }，不是占位符
+        # Use new template format (includes location line with brackets)
+        # Note: {{ and }} are escaped { and }, not placeholders
         entry = r'''\begin{{reviewer}}
 \noindent \textbf{{Category: [{cat}] [{rid}] [{sev}]}}
 
-{loc}
+\noindent \textbf{{Location: [{loc}]}}
+
 \begin{{lstlisting}}[breaklines=true]
 {ctx}
 \end{{lstlisting}}
@@ -250,7 +252,7 @@ class ReviewGenerator:
             cat=category,
             rid=rule_id,
             sev=severity,
-            loc=location_text,  # 位置信息
+            loc=location_text,  # Location information
             ctx=context_indented,
             cmt=comment,
             rev=revision_indented
@@ -264,41 +266,41 @@ class ReviewGenerator:
         draft_file: str = ""
     ) -> None:
         """
-        生成 review.tex 文件
+        Generate review.tex file
 
         Args:
-            review_items: 审查条目列表
-            output_file: 输出文件路径
-            draft_file: 原稿文件名（可选）
+            review_items: List of review items
+            output_file: Output file path
+            draft_file: Draft file name (optional)
         """
-        # 按类别和位置排序
+        # Sort by category and location
         sorted_items = self._sort_reviews(review_items)
 
-        # 生成审查条目
+        # Generate review entries
         review_content = "\n".join([
             self._format_review_entry(item)
             for item in sorted_items
         ])
 
-        # 插入到模板中
+        # Insert into template
         output_content = self._insert_into_template(
             review_content,
             draft_file,
             len(review_items)
         )
 
-        # 写入文件
+        # Write to file
         with open(output_file, 'w', encoding='utf-8') as f:
             f.write(output_content)
 
     def _sort_reviews(self, items: List[ReviewItem]) -> List[ReviewItem]:
         """
-        对审查条目排序
+        Sort review items
 
-        排序规则：
-        1. 按类别排序
-        2. 在同一类别内按严重程度排序（high > medium > low）
-        3. 相同严重程度按位置排序
+        Sorting rules:
+        1. Sort by category
+        2. Within same category sort by severity (high > medium > low)
+        3. Same severity sort by location
         """
         severity_order = {"high": 0, "medium": 1, "low": 2}
 
@@ -318,74 +320,74 @@ class ReviewGenerator:
         count: int
     ) -> str:
         """
-        将审查内容插入到模板中
+        Insert review content into template
 
         Args:
-            review_content: 审查条目内容
-            draft_file: 原稿文件名
-            count: 审查条目数量
+            review_content: Review entry content
+            draft_file: Draft file name
+            count: Number of review items
 
         Returns:
-            完整的 LaTeX 文档
+            Complete LaTeX document
         """
-        # 查找 \\maketitle 标签
+        # Find \\maketitle tag
         maketitle_pos = self.template_content.find('\\maketitle')
 
         if maketitle_pos == -1:
-            # 如果没有 \maketitle，查找 \\begin{document}
+            # If no \maketitle, find \\begin{document}
             doc_start = self.template_content.find('\\begin{document}')
             if doc_start == -1:
-                # 如果也没有 document 环境，直接追加内容
+                # If also no document environment, directly append content
                 return self.template_content + "\n" + review_content + "\n\\end{document}\n"
             insert_pos = doc_start + len('\\begin{document}')
         else:
-            # 在 \maketitle 之后插入
+            # Insert after \maketitle
             insert_pos = maketitle_pos + len('\\maketitle')
 
-        # 查找 \\end{document} 标签
+        # Find \\end{document} tag
         doc_end = self.template_content.find('\\end{document}')
 
-        # 构建输出：从模板开始到插入位置 + 审查内容 + 从插入位置之后到模板结束
+        # Build output: from template start to insert position + review content + from insert position after to template end
         before = self.template_content[:insert_pos]
         after = self.template_content[insert_pos:]
 
-        # 移除模板中的示例内容（从 \maketitle 到 \end{document} 之间的示例 reviewer）
-        # 查找第一个 \begin{reviewer} 和最后一个 \end{reviewer}
+        # Remove sample content from template (sample reviewer between \maketitle and \end{document})
+        # Find first \begin{reviewer} and last \end{reviewer}
         first_reviewer = after.find('\\begin{reviewer}')
         last_reviewer = after.rfind('\\end{reviewer}')
 
         if first_reviewer != -1 and last_reviewer != -1:
-            # 移除模板中的示例 reviewer，保留其他内容
-            # 但如果只有示例内容，就直接替换整个从 \maketitle 后到 \end{document} 前的部分
+            # Remove sample reviewer from template, keep other content
+            # But if only sample content, directly replace entire section from after \maketitle to before \end{document}
             last_reviewer_end = last_reviewer + len('\\end{reviewer}')
-            # 检查 \end{reviewer} 之后是否只有空白字符和 \end{document}
+            # Check if only whitespace and \end{document} after \end{reviewer}
             remaining = after[last_reviewer_end:].strip()
             if remaining.startswith('\\end{document}'):
-                # 只有示例内容，直接替换
+                # Only sample content, directly replace
                 after = after[last_reviewer_end:]
             else:
-                # 保留其他内容
+                # Keep other content
                 after = after[:first_reviewer] + after[last_reviewer_end:]
 
-        # 移除 after 开头的空白行
+        # Remove leading blank lines from after
         after = after.lstrip('\n')
 
         return before + "\n\n" + review_content + "\n" + after
 
     def generate_summary(self, items: List[ReviewItem]) -> str:
         """
-        生成审查摘要
+        Generate review summary
 
         Args:
-            items: 审查条目列表
+            items: List of review items
 
         Returns:
-            摘要文本
+            Summary text
         """
         if not items:
             return "No issues found. The document complies with all style rules."
 
-        # 按类别统计
+        # Statistics by category
         category_count = {}
         severity_count = {"high": 0, "medium": 0, "low": 0}
 

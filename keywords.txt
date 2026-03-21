@@ -1,11 +1,11 @@
-# 用户自定义审核关键词
-# 每行一个关键词或短语，用于引导AI关注特定领域或术语
+# User-defined review keywords
+# One keyword or phrase per line, used to guide AI to focus on specific domains or terminology
 
-# 物理领域相关术语
+# Physics domain terminology
 BESIII experiment
 branching fraction
 
-# 写作风格相关
+# Writing style related
 passive voice
 consistency in terminology
 ambiguous expressions

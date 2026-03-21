@@ -1,5 +1,5 @@
 """
-OpenAI LLM 客户端
+OpenAI LLM Client
 """
 import json
 import logging
@@ -13,12 +13,12 @@ logger = logging.getLogger(__name__)
 
 
 class OpenAIClient(BaseLLMClient):
-    """OpenAI API 客户端"""
+    """OpenAI API client"""
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.client = OpenAI(api_key=self.api_key)
-        # 添加速率限制器（两次请求之间最少间隔1秒）
+        # Add rate limiter (minimum interval of 1 second between requests)
         self._rate_limiter = RateLimiter(min_interval=1.0)
 
     def analyze_section(
@@ -28,20 +28,20 @@ class OpenAIClient(BaseLLMClient):
         rules: str
     ) -> List[ReviewItem]:
         """
-        使用 OpenAI API 分析文档章节
+        Analyze document section using OpenAI API
 
         Args:
-            section_title: 章节标题
-            section_content: 章节内容
-            rules: 样式规则（格式化后的文本）
+            section_title: Section title
+            section_content: Section content
+            rules: Style rules (formatted text)
 
         Returns:
-            审查条目列表
+            List of review items
         """
         prompt = self._build_prompt(section_title, section_content, rules)
 
         def make_request():
-            # 速率限制
+            # Rate limiting
             self._rate_limiter.wait_if_needed()
 
             response = self.client.chat.completions.create(
@@ -64,8 +64,8 @@ class OpenAIClient(BaseLLMClient):
 
         response = self._retry_with_backoff(make_request)
 
-        # === 保存响应 ===
-        # 动态导入 settings 以避免相对导入问题
+        # === Save response ===
+        # Dynamically import settings to avoid relative import issues
         import sys
         from pathlib import Path
         sys.path.insert(0, str(Path(__file__).parent.parent.parent))
@@ -98,12 +98,12 @@ class OpenAIClient(BaseLLMClient):
         self._save_response(response_data, section_title, "openai", settings.cache_dir)
         # ================
 
-        # 解析响应
+        # Parse response
         content = response.choices[0].message.content
         return self._parse_response(content, section_title, "")
 
     def _get_system_prompt(self) -> str:
-        """获取系统提示词"""
+        """Get system prompt"""
         base_prompt = """You are a professional physics paper reviewer specializing in LaTeX formatting and scientific writing standards.
 
 Your task is to:
@@ -135,7 +135,7 @@ IMPORTANT:
 - ALL comments must be in ENGLISH
 """
 
-        # 简洁模式附加指令
+        # Concise mode additional instructions
         if self.concise_mode:
             base_prompt += """
 
@@ -155,7 +155,7 @@ CONCISE MODE REQUIREMENTS:
         rules: str,
         keywords: str = ""
     ) -> str:
-        """构建用户提示词"""
+        """Build user prompt"""
         prompt = f"""Please analyze the following physics paper LaTeX section and identify violations of the style rules.
 
 ## Section Information
@@ -170,7 +170,7 @@ Title: {section_title}
 {rules}
 """
 
-        # 添加关键词（如果有）
+        # Add keywords (if any)
         if keywords:
             prompt += f"\n{keywords}"
 
@@ -180,9 +180,9 @@ Title: {section_title}
         return prompt
 
     def _parse_response(self, response_content: str, section_title: str, section_number: str = "") -> List[ReviewItem]:
-        """解析 LLM 响应"""
+        """Parse LLM response"""
         try:
-            # 尝试提取 JSON（处理可能的前后文本）
+            # Try to extract JSON (handle possible surrounding text)
             json_start = response_content.find('{')
             json_end = response_content.rfind('}') + 1
 
@@ -194,10 +194,10 @@ Title: {section_title}
                 review_items = []
 
                 for v in violations:
-                    # 构建完整的位置信息
+                    # Build complete location information
                     llm_location = v.get('location', '')
 
-                    # 如果有章节编号，格式为 "编号 标题, 位置"
+                    # If section number exists, format as "number title, location"
                     if section_number:
                         location = f"{section_number} {section_title}, {llm_location}"
                     else:
@@ -216,15 +216,15 @@ Title: {section_title}
 
                 return review_items
             else:
-                logger.warning(f"无法在响应中找到有效的JSON: {response_content[:200]}")
+                logger.warning(f"Unable to find valid JSON in response: {response_content[:200]}")
                 return []
 
         except json.JSONDecodeError as e:
-            logger.error(f"JSON解析失败: {e}")
-            logger.debug(f"响应内容: {response_content[:500]}")
+            logger.error(f"JSON parsing failed: {e}")
+            logger.debug(f"Response content: {response_content[:500]}")
             return []
         except Exception as e:
-            logger.error(f"解析响应时出错: {e}")
+            logger.error(f"Error parsing response: {e}")
             return []
 
     def scan_section_lightweight(
@@ -235,18 +235,18 @@ Title: {section_title}
         keywords: str = ""
     ) -> str:
         """
-        轻量级扫描章节（阶段1）
+        Lightweight scan of section (Phase 1)
 
         Args:
-            section_title: 章节标题
-            section_content: 章节内容
-            rules: 样式规则
-            keywords: 用户关键词
+            section_title: Section title
+            section_content: Section content
+            rules: Style rules
+            keywords: User-defined keywords
 
         Returns:
-            扫描摘要（JSON 字符串）
+            Scan summary (JSON string)
         """
-        # 为扫描简化规则（只提供类别名称）
+        # Simplify rules for scanning (only provide category names)
         simplified_rules = self._get_simplified_rules(rules)
 
         prompt = f"""Please quickly scan the following LaTeX section and provide a brief summary.
@@ -275,7 +275,7 @@ Keep it brief - this is just a scan, not a detailed review. Focus on identifying
 """
 
         def make_request():
-            # 速率限制
+            # Rate limiting
             self._rate_limiter.wait_if_needed()
 
             response = self.client.chat.completions.create(
@@ -290,7 +290,7 @@ Keep it brief - this is just a scan, not a detailed review. Focus on identifying
                         "content": prompt
                     }
                 ],
-                max_tokens=500,  # 短输出
+                max_tokens=500,  # Short output
                 temperature=0.1,
                 timeout=self.request_timeout
             )
@@ -300,7 +300,7 @@ Keep it brief - this is just a scan, not a detailed review. Focus on identifying
             response = self._retry_with_backoff(make_request)
             content = response.choices[0].message.content
 
-            # 调试输出
+            # Debug output
             print(f"  Scan response: {len(content)} chars")
             if response.usage:
                 print(f"  Tokens: {response.usage.total_tokens} (prompt: {response.usage.prompt_tokens} + completion: {response.usage.completion_tokens})")
@@ -308,7 +308,7 @@ Keep it brief - this is just a scan, not a detailed review. Focus on identifying
             return content
 
         except Exception as e:
-            logger.warning(f"扫描章节 {section_title} 失败: {e}")
+            logger.warning(f"Section scan failed for {section_title}: {e}")
             return '{"terms": [], "potential_issues": []}'
 
     def analyze_section_detailed(
@@ -322,19 +322,19 @@ Keep it brief - this is just a scan, not a detailed review. Focus on identifying
         section_number: str = ""
     ) -> List[ReviewItem]:
         """
-        详细分析章节（阶段2）
+        Detailed analysis of section (Phase 2)
 
         Args:
-            section_title: 章节标题
-            section_content: 章节内容
-            rules: 样式规则
-            keywords: 用户关键词
-            state_summary: 全局状态摘要（术语、已发现问题）
-            previous_summary: 本章节的扫描摘要
-            section_number: 章节编号（如 "1", "1.1", "1.2"）
+            section_title: Section title
+            section_content: Section content
+            rules: Style rules
+            keywords: User-defined keywords
+            state_summary: Global state summary (terms, issues found)
+            previous_summary: This section's scan summary
+            section_number: Section number (e.g., "1", "1.1", "1.2")
 
         Returns:
-            审查条目列表
+            List of review items
         """
         prompt = self._build_detailed_prompt(
             section_title,
@@ -345,13 +345,13 @@ Keep it brief - this is just a scan, not a detailed review. Focus on identifying
             previous_summary
         )
 
-        # 调试输出
+        # Debug output
         print(f"  Section content length: {len(section_content)}")
         print(f"  State summary length: {len(state_summary)}")
         print(f"  Total prompt length: {len(prompt)}")
 
         def make_request():
-            # 速率限制
+            # Rate limiting
             self._rate_limiter.wait_if_needed()
 
             response = self.client.chat.completions.create(
@@ -368,7 +368,7 @@ Keep it brief - this is just a scan, not a detailed review. Focus on identifying
 
         response = self._retry_with_backoff(make_request)
 
-        # === 保存响应 ===
+        # === Save response ===
         import sys
         from pathlib import Path
         sys.path.insert(0, str(Path(__file__).parent.parent.parent))
@@ -406,7 +406,7 @@ Keep it brief - this is just a scan, not a detailed review. Focus on identifying
 
         content = response.choices[0].message.content
 
-        # Token 使用统计
+        # Token usage statistics
         if response.usage:
             print(f"  Tokens: {response.usage.total_tokens} (prompt: {response.usage.prompt_tokens} + completion: {response.usage.completion_tokens})")
 
@@ -421,7 +421,7 @@ Keep it brief - this is just a scan, not a detailed review. Focus on identifying
         state_summary: str,
         previous_summary: str
     ) -> str:
-        """构建详细分析的 prompt"""
+        """Build detailed analysis prompt"""
         prompt = f"""Please analyze the following LaTeX section for style violations.
 
 ## Section: {section_title}
@@ -451,8 +451,8 @@ Return JSON with violations found in this section.
         return prompt
 
     def _get_simplified_rules(self, full_rules: str) -> str:
-        """从完整规则中提取简化的类别列表"""
-        # 简化：只保留类别标题和编号
+        """Extract simplified category list from full rules"""
+        # Simplification: only keep category titles and numbers
         lines = full_rules.split('\n')
         simplified = []
         current_category = None
@@ -462,11 +462,11 @@ Return JSON with violations found in this section.
             if not line:
                 continue
 
-            # 检测类别标题（例如: "## Language"）
+            # Detect category title (e.g., "## Language")
             if line.startswith('##'):
                 current_category = line.replace('##', '').strip()
                 simplified.append(line)
-            # 检测规则（例如: "1.1. Use ..."）
+            # Detect rule (e.g., "1.1. Use ...")
             elif current_category and re.match(r'^\d+\.\d+\.', line):
                 simplified.append(f"- {line}")
 

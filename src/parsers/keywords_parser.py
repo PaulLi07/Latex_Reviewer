@@ -1,7 +1,7 @@
 """
-关键词解析器
+Keywords Parser
 
-解析用户自定义的关键词文件，用于引导AI关注特定领域或术语
+Parses user-defined domain terminology from keywords.txt file
 """
 from pathlib import Path
 from typing import List
@@ -11,17 +11,17 @@ logger = logging.getLogger(__name__)
 
 
 class KeywordsParser:
-    """解析 keywords.txt 文件"""
+    """Parse keywords.txt file"""
 
     def __init__(self, keywords_file: Path):
         self.keywords_file = keywords_file
 
     def parse(self) -> List[str]:
-        """解析关键词文件"""
+        """Parse keywords file"""
         keywords = []
 
         if not self.keywords_file.exists():
-            logger.debug(f"关键词文件不存在: {self.keywords_file}")
+            logger.debug(f"Keywords file does not exist: {self.keywords_file}")
             return keywords
 
         try:
@@ -29,27 +29,27 @@ class KeywordsParser:
                 for line_num, line in enumerate(f, 1):
                     line = line.strip()
 
-                    # 跳过空行和注释
+                    # Skip empty lines and comments
                     if not line or line.startswith('#'):
                         continue
 
                     keywords.append(line)
 
-            logger.info(f"解析到 {len(keywords)} 个关键词")
+            logger.info(f"Parsed {len(keywords)} keywords")
             return keywords
 
         except Exception as e:
-            logger.warning(f"解析关键词文件失败: {e}")
+            logger.warning(f"Failed to parse keywords file: {e}")
             return []
 
     def format_for_prompt(self) -> str:
-        """将关键词格式化为 prompt 文本"""
+        """Format keywords as text for prompt"""
         keywords = self.parse()
 
         if not keywords:
             return ""
 
-        # 格式化为可读的列表
+        # Format as readable list
         keyword_list = "\n".join(f"- {kw}" for kw in keywords)
 
         return f"""
@@ -62,7 +62,7 @@ Note: These are the areas the user specifically wants reviewed carefully.
 """
 
     def get_keywords_summary(self) -> str:
-        """获取关键词摘要（用于调试）"""
+        """Get keywords summary (for debugging)"""
         keywords = self.parse()
         if not keywords:
             return "No keywords defined"

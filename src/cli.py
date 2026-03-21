@@ -1,5 +1,5 @@
 """
-命令行界面
+Command Line Interface
 """
 import click
 import logging
@@ -7,7 +7,7 @@ from pathlib import Path
 import sys
 from tqdm import tqdm
 
-# 添加项目根目录到 Python 路径
+# Add project root to Python path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from config.settings import settings
@@ -17,7 +17,7 @@ from src.parsers.keywords_parser import KeywordsParser
 from src.llm import create_client
 from src.generators import ReviewGenerator
 
-# 配置日志
+# Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
@@ -27,7 +27,7 @@ logger = logging.getLogger(__name__)
 
 @click.group()
 def cli():
-    """LaTeX 论文 AI 审稿工具"""
+    """LaTeX Paper AI Reviewer"""
     pass
 
 
@@ -36,52 +36,52 @@ def cli():
     '--draft',
     type=click.Path(exists=True),
     default=None,
-    help='LaTeX 原稿文件路径'
+    help='LaTeX draft file path'
 )
 @click.option(
     '--comments',
     type=click.Path(exists=True),
     default=None,
-    help='样式规则文件路径 (comments.txt)'
+    help='Style rules file path (comments.txt)'
 )
 @click.option(
     '--output',
     type=click.Path(),
     default=None,
-    help='输出 review.tex 文件路径'
+    help='Output review.tex file path'
 )
 @click.option(
     '--provider',
     type=click.Choice(['deepseek', 'openai', 'anthropic', 'zhipu']),
     default=None,
-    help='LLM 提供商'
+    help='LLM provider'
 )
 @click.option(
     '--model',
     type=str,
     default=None,
-    help='LLM 模型名称'
+    help='LLM model name'
 )
 @click.option(
     '--verbose',
     is_flag=True,
-    help='显示详细日志'
+    help='Show verbose logging'
 )
 @click.option(
     '--debug',
     is_flag=True,
-    help='显示调试信息（包括 prompt 长度、token 使用等）'
+    help='Show debug information (including prompt length, token usage, etc.)'
 )
 def analyze(draft, comments, output, provider, model, verbose, debug):
     """
-    分析 LaTeX 论文并生成审稿报告
+    Analyze LaTeX paper and generate review report
 
-    默认使用项目配置的文件路径和 LLM 设置。
+    Uses project-configured file paths and LLM settings by default.
     """
     if verbose:
         logging.getLogger().setLevel(logging.DEBUG)
 
-    # 更新配置
+    # Update configuration
     if draft:
         settings.draft_file = Path(draft)
     if comments:
@@ -100,18 +100,18 @@ def analyze(draft, comments, output, provider, model, verbose, debug):
         elif settings.llm_provider == "zhipu":
             settings.zhipu_model = model
 
-    # 验证配置
+    # Validate configuration
     try:
         settings.validate()
     except (ValueError, FileNotFoundError) as e:
-        click.echo(f"配置错误: {e}", err=True)
+        click.echo(f"Configuration error: {e}", err=True)
         return
 
-    click.echo(f"开始分析...")
-    click.echo(f"原稿: {settings.draft_file}")
-    click.echo(f"样式规则: {settings.comments_file}")
-    click.echo(f"输出: {settings.output_file}")
-    # 显示模型名称
+    click.echo(f"Starting analysis...")
+    click.echo(f"Draft: {settings.draft_file}")
+    click.echo(f"Style rules: {settings.comments_file}")
+    click.echo(f"Output: {settings.output_file}")
+    # Display model name
     model_name = {
         "deepseek": settings.deepseek_model,
         "openai": settings.openai_model,
@@ -121,36 +121,36 @@ def analyze(draft, comments, output, provider, model, verbose, debug):
     click.echo(f"LLM: {settings.llm_provider} ({model_name})")
     click.echo("")
 
-    # 步骤 1: 解析样式规则
-    click.echo("步骤 1/4: 解析样式规则...")
+    # Step 1: Parse style rules
+    click.echo("Step 1/4: Parsing style rules...")
     comments_parser = CommentsParser(settings.comments_file)
     rules = comments_parser.parse()
-    click.echo(f"  解析到 {len(rules)} 条样式规则")
+    click.echo(f"  Parsed {len(rules)} style rules")
 
-    # 格式化规则用于 prompt
+    # Format rules for prompt
     rules_text = comments_parser.format_rules_for_prompt()
 
-    # 步骤 2: 解析 LaTeX 文档
-    click.echo("步骤 2/4: 解析 LaTeX 文档...")
+    # Step 2: Parse LaTeX document
+    click.echo("Step 2/4: Parsing LaTeX document...")
     tex_parser = TeXParser(settings.draft_file)
     structure = tex_parser.parse()
-    click.echo(f"  解析到 {len(structure.sections)} 个章节")
+    click.echo(f"  Parsed {len(structure.sections)} sections")
 
-    # 获取用于分析的章节
+    # Get sections for analysis
     sections = structure.get_sections_for_analysis()
-    click.echo(f"  将分析 {len(sections)} 个章节")
+    click.echo(f"  Will analyze {len(sections)} sections")
 
-    # 步骤 2.5: 解析关键词（如果存在）
+    # Step 2.5: Parse keywords (if exists)
     keywords_parser = KeywordsParser(settings.keywords_file)
     keywords_text = keywords_parser.format_for_prompt()
     if keywords_text:
         keywords_summary = keywords_parser.get_keywords_summary()
-        click.echo(f"  关键词: {keywords_summary}")
+        click.echo(f"  Keywords: {keywords_summary}")
 
-    # 步骤 3: 创建 LLM 客户端并分析
-    click.echo("步骤 3/4: 使用 LLM 分析文档...")
+    # Step 3: Create LLM client and analyze
+    click.echo("Step 3/4: Analyzing document with LLM...")
 
-    # 获取 API 密钥和模型
+    # Get API key and model
     if settings.llm_provider == "deepseek":
         api_key = settings.deepseek_api_key
         model = settings.deepseek_model
@@ -164,7 +164,7 @@ def analyze(draft, comments, output, provider, model, verbose, debug):
         api_key = settings.zhipu_api_key
         model = settings.zhipu_model
 
-    # 创建客户端
+    # Create client
     llm_client = create_client(
         provider=settings.llm_provider,
         api_key=api_key,
@@ -177,23 +177,23 @@ def analyze(draft, comments, output, provider, model, verbose, debug):
         concise_mode=settings.concise_mode
     )
 
-    # 分析每个章节
+    # Analyze each section
     all_reviews = []
 
-    # 根据配置选择分析模式
+    # Select analysis mode based on configuration
     if settings.two_pass_mode:
-        # 两阶段分析模式（确保全局一致性）
-        click.echo("  使用两阶段分析模式（确保全局一致性）")
+        # Two-pass analysis mode (ensures global consistency)
+        click.echo("  Using two-pass analysis mode (ensures global consistency)")
         all_reviews = llm_client.analyze_document_two_pass(
             sections=sections,
             rules_text=rules_text,
             keywords=keywords_text
         )
     else:
-        # 单阶段分析模式（原有模式）
-        with tqdm(sections, desc="  分析进度") as pbar:
+        # Single-pass analysis mode (original mode)
+        with tqdm(sections, desc="  Analysis progress") as pbar:
             for section in pbar:
-                pbar.set_description(f"  分析: {section['title'][:30]}")
+                pbar.set_description(f"  Analyzing: {section['title'][:30]}")
 
                 reviews = llm_client.analyze_section(
                     section_title=section["title"],
@@ -202,12 +202,12 @@ def analyze(draft, comments, output, provider, model, verbose, debug):
                 )
 
                 all_reviews.extend(reviews)
-                pbar.set_postfix({"发现": len(all_reviews)})
+                pbar.set_postfix({"found": len(all_reviews)})
 
-    click.echo(f"  发现 {len(all_reviews)} 个问题")
+    click.echo(f"  Found {len(all_reviews)} issues")
 
-    # 步骤 4: 生成 review.tex
-    click.echo("步骤 4/4: 生成审稿报告...")
+    # Step 4: Generate review.tex
+    click.echo("Step 4/4: Generating review report...")
 
     generator = ReviewGenerator(settings.template_file)
     generator.generate(
@@ -216,9 +216,9 @@ def analyze(draft, comments, output, provider, model, verbose, debug):
         draft_file=str(settings.draft_file)
     )
 
-    click.echo(f"  审稿报告已保存到: {settings.output_file}")
+    click.echo(f"  Review report saved to: {settings.output_file}")
 
-    # 显示摘要
+    # Display summary
     summary = generator.generate_summary(all_reviews)
     click.echo("\n" + summary)
 
@@ -228,28 +228,28 @@ def analyze(draft, comments, output, provider, model, verbose, debug):
     '--draft',
     type=click.Path(exists=True),
     default=None,
-    help='LaTeX 原稿文件路径'
+    help='LaTeX draft file path'
 )
 def parse(draft):
-    """解析 LaTeX 文档并显示结构"""
+    """Parse LaTeX document and display structure"""
     draft_file = Path(draft) if draft else settings.draft_file
 
-    click.echo(f"解析文件: {draft_file}")
+    click.echo(f"Parsing file: {draft_file}")
 
     parser = TeXParser(draft_file)
     structure = parser.parse()
 
-    click.echo(f"\n标题: {structure.title}")
-    click.echo(f"\n章节数量: {len(structure.sections)}")
+    click.echo(f"\nTitle: {structure.title}")
+    click.echo(f"\nNumber of sections: {len(structure.sections)}")
 
     for section in structure.sections:
-        click.echo(f"\n- {section.title} (行 {section.line_number})")
+        click.echo(f"\n- {section.title} (line {section.line_number})")
         if section.subsections:
             for subsection in section.subsections:
-                click.echo(f"  - {subsection.title} (行 {subsection.line_number})")
+                click.echo(f"  - {subsection.title} (line {subsection.line_number})")
 
-    click.echo(f"\n方程数量: {len(structure.equations)}")
-    click.echo(f"表格数量: {len(structure.tables)}")
+    click.echo(f"\nNumber of equations: {len(structure.equations)}")
+    click.echo(f"Number of tables: {len(structure.tables)}")
 
 
 @cli.command()
@@ -257,32 +257,32 @@ def parse(draft):
     '--comments',
     type=click.Path(exists=True),
     default=None,
-    help='样式规则文件路径'
+    help='Style rules file path'
 )
 def parse_comments(comments):
-    """解析样式规则文件"""
+    """Parse style rules file"""
     comments_file = Path(comments) if comments else settings.comments_file
 
-    click.echo(f"解析文件: {comments_file}")
+    click.echo(f"Parsing file: {comments_file}")
 
     parser = CommentsParser(comments_file)
     rules = parser.parse()
 
-    click.echo(f"\n解析到 {len(rules)} 条规则")
-    click.echo(f"\n类别: {parser.get_all_categories()}")
+    click.echo(f"\nParsed {len(rules)} rules")
+    click.echo(f"\nCategories: {parser.get_all_categories()}")
 
-    # 按类别显示规则
+    # Display rules by category
     for category in parser.get_all_categories():
         category_rules = parser.get_rules_by_category(category)
-        click.echo(f"\n{category} ({len(category_rules)} 条规则):")
-        for rule in category_rules[:5]:  # 只显示前5条
+        click.echo(f"\n{category} ({len(category_rules)} rules):")
+        for rule in category_rules[:5]:  # Only show first 5
             click.echo(f"  {rule.id}. {rule.description[:60]}...")
         if len(category_rules) > 5:
-            click.echo(f"  ... 还有 {len(category_rules) - 5} 条")
+            click.echo(f"  ... and {len(category_rules) - 5} more")
 
 
 def main():
-    """主入口"""
+    """Main entry point"""
     cli()
 
 
